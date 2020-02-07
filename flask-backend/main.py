@@ -1,8 +1,11 @@
-import flask
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+import random
+app = Flask(__name__)
 
-app = flask.Flask("__main__")
+@app.route('/')
+def index():
+  return render_template("index.html", token="Hello Flask + React")
 
-def my_index():
-  return flask.render_template("index.html", token="Hello Flask+React")
 
-app.run(debug=True)
+if __name__ == '__main__':
+	app.run(debug=True)

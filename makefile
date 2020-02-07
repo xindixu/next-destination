@@ -6,8 +6,7 @@ REACT_PORT=5000
 PROJECT = "The World"
 
 flask: ;@echo "Flask served on http://localhost:${FLASK_PORT}....."; 
-	source env/bin/activate
-	cd flask run -p${FLASK_PORT}
+	cd flask-backend && flask run -p${FLASK_PORT}
 
 react: ;@echo "React running on http://localhost:${REACT_PORT}.....";
 	cd react-frontend && yarn start
