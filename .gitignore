@@ -161,4 +161,4 @@ yarn-debug.log*
 yarn-error.log*
 
 
-react-new
+flask-backend/**/react
