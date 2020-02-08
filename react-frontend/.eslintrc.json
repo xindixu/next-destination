@@ -1,0 +1,27 @@
+{
+  "plugins": [
+    "react",
+    "import",
+    "jsx-a11y",
+    "prettier"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier"
+  ],
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "rules": {
+    "semi": "error",
+    "react/jsx-one-expression-per-line": "off",
+    "react/destructuring-assignment": "off",
+    "space-infix-ops": "error",
+    "prettier/prettier": ["error"]
+  },
+  "parser": "babel-eslint"
+}

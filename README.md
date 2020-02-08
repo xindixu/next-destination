@@ -40,9 +40,10 @@ JS (frontend): `yarn add [package-name]` or `yarn add <package_name> -D` to save
 Python (backend): `pip install [package-name]`
 
 ## Run!
-1. At this project root level, do `make website`. It will spin up the react and flask server. React is served on http://localhost:5000 and Flask is served on http://127.0.0.1:8080.
 
-2. Note that the makefile will not activate the virtualenv. So you'll have to manually activate that if you plan on using it. 
+1. At this project root level, do `make website`. It will spin up the react and flask server. React is served on http://localhost:5000 and Flask is served on http://127.0.0.1:8080. These two windows should be open automatically. Give it a bit time to bundle and run. Also try refreshing if nothing showed up. 
+
+2. Note that the makefile will not activate the virtualenv. So you'll have to manually activate that if you plan on using it.
 
 3. The React app will be build with `yarn run build` and it need to be placed under `flask-backend/static/react`. The output `index.html` should be placed in `flask-backend/template`
 
