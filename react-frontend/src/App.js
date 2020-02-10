@@ -4,7 +4,8 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      You should start your react project here!
+      Hopefully I will see this token
+      {window.token}
     </div>
   );
 }

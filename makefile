@@ -2,7 +2,7 @@ export FLASK_ENV=development
 export FLASK_DEBUG=1
 export FLASK_APP=main.py
 export FLASK_PORT=8080
-export REACT_PORT=5000
+export REACT_PORT=3000
 export PROJECT="The World"
 
 flask: ;@echo "Flask served on http://127.0.0.1:${FLASK_PORT}....."; 
