@@ -1,0 +1,92 @@
+body {
+	color: #27C8D2;
+}
+
+.header {
+	position: absolute;
+	width: 100%;
+	top: 10px;
+}
+
+.logo {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width:50px;
+	height:50px;
+}
+
+.title {
+	position: absolute;
+	top: -30px;
+	left: 70px;
+	font-size: 250%;
+
+}
+
+.navBar {
+	position: absolute;
+	right: 5%;
+	font-size: x-large;
+	width: 600px;
+	top: 10px;
+}
+
+.navbar .about {
+	position: absolute;
+	right: 65%;
+}
+
+.navbar .cities {
+	position: absolute;
+	right: 53%;
+	margin: 0%;
+}
+
+.navbar .attractions {
+	position: absolute;
+	right: 33%;
+	margin: 0px;
+}
+
+.navbar .prices {
+	position: absolute;
+	right: 20%;
+	margin: 0px;
+}
+
+.navbar .contact {
+	position: absolute;
+	right: 0px;
+	margin: 0px;
+}
+
+a {
+	text-decoration: none;
+	color: #27C8D2;
+}
+
+.descr {
+	position:absolute;
+	top:75px;
+	width: 100%;
+	text-align: center;
+}
+
+.cityTable {
+	position: absolute;
+	top: 200px;
+	left: 5%;
+	width: 90%;
+	
+}
+
+.cityTable tr {
+	border: 1px solid black;
+}
+
+.cityTable td {
+	border: 1px solid black;
+	
+}
+
