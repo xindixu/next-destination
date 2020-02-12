@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import Home from '../page/home'
 import About from '../page/about'
 import Cities from '../page/cities'
+import City from '../page/city'
 import Prices from '../page/prices'
 import Attractions from '../page/attractions'
 
@@ -42,6 +43,7 @@ const Navigation = props => (
         <Route path="/cities">
           <Cities />
         </Route>
+        <Route path="/city/:id" children={<City/>} />
         <Route path="/attractions">
           <Attractions />
         </Route>

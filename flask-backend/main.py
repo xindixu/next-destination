@@ -2,11 +2,14 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources=r'/*')
 
+# TODO: replace with actual data from db
 cities_data = [
-    {'name': 'Austion', 'state': 'TX', 'description': 'Austin is known for its eclectic live-music scene centered around country, blues and rock.'},
-    {'name': 'Dallas', 'state': 'TX', 'description': 'Dallas, a modern metropolis in north Texas, is a commercial and cultural hub of the region.'}
+    {'name': 'Austion', 'state': 'TX',
+        'description': 'Austin is known for its eclectic live-music scene centered around country, blues and rock.', 'id': 'austin'},
+    {'name': 'Dallas', 'state': 'TX',
+        'description': 'Dallas, a modern metropolis in north Texas, is a commercial and cultural hub of the region.', 'id': 'dallas'}
 ]
 
 
@@ -14,6 +17,12 @@ restaurants_data = [
     {'name': 'Franklin', 'location': 'Austin',
         'description': 'Long lines form early for brisket, pulled pork & other smoked meats at this lunch-only spot.'}
 ]
+
+
+def get_city_by_id(id):
+    return [city for city in cities_data if city["id"] == id][0]
+
+
 @app.route('/')
 def index():
     return render_template("index.html", token="Hello Flask + React")
@@ -25,9 +34,15 @@ def about():
 
 
 @app.route('/cities')
-@cross_origin()
 def cities():
     return jsonify(cities=cities_data)
+
+
+@app.route('/city/<string:id>')
+def city(id):
+    data = get_city_by_id(id)
+    print(data)
+    return jsonify(city=get_city_by_id(id))
 
 
 if __name__ == '__main__':

@@ -11,16 +11,13 @@ const Cities = props => {
         setCities(data.cities)
         console.log(data)
       })
-
-    return () => {
-    };
   }, [])
 
   return (
     <ul>
       {cities.length && cities.map(
-        ({ name, state, description }) => 
-        <li key={name}>{name}-{state}: {description}</li>
+        ({ name, state, description, id }) =>
+          <li key={name}>{name}-{state}: {description} <a href={`/city/${id}`}>Read more</a></li>
       )}
     </ul>
 
