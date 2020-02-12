@@ -1,11 +1,10 @@
 import React from 'react';
 import './App.css';
-
+import Navigation from './components/navigation'
 function App() {
   return (
     <div className="App">
-      Hopefully I will see this token
-      {window.token}
+      <Navigation/>
     </div>
   );
 }
