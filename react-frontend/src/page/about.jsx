@@ -14,15 +14,15 @@ const People = props => {
   }, [])
 
   return (
-    <ul>
+    <div>
       {people.length && people.map(
         ({ name, photo, description}) =>
-          <li key={name}>{name}: {description} <a href={`/us/`}>Read more</a></li>
+          <p key={name}>{name}: {description}</p>
       )}
-    </ul>
-  )
-}
+    </div>
 
+   )
+}
 People.propTypes = {
 
 }
