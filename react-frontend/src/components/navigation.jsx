@@ -5,6 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types'
 
 import Home from '../page/home'
@@ -34,6 +35,7 @@ const Navigation = props => (
             <Link to="/prices">Prices</Link>
           </li>
         </ul>
+        <Button>Hi</Button>
       </nav>
 
       <Switch>
