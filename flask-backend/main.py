@@ -45,6 +45,9 @@ def about():
 def cities():
     return jsonify(cities=cities_data)
 
+@app.route('/us')
+def us():
+    return jsonify(us=us_data)
 
 @app.route('/city/<string:id>')
 def city(id):
