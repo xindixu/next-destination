@@ -1,16 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-const About = props => {
+import apiFetch from '../lib/api-fetch'
+const People = props => {
+  const [people, setPeople] = useState([])
+  useEffect(() => {
+    apiFetch('/us', {})
+      .then(resp => resp.json())
+      .then(data => {
+        setPeople(data.us)
+        console.log(data)
+      })
+  }, [])
+
   return (
-    <>
-      <h1>About</h1>
-    </>
+    <ul>
+      {people.length && people.map(
+        ({ name, photo, description}) =>
+          <li key={name}>{name}: {description} <a href={`/us/`}>Read more</a></li>
+      )}
+    </ul>
   )
 }
 
-About.propTypes = {
+People.propTypes = {
 
 }
 
-export default About
+export default People
