@@ -1,41 +1,35 @@
-import React from 'react'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import { Button } from 'react-bootstrap';
-import PropTypes from 'prop-types'
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Button, Navbar, Nav } from "react-bootstrap";
+import PropTypes from "prop-types";
 
-import Home from '../page/home'
-import About from '../page/about'
-import Cities from '../page/cities'
-import City from '../page/city'
-import Prices from '../page/prices'
-import Attractions from '../page/attractions'
+import Home from "../page/home";
+import About from "../page/about";
+import Cities from "../page/cities";
+import City from "../page/city";
+import Prices from "../page/prices";
+import Attractions from "../page/attractions";
 
 const Navigation = props => (
   <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/cities">Cities</Link>
-          </li>
-          <li>
-            <Link to="/attractions">Attractions</Link>
-          </li>
-          <li>
-            <Link to="/prices">Prices</Link>
-          </li>
-        </ul>
-        <Button>Hi</Button>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item active">
+              <Link to="/" className="nav-link">Home</Link>
+            </li>
+            <li className="nav-item active">
+              <Link to="/about" className="nav-link">About</Link>
+            </li>
+            <li className="nav-item active">
+              <Link to="/cities" className="nav-link">Cities</Link>
+            </li>
+            <li className="nav-item active">
+              <Link to="/attractions" className="nav-link">Attractions</Link>
+            </li>
+            <li className="nav-item active">
+              <Link to="/prices" className="nav-link">Prices</Link>
+            </li>
+          </ul>
       </nav>
 
       <Switch>
@@ -60,8 +54,7 @@ const Navigation = props => (
 )
 
 
-Navigation.propTypes = {
 
-}
+Navigation.propTypes = {};
 
-export default Navigation
+export default Navigation;
