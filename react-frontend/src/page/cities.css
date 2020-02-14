@@ -1,0 +1,9 @@
+.cities-list {
+    width: 600px;
+    justify-content: center;
+    margin-left: 295px;
+    margin-top: 80px;
+}
+.city-listing{
+    margin: 15px;
+}

@@ -6,10 +6,12 @@ CORS(app, resources=r'/*')
 
 # TODO: replace with actual data from db
 cities_data = [
-    {'name': 'Austion', 'state': 'TX',
-        'description': 'Austin is known for its eclectic live-music scene centered around country, blues and rock.', 'id': 'austin'},
+    {'name': 'Austin', 'state': 'TX',
+        'description': 'Austin is known for its eclectic live-music scene centered around country, blues and rock. Austin is the state capital of Texas, an inland city bordering the Hill Country region. Its many parks and lakes are popular for hiking, biking, swimming and boating.', 'id': 'austin'},
     {'name': 'Dallas', 'state': 'TX',
-        'description': 'Dallas, a modern metropolis in north Texas, is a commercial and cultural hub of the region.', 'id': 'dallas'}
+        'description': 'Dallas, a modern metropolis in north Texas, is a commercial and cultural hub of the region.  Downtown’s Sixth Floor Museum at Dealey Plaza commemorates the site of President John F. Kennedy’s assassination in 1963. In the Arts District, the Dallas Museum of Art and the Crow Collection of Asian Art cover thousands of years of art.', 'id': 'dallas'},
+    {'name': 'Nashville', 'state': 'TN',
+        'description': 'Legendary country music venues include the Grand Ole Opry House, home of the famous “Grand Ole Opry” stage and radio show. The Country Music Hall of Fame and Museum and historic Ryman Auditorium are Downtown, as is the District, featuring honky-tonks with live music and the Johnny Cash Museum, celebrating the singers life.', 'id': 'nashville'}
 ]
 
 
