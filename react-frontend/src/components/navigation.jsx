@@ -7,8 +7,9 @@ import Home from "../page/home";
 import About from "../page/about";
 import Cities from "../page/cities";
 import City from "../page/city";
-import Prices from "../page/prices";
+import Artists from "../page/artists";
 import Attractions from "../page/attractions";
+
 
 const Navigation = props => (
   <Router>
@@ -27,7 +28,7 @@ const Navigation = props => (
               <Link to="/attractions" className="nav-link">Attractions</Link>
             </li>
             <li className="nav-item active">
-              <Link to="/prices" className="nav-link">Prices</Link>
+              <Link to="/artists" className="nav-link">Artists</Link>
             </li>
           </ul>
       </nav>
@@ -43,8 +44,8 @@ const Navigation = props => (
         <Route path="/attractions">
           <Attractions />
         </Route>
-        <Route path="/prices">
-          <Prices />
+        <Route path="/artists">
+          <Artists />
         </Route>
         <Route path="/">
           <Home />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
+
 import apiFetch from '../lib/api-fetch'
 const Cities = props => {
   const [cities, setCities] = useState([])
@@ -14,12 +15,13 @@ const Cities = props => {
   }, [])
 
   return (
+    
     <ul>
-      {cities.length && cities.map(
-        ({ name, state, description, id }) =>
-          <li key={name}>{name}-{state}: {description} <a href={`/city/${id}`}>Read more</a></li>
-      )}
-    </ul>
+    {cities.length && cities.map(
+      ({ name, state, description, id }) =>
+        <li key={name}>{name}-{state}: {description} <a href={`/city/${id}`}>Read more</a></li>
+    )}
+  </ul>
 
   )
 }
