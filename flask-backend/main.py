@@ -130,8 +130,7 @@ while page <= int(commits_req.headers["X-Total-Pages"]):
                 member_contribs["nathan"]["issues"] += 1
             elif issue["author"]["username"] == "quintonpham":
                 member_contribs["quinton"]["issues"] += 1
-def get_city_by_id(id):
-    us_data = [
+us_data = [
         {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'asdfasd',
          "Responsibilities":"asdf"},
         {'name': 'Xindi Xu','photo': 'a',  'stats': member_contribs["xindi"], 'description': 'qewrqre',
@@ -142,13 +141,14 @@ def get_city_by_id(id):
          "Responsibilities":"asdf"},
         {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'vnm',
          "Responsibilities":"asdf"}
-    ]
+]
+def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
+
 
 @app.route('/about')
 def about():
     return render_template("about.html")
-
 
 @app.route('/cities')
 def cities():
