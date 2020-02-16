@@ -79,13 +79,20 @@ venue_data=[{
 commits = []
 issues = []
 page = 1
-commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits")
+commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits",
+                           params={"all": "true", "per_page": 100, "page": page})
 print(commits_req)
 while page <= int(commits_req.headers["X-Total-Pages"]):
         commits.extend(commits_req.json())
         page += 1
         commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits",
                                    params={"all": "true", "per_page": 100, "page": page})
+        while page <= int(commits_req.headers["X-Total-Pages"]):
+            commits.extend(commits_req.json())
+            page += 1
+            commits_req = requests.get("https://gitlab.com/api/v4/projects/11264402/repository/commits",
+                                       params={"all": "true", "per_page": 100, "page": page})
+
         page = 1
         issues_req = requests.get("https://gitlab.com/api/v4/projects/16729459/issues",
                                   params={"scope": "all", "per_page": 100, page: 1})
@@ -108,7 +115,7 @@ while page <= int(commits_req.headers["X-Total-Pages"]):
                 member_contribs["xindi"]["commits"] += 1
             elif commit["committer_email"] == "yulissa.montes@utexas.edu":
                 member_contribs["yulissa"]["commits"] += 1
-            elif commit["committer_email"] == "n.craig@utexas.edu":
+            elif commit["committer_email"] == "n.craig@gmail.com":
                 member_contribs["nathan"]["commits"] += 1
             elif commit["committer_email"] == "quintonpham@gmail.com":
                 member_contribs["quinton"]["commits"] += 1
