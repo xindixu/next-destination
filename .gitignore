@@ -166,4 +166,5 @@ yarn-error.log*
 flask-backend/**/react
 yarn.lock
 package-lock.json
-.vs/
+
+.vs
