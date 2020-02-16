@@ -12,3 +12,4 @@ pycodestyle==2.5.0
 six==1.14.0
 virtualenv-clone==0.5.1
 Werkzeug==0.16.1
+requests==1.24.2

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS, cross_origin
+import requests
 
 app = Flask(__name__)
 CORS(app, resources=r'/*')
@@ -14,13 +15,6 @@ cities_data = [
 restaurants_data = [
     {'name': 'Franklin', 'location': 'Austin',
         'description': 'Long lines form early for brisket, pulled pork & other smoked meats at this lunch-only spot.'}
-]
-us_data = [
-    {'name': 'Yulissa Montes', "photo": 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Xindi Xu', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Marshall Munsch-Hayhurst', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Nathan Craig', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Quinton Pham', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
 ]
 citydata= [{
     'name':'Austin', 'state':'TX', 'coordinates':{'x':'','y':''}, 'description':'I live here', 'venues':["Emo's"]
@@ -82,6 +76,61 @@ venue_data=[{
 }]
 
 
+commits = []
+issues = []
+page = 1
+commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits")
+print(commits_req)
+while page <= int(commits_req.headers["X-Total-Pages"]):
+        commits.extend(commits_req.json())
+        page += 1
+        commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits",
+                                   params={"all": "true", "per_page": 100, "page": page})
+        page = 1
+        issues_req = requests.get("https://gitlab.com/api/v4/projects/16729459/issues",
+                                  params={"scope": "all", "per_page": 100, page: 1})
+        while page <= int(issues_req.headers["X-Total-Pages"]):
+            issues.extend(issues_req.json())
+            page += 1
+            issues_req = requests.get("https://gitlab.com/api/v4/projects/16729459/issues",
+                                      params={"scope": "all", "per_page": 100, page: 1})
+        member_contribs = {
+            "marshall": {"commits": 0, "issues": 0},
+            "xindi": {"commits": 0, "issues": 0},
+            "yulissa": {"commits": 0, "issues": 0},
+            "nathan": {"commits": 0, "issues": 0},
+            "quinton": {"commits": 0, "issues": 0}
+        }
+        for commit in commits:
+            if commit["committer_email"] == "marshallmhayhurst@gmail.com":
+                member_contribs["marshall"]["commits"] += 1
+            elif commit["committer_email"] == "xindixu@utexas.edu":
+                member_contribs["xindi"]["commits"] += 1
+            elif commit["committer_email"] == "yulissa.montes@utexas.edu":
+                member_contribs["yulissa"]["commits"] += 1
+            elif commit["committer_email"] == "n.craig@utexas.edu":
+                member_contribs["nathan"]["commits"] += 1
+            elif commit["committer_email"] == "quintonpham@gmail.com":
+                member_contribs["quinton"]["commits"] += 1
+
+        for issue in issues:
+            if issue["author"]["username"] == "mam23942":
+                member_contribs["marshall"]["issues"] += 1
+            elif issue["author"]["username"] == "xindixu":
+                member_contribs["xindi"]["issues"] += 1
+            elif issue["author"]["username"] == "yulissa.montes":
+                member_contribs["yulissa.montes"]["issues"] += 1
+            elif issue["author"]["username"] == "nmcraig":
+                member_contribs["nmcraig"]["issues"] += 1
+            elif issue["author"]["username"] == "quintonpham":
+                member_contribs["quintonpham"]["issues"] += 1
+us_data = [
+    {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
+    {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
+    {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
+    {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nmcraig"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
+    {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quintonpham"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
+]
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
 
