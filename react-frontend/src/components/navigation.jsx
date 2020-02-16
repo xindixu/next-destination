@@ -10,7 +10,9 @@ import City from "../page/city";
 import Prices from "../page/prices";
 import Attractions from "../page/attractions";
 import Business from "../page/business";
-// import Event from "../page/event";
+import Music from "../page/music";
+import Venue from "../page/venue";
+import Event from "../page/event";
 
 
 const Navigation = props => (
@@ -32,6 +34,9 @@ const Navigation = props => (
         <li className="nav-item active">
           <Link to="/prices" className="nav-link">Prices</Link>
         </li>
+        <li className="nav-item active">
+          <Link to="/venue" className="nav-link">venue</Link>
+        </li>
       </ul>
     </nav>
 
@@ -39,28 +44,41 @@ const Navigation = props => (
       <Route path="/about">
         <About />
       </Route>
+
       <Route path="/cities">
         <Cities />
       </Route>
+
       <Route path="/city/:id" children={<City />} />
+
       <Route path="/attractions">
         <Attractions />
       </Route>
+
       <Route path="/prices">
         <Prices />
       </Route>
-      <Route path="/">
-        <Home />
-      </Route>
+
       <Route path="/business">
         <Business />
       </Route>
+
       <Route path="/music">
-        <Home />
+        <Music />
       </Route>
+
+      <Route path="/event">
+        <Event />
+      </Route>
+
       <Route path="/venue">
+        <Venue />
+      </Route>
+
+      <Route path="/">
         <Home />
       </Route>
+
     </Switch>
   </Router>
 )

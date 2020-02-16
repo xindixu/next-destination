@@ -16,12 +16,12 @@ const People = props => {
   return (
     <div>
       {people.length && people.map(
-        ({ name, photo, description}) =>
+        ({ name, photo, description }) =>
           <p key={name}>{name}: {description}</p>
       )}
     </div>
 
-   )
+  )
 }
 People.propTypes = {
 

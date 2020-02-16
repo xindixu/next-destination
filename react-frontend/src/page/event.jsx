@@ -2,34 +2,37 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import apiFetch from '../lib/api-fetch'
-const Businesses = props => {
-  const [business, setBusiness] = useState([])
+const Events = props => {
+  const [event, setEvent] = useState([])
   useEffect(() => {
-    apiFetch('/business', {})
+    apiFetch('/event', {})
       .then(resp => resp.json())
       .then(data => {
-        setBusiness(data.us)
+        setEvent(data.event)
         console.log(data)
       })
   }, [])
 
   return (
     <div>
-      {business.length && business.map(
-        ({ name, category, description, address }) =>
+      {event.length && event.map(
+        ({ name, category, description, address, coordinates, price, hours }) =>
           <p key={name}>
             name: {name}<br></br>
+            category: {category} <br></br>
             address: {address}<br></br>
-            category: {category}<br></br>
+            coordinates: {coordinates['x'], coordinates['y']}<br></br>
             description: {description}<br></br>
+            price: {price}<br></br>
+            hours: STILL NEED TO FIGURE OUT HOW TO DO THIS
           </p>
       )}
     </div>
 
   )
 }
-Businesses.propTypes = {
+Events.propTypes = {
 
 }
 
-export default Businesses
+export default Events

@@ -8,7 +8,7 @@ const Businesses = props => {
     apiFetch('/business', {})
       .then(resp => resp.json())
       .then(data => {
-        setBusiness(data.us)
+        setBusiness(data.business)
         console.log(data)
       })
   }, [])
@@ -16,16 +16,18 @@ const Businesses = props => {
   return (
     <div>
       {business.length && business.map(
-        ({ name, category, description, address }) =>
+        ({ name, category, description, address, coordinates, price, hours }) =>
           <p key={name}>
             name: {name}<br></br>
-            address: {address}<br></br>
             category: {category}<br></br>
+            address: {address}<br></br>
             description: {description}<br></br>
+            coordinates: {coordinates['x']}, {coordinates['y']}<br></br>
+            price: {price}<br></br>
+            hours: NEED TO FIND A WAY TO ITERATE THROUGH THE LIST 
           </p>
       )}
     </div>
-
   )
 }
 Businesses.propTypes = {
