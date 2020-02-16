@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Media } from "reactstrap";
+import { Table } from "reactstrap";
 import "./cities.css";
 
 import apiFetch from "../lib/api-fetch";
@@ -19,22 +19,29 @@ const Cities = props => {
   return (
     <div className="cities-list">
       {cities.length &&
-        cities.map(({ name, state, description, id }) => (
-          <Media className="mt-1">
-            <Media left middle href="#">
-              <Media
-                object
-                data-src="https://res.cloudinary.com/culturemap-com/image/upload/ar_4:3,c_fill,g_faces:center,w_1200/v1548256026/photos/288314_original.jpg"
-                alt="austin.png"
-              />
-            </Media>
-            <Media body>
-              <Media className="city-listing" heading>
-                {name}, {state}
-              </Media>
-              {description}
-            </Media>
-          </Media>
+        cities.map(({ name, state, description, id, imageUrl, population_size }) => (
+          <Table dark>
+          <thead>
+            <tr>
+              <th></th>
+              <th>City</th>
+              <th>State</th>
+              <th>Description</th>
+              <th>Population</th>
+              <th>Venues</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">IMAGEURL</th>
+              <td><a href={`/city/${id}`}>{name}</a></td>
+              <td>{state}</td>
+              <td>{description}</td>
+              <td>{population_size}</td>
+              <td>list some music venues</td>
+            </tr>
+          </tbody>
+        </Table>
         ))}
     </div>
   );

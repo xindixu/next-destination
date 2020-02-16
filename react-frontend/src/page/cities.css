@@ -1,8 +1,8 @@
 .cities-list {
-    width: 600px;
+    width: 900px;
     justify-content: center;
-    margin-left: 295px;
-    margin-top: 80px;
+    padding: 25px;
+    margin: auto;
 }
 .city-listing{
     margin: 15px;
