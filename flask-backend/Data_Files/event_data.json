@@ -1,0 +1,51 @@
+{
+    "type": "array",
+    "contains": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "category": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "address": {
+                "type": "string"
+            },
+            "coordinates": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "string"
+                    },
+                    "y": {
+                        "type": "string"
+                    }
+                }
+            },
+            "price": {
+                "type": "string"
+            },
+            "hours": {
+                "type": "array",
+                "contains": {
+                    "type": "object",
+                    "properties": {
+                        "day": {
+                            "type": "string"
+                        },
+                        "start": {
+                            "type": "string"
+                        },
+                        "end": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
