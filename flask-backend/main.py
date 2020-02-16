@@ -63,8 +63,7 @@ music_data=[{
         'image_url':'vadvx',
         'upcoming_event_count':'dasfasdaf'
     },
-    'events':[{
-        'id':'sdfasd',
+    'events':[{        'id':'sdfasd',
         'sale_datetime':'sdfasdf',
         'event_datetime':'asdfadf',
         'description':'dfsafdf',
@@ -131,14 +130,19 @@ while page <= int(commits_req.headers["X-Total-Pages"]):
                 member_contribs["nathan"]["issues"] += 1
             elif issue["author"]["username"] == "quintonpham":
                 member_contribs["quinton"]["issues"] += 1
-us_data = [
-    {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
-]
 def get_city_by_id(id):
+    us_data = [
+        {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'asdfasd',
+         "Responsibilities":"asdf"},
+        {'name': 'Xindi Xu','photo': 'a',  'stats': member_contribs["xindi"], 'description': 'qewrqre',
+         "Responsibilities":"asdf"},
+        {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'rytu',
+         "Responsibilities":"adsf"},
+        {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'rytu',
+         "Responsibilities":"asdf"},
+        {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'vnm',
+         "Responsibilities":"asdf"}
+    ]
     return [city for city in cities_data if city["id"] == id][0]
 
 @app.route('/about')
