@@ -45,9 +45,29 @@ def about():
 def cities():
     return jsonify(cities=cities_data)
 
+
+@app.route('/business')
+def business():
+    return jsonify(business=business_data)
+
+@app.route('/event')
+def event():
+    return jsonify(event=event_data)
+
+@app.route('/music')
+def music():
+    return jsonify(music=music_data)
+
+
+@app.route('/venue')
+def venue():
+    return jsonify(venue=venue_data)
+
+
 @app.route('/us')
 def us():
     return jsonify(us=us_data)
+
 
 @app.route('/city/<string:id>')
 def city(id):

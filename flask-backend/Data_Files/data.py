@@ -1,4 +1,4 @@
-citydata= [{
+city_data= [{
     'name':'',
     'state':'',
     'coordinates':['',''],
