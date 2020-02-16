@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Prices = props => {
+const Artists = props => {
   return (
     <>
-      <h1>Prices</h1>
+      <h1>Artists</h1>
     </>
   )
 }
 
-Prices.propTypes = {
+Artists.propTypes = {
 
 }
 
-export default Prices
+export default Artists
