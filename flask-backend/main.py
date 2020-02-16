@@ -119,26 +119,20 @@ while page <= int(commits_req.headers["X-Total-Pages"]):
             elif issue["author"]["username"] == "xindixu":
                 member_contribs["xindi"]["issues"] += 1
             elif issue["author"]["username"] == "yulissa.montes":
-                member_contribs["yulissa.montes"]["issues"] += 1
+                member_contribs["yulissa"]["issues"] += 1
             elif issue["author"]["username"] == "nmcraig":
-                member_contribs["nmcraig"]["issues"] += 1
+                member_contribs["nathan"]["issues"] += 1
             elif issue["author"]["username"] == "quintonpham":
-                member_contribs["quintonpham"]["issues"] += 1
+                member_contribs["quinton"]["issues"] += 1
 us_data = [
     {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nmcraig"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
-    {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quintonpham"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
+    {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
+    {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
 ]
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
-
-
-@app.route('/')
-def index():
-    return render_template("index.html", token="Hello Flask + React")
-
 
 @app.route('/about')
 def about():
@@ -179,6 +173,9 @@ def city(id):
     print(data)
     return jsonify(city=get_city_by_id(id))
 
+@app.route('/')
+def index():
+    return render_template("index.html", token="Hello Flask + React")
 
 if __name__ == '__main__':
     app.run(debug=True)
