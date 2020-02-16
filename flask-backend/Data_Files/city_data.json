@@ -1,0 +1,28 @@
+{
+    "type": "array",
+    "contains": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "state": {
+                "type": "string"
+            },
+            "coordinates": {
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "string"
+                    },
+                    "y": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": {
+                "type": "string"
+            },
+        }
+    }
+}
