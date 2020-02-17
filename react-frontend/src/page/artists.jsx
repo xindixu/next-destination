@@ -18,38 +18,42 @@ const Artists = props => {
     <>
       <h1> Artists </h1>
 
-    <table>
-      <tr>
-        <td> Name </td> <td> Picture </td> <td > Description </td> <td> Number of Upcoming Events </td>
-        <td> Upcoming Event Location</td> <td> Facecbook Page Link </td>
-        
-      </tr>
-      {console.log(artists)}
-
-    {artists.length && artists.map(
-      ({ name, pic, description, numEvents, nextEventLoc, fbURL, id }) =>
+      <table>
         <tr>
-           <td> <a href={`/artist/${id}`}> {name}</a> </td> 
-           <td> <img src={`${pic}`} alt="Pic of Artist" /></td>
-           <td className="artistDescr">{description} </td> 
-           <td> {numEvents} </td> <td> {nextEventLoc} </td>
-           <td> <a href={`${fbURL}`} target="_blank"> Facebook Page </a> </td>
-          
+          <td> Name </td> <td> Picture </td> <td> Description </td>{" "}
+          <td> Number of Upcoming Events </td>
+          <td> Upcoming Event Location</td> <td> Facecbook Page Link </td>
         </tr>
+        {console.log(artists)}
 
         {artists.length &&
           artists.map(
-            ({ name, description, numEvents, nextEventLoc, fbUrl, id }) => (
+            ({
+              name,
+              pic,
+              description,
+              numEvents,
+              nextEventLoc,
+              fbURL,
+              id
+            }) => (
               <tr>
                 <td>
                   {" "}
                   <a href={`/artist/${id}`}> {name}</a>{" "}
-                </td>{" "}
+                </td>
+                <td>
+                  {" "}
+                  <img src={`${pic}`} alt="Pic of Artist" />
+                </td>
                 <td className="artistDescr">{description} </td>
                 <td> {numEvents} </td> <td> {nextEventLoc} </td>
                 <td>
                   {" "}
-                  <a href="{fbUrl}"> Facebook Page </a>{" "}
+                  <a href={`${fbURL}`} target="_blank">
+                    {" "}
+                    Facebook Page{" "}
+                  </a>{" "}
                 </td>
               </tr>
             )
