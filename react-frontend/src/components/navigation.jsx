@@ -14,6 +14,7 @@ import Music from "../page/music";
 import Venue from "../page/venue";
 import Event from "../page/event";
 import Artist from "../page/artist";
+import Venues from "../page/venues";
 
 
 
@@ -31,7 +32,7 @@ const Navigation = props => (
           <Link to="/cities" className="nav-link">Cities</Link>
         </li>
         <li className="nav-item active">
-          <Link to="/attractions" className="nav-link">Attractions</Link>
+          <Link to="/venues" className="nav-link">Venues</Link>
         </li>
         <li className="nav-item active">
           <Link to="/artists" className="nav-link">Artists</Link>
@@ -54,10 +55,10 @@ const Navigation = props => (
       </Route>
 
       <Route path="/artists">
-      
         <Artists />
       </Route>
       <Route path="/artist/:id" children={<Artist />} />
+
       <Route path="/business">
         <Business />
       </Route>
@@ -66,10 +67,11 @@ const Navigation = props => (
         <Music />
       </Route>
 
-      <Route path="/venue">
-        <Venue />
+      <Route path="/venues">
+        <Venues />
       </Route>
-
+      <Route path="/venue/:id" children={<Venue />} />
+      
       <Route path="/event">
         <Event />
       </Route>

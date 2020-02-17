@@ -1,33 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-
+import { useParams } from "react-router-dom";
 import apiFetch from '../lib/api-fetch'
-const Venue = props => {
-  const [venue, setVenue] = useState([])
+import './artist.css'
+
+const Venue = () => {
+  const { id } = useParams();
+
+  const [venue, setVenue] = useState(null)
   useEffect(() => {
-    apiFetch('/venue', {})
+    apiFetch(`/venue/${id}`, {})
       .then(resp => resp.json())
       .then(data => {
         setVenue(data.venue)
-        console.log(data)
       })
   }, [])
 
-  return (
-    <div>
-      {venue.length && venue.map(
-        ({ name, coordinates, city, region }) =>
-          <p key={name}>
-            name: {name}<br></br>
-            city: {city}<br></br>
-            coordinates: {coordinates['x'], coordinates['y']}<br></br>
-            region: {region}
-          </p>
-      )}
-    </div>
-
-  )
+  if (venue) {
+    const { name, coordinates, city, capacity, pic  } = venue
+    return (
+      <>
+        <div className="artist1">
+						  <h1> {name} </h1>
+              <img src={`${pic}`} alt="Pic of Venue" />
+						  
+						  
+							  <div>
+								  <p> city: {city} </p>
+								  <p> capacity: {capacity}</p>
+                  <p> coordinates: {coordinates} </p>
+							  </div>
+							  
+					  </div>
+        
+      </>
+    )
+  }
+    
+  return <> </>
 }
+
 Venue.propTypes = {
 
 }
