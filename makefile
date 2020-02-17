@@ -15,7 +15,7 @@ website:
 	make -j 2 flask react
 
 setup: ;@echo "Setting up ${PROJECT}....."; 
-	cd python-backend && pip install -r requirement.txt
+	cd flask-backend && pip install -r requirement.txt
 	cd react-frontend && yarn install
 
 deploy: ;@echo "Building ${PROJECT}....."; 
