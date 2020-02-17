@@ -13,6 +13,7 @@ import Business from "../page/business";
 import Music from "../page/music";
 import Venue from "../page/venue";
 import Event from "../page/event";
+import Artist from "../page/artist";
 
 
 
@@ -53,9 +54,10 @@ const Navigation = props => (
       </Route>
 
       <Route path="/artists">
+      
         <Artists />
       </Route>
-
+      <Route path="/artist/:id" children={<Artist />} />
       <Route path="/business">
         <Business />
       </Route>

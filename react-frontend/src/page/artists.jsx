@@ -21,7 +21,7 @@ const Artists = props => {
     <table>
       <tr>
         <td> Name </td> <td > Description </td> <td> Number of Upcoming Events </td>
-        <td> Upcoming Event Location</td> <td> Facecbook PAge Link </td>
+        <td> Upcoming Event Location</td> <td> Facecbook Page Link </td>
         
       </tr>
 
