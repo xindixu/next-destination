@@ -1,16 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 const Attractions = props => {
   return (
     <>
       <h1>Attractions</h1>
     </>
-  )
-}
+  );
+};
 
-Attractions.propTypes = {
+Attractions.propTypes = {};
 
-}
-
-export default Attractions
+export default Attractions;

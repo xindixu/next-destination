@@ -1,0 +1,37 @@
+.city1 {
+  position: relative;
+  width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.city1 p {
+  width: 100%;
+  text-align: center;
+}
+
+.city1 img {
+  position: absolute;
+  left: 75px;
+  top: 125px;
+  height: 275px;
+  width: 400px;
+  border-radius: 15px;
+}
+
+.city1 div {
+  position: absolute;
+  right: 100px;
+  top: 135px;
+  width: 300px;
+  text-align: left;
+  background-color: #d4ffe7;
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.city1 div p {
+  width: 300px;
+  text-align: left;
+}
