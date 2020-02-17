@@ -376,7 +376,7 @@ def state(id):
     print(data)
     return jsonify(city=get_state_by_id(id))
 
-@app.route('/city/<string:id>')
+@app.route('/api/city/<string:id>')
 def city(id):
     data = get_city_by_id(id)
     print(data)
