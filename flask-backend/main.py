@@ -33,9 +33,6 @@ us_data = [
     {'name': 'Quinton Pham', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
 
 ]
-citydata = [{
-    'name': 'Austin', 'state': 'TX', 'coordinates': {'x': '', 'y': ''}, 'description': 'I live here', 'venues': ["Emo's"]
-
 citydata= [{
     'name':'Austin', 'state':'TX', 'coordinates':{'x':'','y':''}, 'description':'I live here', 'venues':["Emo's"]
 
@@ -91,12 +88,6 @@ music_data = [{
         'event_datetime': 'asdfadf',
         'description': 'dfsafdf',
         'venue': 'fasdfsaf'
-
-    'events':[{        'id':'sdfasd',
-        'sale_datetime':'sdfasdf',
-        'event_datetime':'asdfadf',
-        'description':'dfsafdf',
-        'venue':'fasdfsaf'
 
     }]
 }]
@@ -210,12 +201,6 @@ def music():
 @app.route('/venue')
 def venue():
     return jsonify(venue=venue_data)
-
-
-@app.route('/us')
-def us():
-    return jsonify(us=us_data)
-
 
 @app.route('/city/<string:id>')
 def city(id):

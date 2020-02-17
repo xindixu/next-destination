@@ -17,27 +17,16 @@ const People = props => {
   return (
     <div>
       {people.length && people.map(
-         react-frontend/src/page/about.jsx
-        ({ name, photo, description}) =>
-          <p key={name}>{name}: {description}</p>
-      )}
-    </div>
-
-   )
-
-        ({ name, photo, description }) =>
-          <p key={name}>{name}: {description}</p>
-
-        ({ name, photo, stats, description}) =>
-          <Card>
-            <CardTitle key={name}>{name}</CardTitle>
-            <CardBody key={name}>
-            <CardText>{description}</CardText>
-            <br/>
-            <CardText key={name}> Commits: {stats['commits']} </CardText>
-            <CardText key={name}> Issues: {stats['issues']} </CardText>
-            </CardBody>
-           </Card>
+         ({ name, photo, stats, description}) =>
+         <Card>
+           <CardTitle key={name}>{name}</CardTitle>
+           <CardBody key={name}>
+           <CardText>{description}</CardText>
+           <br/>
+           <CardText key={name}> Commits: {stats['commits']} </CardText>
+           <CardText key={name}> Issues: {stats['issues']} </CardText>
+           </CardBody>
+          </Card>
       )}
     </div>
 
