@@ -18,44 +18,64 @@ import Event from "../page/event";
 
 const Navigation = props => (
   <Router>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <Link to="/" className="nav-link">Home</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/about" className="nav-link">About</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/cities" className="nav-link">Cities</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/attractions" className="nav-link">Attractions</Link>
-            </li>
-            <li className="nav-item active">
-              <Link to="/artists" className="nav-link">Artists</Link>
-            </li>
-          </ul>
-      </nav>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <ul className="navbar-nav mr-auto">
+        <li className="nav-item active">
+          <Link to="/" className="nav-link">Home</Link>
+        </li>
+        <li className="nav-item active">
+          <Link to="/about" className="nav-link">About</Link>
+        </li>
+        <li className="nav-item active">
+          <Link to="/cities" className="nav-link">Cities</Link>
+        </li>
+        <li className="nav-item active">
+          <Link to="/attractions" className="nav-link">Attractions</Link>
+        </li>
+        <li className="nav-item active">
+          <Link to="/artists" className="nav-link">Artists</Link>
+        </li>
+      </ul>
+    </nav>
 
-      <Switch>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/cities">
-          <Cities />
-        </Route>
-        <Route path="/city/:id" children={<City/>} />
-        <Route path="/attractions">
-          <Attractions />
-        </Route>
-        <Route path="/artists">
-          <Artists />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+    <Switch>
+      <Route path="/about">
+        <About />
+      </Route>
+
+      <Route path="/cities">
+        <Cities />
+      </Route>
+
+      <Route path="/city/:id" children={<City />} />
+      <Route path="/attractions">
+        <Attractions />
+      </Route>
+
+      <Route path="/artists">
+        <Artists />
+      </Route>
+
+      <Route path="/business">
+        <Business />
+      </Route>
+
+      <Route path="/music">
+        <Music />
+      </Route>
+
+      <Route path="/venue">
+        <Venue />
+      </Route>
+
+      <Route path="/event">
+        <Event />
+      </Route>
+
+      <Route path="/">
+        <Home />
+      </Route>
+    </Switch>
   </Router>
 )
 
