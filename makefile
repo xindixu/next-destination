@@ -1,7 +1,7 @@
 export FLASK_ENV=development
 export FLASK_DEBUG=1
 export FLASK_APP=main.py
-export FLASK_PORT=8080
+export FLASK_PORT=5000
 export REACT_PORT=3000
 export PROJECT="The World"
 
@@ -15,7 +15,7 @@ website:
 	make -j 2 flask react
 
 setup: ;@echo "Setting up ${PROJECT}....."; 
-	cd python-backend && pip install -r requirement.txt
+	cd flask-backend && pip install -r requirement.txt
 	cd react-frontend && yarn install
 
 deploy: ;@echo "Building ${PROJECT}....."; 

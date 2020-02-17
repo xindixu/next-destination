@@ -9,6 +9,11 @@ import Cities from "../page/cities";
 import City from "../page/city";
 import Artists from "../page/artists";
 import Attractions from "../page/attractions";
+import Business from "../page/business";
+import Music from "../page/music";
+import Venue from "../page/venue";
+import Event from "../page/event";
+
 
 
 const Navigation = props => (
