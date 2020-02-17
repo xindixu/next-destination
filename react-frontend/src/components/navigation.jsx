@@ -13,6 +13,7 @@ import Business from "../page/business";
 import Music from "../page/music";
 import Venue from "../page/venue";
 import Event from "../page/event";
+import States from "../page/states";
 
 
 
@@ -35,6 +36,9 @@ const Navigation = props => (
             <li className="nav-item active">
               <Link to="/artists" className="nav-link">Artists</Link>
             </li>
+            <li className="nav-item active">
+              <Link to="/states" className="nav-link">States</Link>
+            </li>
           </ul>
       </nav>
 
@@ -51,6 +55,9 @@ const Navigation = props => (
         </Route>
         <Route path="/artists">
           <Artists />
+        </Route>
+        <Route path="/states">
+          <States />
         </Route>
         <Route path="/">
           <Home />

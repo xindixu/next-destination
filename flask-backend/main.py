@@ -167,8 +167,24 @@ us_data = [
          "Responsibilities":"asdf"}
 
 ]
+
+states_data = [
+    {'state': 'TX', 'name': 'Texas', 'id': 'texas',
+    'description': 'Texas is the second largest state in the United States by area. Most of the population centers are in areas of former prairies, grasslands, forests, and the coastline. Traveling from east to west, one can observe terrain that ranges from coastal swamps and piney woods, to rolling plains and rugged hills, and finally the desert and mountains of the Big Bend.', 
+    'population': '28,995,881',
+    'nickname': 'The Lone Star State',
+    'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Flag_of_Texas.svg/1599px-Flag_of_Texas.svg.png'},
+    {'state': 'TN', 'name': 'Tennessee', 'id': 'tennessee',
+    'description': 'Tennessee is a state located in the southeastern region of the United States. Tennessee is the 36th largest and the 16th most populous of the 50 United States. The Appalachian Mountains dominate the eastern part of the state, and the Mississippi River forms the states western border.',
+    'population': '6,833,793',
+    'nickname': 'The Volunteer State',
+    'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Tennessee.svg/250px-Flag_of_Tennessee.svg.png'}
+]
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
+
+def get_state_by_id(id):
+    return [state for state in states_data if state["id"] == id][0]
 
 
 @app.route('/about')
@@ -201,6 +217,16 @@ def music():
 @app.route('/venue')
 def venue():
     return jsonify(venue=venue_data)
+
+@app.route('/states')
+def states():
+    return jsonify(states=states_data)
+
+@app.route('/states/<string:id>')
+def state(id):
+    data = get_state_by_id(id)
+    print(data)
+    return jsonify(city=get_state_by_id(id))
 
 @app.route('/city/<string:id>')
 def city(id):
