@@ -1,33 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import {Card, CardBody, CardTitle, CardText} from 'reactstrap'
+import { Card, CardBody, CardTitle, CardText } from 'reactstrap'
 import apiFetch from '../lib/api-fetch'
 
 const People = props => {
   const [people, setPeople] = useState([])
   useEffect(() => {
-    apiFetch('/us', {})
+    apiFetch('/about', {})
       .then(resp => resp.json())
       .then(data => {
-        setPeople(data.us)
+        setPeople(data.about)
         console.log(data)
       })
   }, [])
 
   return (
     <div>
-      {people.length && people.map(
-         ({ name, photo, stats, description}) =>
-         <Card>
-           <CardTitle key={name}>{name}</CardTitle>
-           <CardBody key={name}>
-           <CardText>{description}</CardText>
-           <br/>
-           <CardText key={name}> Commits: {stats['commits']} </CardText>
-           <CardText key={name}> Issues: {stats['issues']} </CardText>
-           </CardBody>
+      {people.length ? people.map(
+        ({ name, photo, stats: { commits, issues }, description }) =>
+          <Card key={name}>
+            <CardTitle>{name}</CardTitle>
+            <CardBody>
+              <CardText>{description}</CardText>
+              <br />
+              <CardText> Commits: {commits} </CardText>
+              <CardText> Issues: {issues} </CardText>
+            </CardBody>
           </Card>
-      )}
+      ) : <p>Fetching data...</p>}
     </div>
 
   )
