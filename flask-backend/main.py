@@ -96,7 +96,7 @@ def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
 
 
-@app.route('/cities')
+@app.route('/api/cities')
 def cities():
     return jsonify(cities=cities_data)
 
@@ -114,7 +114,7 @@ def get_gitlab_data(url):
     return data
 
 
-@app.route('/about')
+@app.route('/api/about')
 def about():
     url = "https://gitlab.com/api/v4/projects/16729459"
     commits = get_gitlab_data(f"{url}/repository/commits")
@@ -167,27 +167,27 @@ def about():
     return jsonify(about=about_data)
 
 
-@app.route('/business')
+@app.route('/api/business')
 def business():
     return jsonify(business=business_data)
 
 
-@app.route('/event')
+@app.route('/api/event')
 def event():
     return jsonify(event=event_data)
 
 
-@app.route('/music')
+@app.route('/api/music')
 def music():
     return jsonify(music=music_data)
 
 
-@app.route('/venue')
+@app.route('/api/venue')
 def venue():
     return jsonify(venue=venue_data)
 
 
-@app.route('/city/<string:id>')
+@app.route('/api/city/<string:id>')
 def city(id):
     data = get_city_by_id(id)
     print(data)
@@ -196,8 +196,7 @@ def city(id):
 
 @app.route('/')
 def index():
-    return render_template("index.html", token="Hello Flask + React")
-
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(debug=True)

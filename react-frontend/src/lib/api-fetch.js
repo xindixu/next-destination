@@ -1,4 +1,6 @@
-const base = "http://127.0.0.1:5000"
+const domain = "https://city-hunt-267820.appspot.com"
+const local = "http://127.0.0.1:5000"
+const base = `${domain}/api`
 
 
 const apiFetch = (url, {method = "GET"}) => fetch(`${base}${url}`, {
