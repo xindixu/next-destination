@@ -7,29 +7,38 @@ CORS(app, resources=r'/*')
 
 # TODO: replace with actual data from db
 cities_data = [
-    {'name': 'Austion', 'state': 'TX',
-        'description': 'Austin is known for its eclectic live-music scene centered around country, blues and rock.', 'id': 'austin'},
+    {'name': 'Austin', 'state': 'TX',
+        'description': 'Austin is known for its eclectic live-music scene centered around country, blues and rock. Austin is the state capital of Texas, an inland city bordering the Hill Country region. Its many parks and lakes are popular for hiking, biking, swimming and boating.', 'id': 'austin',
+        'imageUrl': 'https://res.cloudinary.com/culturemap-com/image/upload/ar_4:3,c_fill,g_faces:center,w_1200/v1548256026/photos/288314_original.jpg',
+        'population_size': '964,254'},
     {'name': 'Dallas', 'state': 'TX',
-        'description': 'Dallas, a modern metropolis in north Texas, is a commercial and cultural hub of the region.', 'id': 'dallas'}
+        'description': 'Dallas, a modern metropolis in north Texas, is a commercial and cultural hub of the region.  Downtown’s Sixth Floor Museum at Dealey Plaza commemorates the site of President John F. Kennedy’s assassination in 1963. In the Arts District, the Dallas Museum of Art and the Crow Collection of Asian Art cover thousands of years of art.', 'id': 'dallas',
+        'imageUrl': 'https://visitdallas.imgix.net/Open_Graph/shutterstock_234181351.jpeg?w=800&h=600&fit=crop&crop=entropy,faces&q=60&fm=pjpg&auto=compress,enhance,format,redeye&trim=auto',
+        'population_size': '1,345,047'},
+    {'name': 'Nashville', 'state': 'TN',
+        'description': 'Legendary country music venues include the Grand Ole Opry House, home of the famous “Grand Ole Opry” stage and radio show. The Country Music Hall of Fame and Museum and historic Ryman Auditorium are Downtown, as is the District, featuring honky-tonks with live music and the Johnny Cash Museum, celebrating the singers life.', 'id': 'nashville',
+        'imageUrl': 'https://www.visitmusiccity.com/sites/www/files/styles/medium_portrait_3x4/public/2019-04/Skyline_FromJeffersonStBridge_1600.jpg?h=ada05aa9&itok=38Ob7xPZ',
+        'population_size': '692,587'}
 ]
 restaurants_data = [
     {'name': 'Franklin', 'location': 'Austin',
         'description': 'Long lines form early for brisket, pulled pork & other smoked meats at this lunch-only spot.'}
 ]
-<<<<<<< HEAD
+
 us_data = [
     {'name': 'Yulissa Montes', "photo": 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Xindi Xu', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Marshall Munsch-Hayhurst', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Nathan Craig', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Quinton Pham', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'}
+
 ]
 citydata = [{
     'name': 'Austin', 'state': 'TX', 'coordinates': {'x': '', 'y': ''}, 'description': 'I live here', 'venues': ["Emo's"]
-=======
+
 citydata= [{
     'name':'Austin', 'state':'TX', 'coordinates':{'x':'','y':''}, 'description':'I live here', 'venues':["Emo's"]
->>>>>>> 155a3989864284bf5747187e72aad197605799db
+
 }]
 business_data = [{
     'name': 'Barbeque Resstaurant',
@@ -75,20 +84,20 @@ music_data = [{
         'image_url': 'vadvx',
         'upcoming_event_count': 'dasfasdaf'
     },
-<<<<<<< HEAD
+
     'events': [{
         'id': 'sdfasd',
         'sale_datetime': 'sdfasdf',
         'event_datetime': 'asdfadf',
         'description': 'dfsafdf',
         'venue': 'fasdfsaf'
-=======
+
     'events':[{        'id':'sdfasd',
         'sale_datetime':'sdfasdf',
         'event_datetime':'asdfadf',
         'description':'dfsafdf',
         'venue':'fasdfsaf'
->>>>>>> 155a3989864284bf5747187e72aad197605799db
+
     }]
 }]
 venue_data = [{
@@ -165,6 +174,7 @@ us_data = [
          "Responsibilities":"asdf"},
         {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'vnm',
          "Responsibilities":"asdf"}
+
 ]
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
@@ -178,6 +188,9 @@ def about():
 def cities():
     return jsonify(cities=cities_data)
 
+@app.route('/us')
+def us():
+    return jsonify(us=us_data)
 
 @app.route('/business')
 def business():
