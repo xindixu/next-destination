@@ -1,0 +1,24 @@
+{
+    "type": "array",
+    "contains": {
+        "type": "object",
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "numEvents": {
+                "type": "string"
+            },
+            "nextEventLoc": {
+                "type": "string"
+            },
+            "fbUrl": {
+                "type": "string"
+            }
+            
+        }
+    }
+}
