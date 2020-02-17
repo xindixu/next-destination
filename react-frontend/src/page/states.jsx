@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -50,3 +51,21 @@ const States = props => {
 States.propTypes = {};
 
 export default States;
+=======
+import React from 'react'
+import PropTypes from 'prop-types'
+
+const States = props => {
+  return (
+    <>
+      <h1>States</h1>
+    </>
+  )
+}
+
+States.propTypes = {
+
+}
+
+export default States
+>>>>>>> added states data and routes to flask-backend. Created jsx files for states in react-frontend
