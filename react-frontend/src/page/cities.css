@@ -1,9 +1,9 @@
 .cities-list {
-    width: 900px;
-    justify-content: center;
-    padding: 25px;
-    margin: auto;
+  width: 900px;
+  justify-content: center;
+  padding: 25px;
+  margin: auto;
 }
-.city-listing{
-    margin: 15px;
+.city-listing {
+  margin: 15px;
 }

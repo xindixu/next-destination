@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-import apiFetch from '../lib/api-fetch'
+import apiFetch from "../lib/api-fetch";
 const Venue = props => {
-  const [venue, setVenue] = useState([])
+  const [venue, setVenue] = useState([]);
   useEffect(() => {
-    apiFetch('/venue', {})
+    apiFetch("/venue", {})
       .then(resp => resp.json())
       .then(data => {
-        setVenue(data.venue)
-        console.log(data)
-      })
-  }, [])
+        setVenue(data.venue);
+        console.log(data);
+      });
+  }, []);
 
   return (
     <div>
-      {venue.length && venue.map(
-        ({ name, coordinates, city, region }) =>
+      {venue.length &&
+        venue.map(({ name, coordinates, city, region }) => (
           <p key={name}>
-            name: {name}<br></br>
-            city: {city}<br></br>
-            coordinates: {coordinates['x'], coordinates['y']}<br></br>
+            name: {name}
+            <br />
+            city: {city}
+            <br />
+            coordinates: {(coordinates["x"], coordinates["y"])}
+            <br />
             region: {region}
           </p>
-      )}
+        ))}
     </div>
+  );
+};
+Venue.propTypes = {};
 
-  )
-}
-Venue.propTypes = {
-
-}
-
-export default Venue
+export default Venue;

@@ -1,37 +1,37 @@
 .artist1 {
-	position: relative;
-	width: 1000px;
-	height: 400px;
-	margin: 0 auto;
-	text-align: center;
+  position: relative;
+  width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .artist1 p {
-	width: 100%;
-	text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .artist1 img {
-	position: absolute;
-	left: 200px;
-	top: 125px;
-	height: 275px;
-	width: 200px;
-	border-radius: 15px;
+  position: absolute;
+  left: 200px;
+  top: 125px;
+  height: 275px;
+  width: 200px;
+  border-radius: 15px;
 }
 
-.artist1 div{
-	position: absolute;
-	right: 100px;
-	top: 135px;
-	width: 300px;
-	text-align: left;
-	background-color:#d4ffe7;
-	border-radius: 15px;
-	padding: 30px;
+.artist1 div {
+  position: absolute;
+  right: 100px;
+  top: 135px;
+  width: 300px;
+  text-align: left;
+  background-color: #d4ffe7;
+  border-radius: 15px;
+  padding: 30px;
 }
 
 .artist1 div p {
-	width: 300px;
-	text-align: left;
+  width: 300px;
+  text-align: left;
 }

@@ -62,10 +62,10 @@ event_data = [{
     'address': 'sdasf',
     'coordinates': {'x': 'asdfdsa', 'y': 'adfadsf'},
     'price': 'asdfas',
-    'hours': {
-        'date': 'afsdf',
+    'hours': [{
+        'day': 'afsdf',
         'start': 'gfhfh',
-        'end': 'nxcv,cxzbv'}
+        'end': 'nxcv,cxzbv'}]
 }]
 music_data = [{
     'artist': {
@@ -197,6 +197,7 @@ def city(id):
 @app.route('/')
 def index():
     return render_template("index.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

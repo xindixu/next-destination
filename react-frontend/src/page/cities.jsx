@@ -19,30 +19,34 @@ const Cities = props => {
   return (
     <div className="cities-list">
       {cities.length &&
-        cities.map(({ name, state, description, id, imageUrl, population_size }) => (
-          <Table dark>
-          <thead>
-            <tr>
-              <th></th>
-              <th>City</th>
-              <th>State</th>
-              <th>Description</th>
-              <th>Population</th>
-              <th>Venues</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">IMAGEURL</th>
-              <td><a href={`/city/${id}`}>{name}</a></td>
-              <td>{state}</td>
-              <td>{description}</td>
-              <td>{population_size}</td>
-              <td>list some music venues</td>
-            </tr>
-          </tbody>
-        </Table>
-        ))}
+        cities.map(
+          ({ name, state, description, id, imageUrl, population_size }) => (
+            <Table dark>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>City</th>
+                  <th>State</th>
+                  <th>Description</th>
+                  <th>Population</th>
+                  <th>Venues</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">IMAGEURL</th>
+                  <td>
+                    <a href={`/city/${id}`}>{name}</a>
+                  </td>
+                  <td>{state}</td>
+                  <td>{description}</td>
+                  <td>{population_size}</td>
+                  <td>list some music venues</td>
+                </tr>
+              </tbody>
+            </Table>
+          )
+        )}
     </div>
   );
 };
