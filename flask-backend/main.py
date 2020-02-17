@@ -92,8 +92,92 @@ venue_data = [{
 }]
 
 
+commits = []
+issues = []
+page = 1
+commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits",
+                           params={"all": "true", "per_page": 100, "page": page})
+print(commits_req)
+while page <= int(commits_req.headers["X-Total-Pages"]):
+        commits.extend(commits_req.json())
+        page += 1
+        commits_req = requests.get("https://gitlab.com/api/v4/projects/16729459/repository/commits",
+                                   params={"all": "true", "per_page": 100, "page": page})
+        while page <= int(commits_req.headers["X-Total-Pages"]):
+            commits.extend(commits_req.json())
+            page += 1
+            commits_req = requests.get("https://gitlab.com/api/v4/projects/11264402/repository/commits",
+                                       params={"all": "true", "per_page": 100, "page": page})
+
+        page = 1
+        issues_req = requests.get("https://gitlab.com/api/v4/projects/16729459/issues",
+                                  params={"scope": "all", "per_page": 100, page: 1})
+        while page <= int(issues_req.headers["X-Total-Pages"]):
+            issues.extend(issues_req.json())
+            page += 1
+            issues_req = requests.get("https://gitlab.com/api/v4/projects/16729459/issues",
+                                      params={"scope": "all", "per_page": 100, page: 1})
+        member_contribs = {
+            "marshall": {"commits": 0, "issues": 0},
+            "xindi": {"commits": 0, "issues": 0},
+            "yulissa": {"commits": 0, "issues": 0},
+            "nathan": {"commits": 0, "issues": 0},
+            "quinton": {"commits": 0, "issues": 0}
+        }
+        for commit in commits:
+            if commit["committer_email"] == "marshallmhayhurst@gmail.com":
+                member_contribs["marshall"]["commits"] += 1
+            elif commit["committer_email"] == "xindixu@utexas.edu":
+                member_contribs["xindi"]["commits"] += 1
+            elif commit["committer_email"] == "yulissa.montes@utexas.edu":
+                member_contribs["yulissa"]["commits"] += 1
+            elif commit["committer_email"] == "n.craig@gmail.com":
+                member_contribs["nathan"]["commits"] += 1
+            elif commit["committer_email"] == "quintonpham@gmail.com":
+                member_contribs["quinton"]["commits"] += 1
+
+        for issue in issues:
+            if issue["author"]["username"] == "mam23942":
+                member_contribs["marshall"]["issues"] += 1
+            elif issue["author"]["username"] == "xindixu":
+                member_contribs["xindi"]["issues"] += 1
+            elif issue["author"]["username"] == "yulissa.montes":
+                member_contribs["yulissa"]["issues"] += 1
+            elif issue["author"]["username"] == "nmcraig":
+                member_contribs["nathan"]["issues"] += 1
+            elif issue["author"]["username"] == "quintonpham":
+                member_contribs["quinton"]["issues"] += 1
+us_data = [
+        {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'asdfasd',
+         "Responsibilities":"asdf"},
+        {'name': 'Xindi Xu','photo': 'a',  'stats': member_contribs["xindi"], 'description': 'qewrqre',
+         "Responsibilities":"asdf"},
+        {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'rytu',
+         "Responsibilities":"adsf"},
+        {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'rytu',
+         "Responsibilities":"asdf"},
+        {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'vnm',
+         "Responsibilities":"asdf"}
+
+]
+
+states_data = [
+    {'state': 'TX', 'name': 'Texas', 'id': 'texas',
+    'description': 'Texas is the second largest state in the United States by area. Most of the population centers are in areas of former prairies, grasslands, forests, and the coastline. Traveling from east to west, one can observe terrain that ranges from coastal swamps and piney woods, to rolling plains and rugged hills, and finally the desert and mountains of the Big Bend.', 
+    'population': '28,995,881',
+    'nickname': 'The Lone Star State',
+    'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Flag_of_Texas.svg/1599px-Flag_of_Texas.svg.png'},
+    {'state': 'TN', 'name': 'Tennessee', 'id': 'tennessee',
+    'description': 'Tennessee is a state located in the southeastern region of the United States. Tennessee is the 36th largest and the 16th most populous of the 50 United States. The Appalachian Mountains dominate the eastern part of the state, and the Mississippi River forms the states western border.',
+    'population': '6,833,793',
+    'nickname': 'The Volunteer State',
+    'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Tennessee.svg/250px-Flag_of_Tennessee.svg.png'}
+]
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
+
+def get_state_by_id(id):
+    return [state for state in states_data if state["id"] == id][0]
 
 
 @app.route('/api/cities')
@@ -186,8 +270,17 @@ def music():
 def venue():
     return jsonify(venue=venue_data)
 
+@app.route('/states')
+def states():
+    return jsonify(states=states_data)
 
-@app.route('/api/city/<string:id>')
+@app.route('/states/<string:id>')
+def state(id):
+    data = get_state_by_id(id)
+    print(data)
+    return jsonify(city=get_state_by_id(id))
+
+@app.route('/city/<string:id>')
 def city(id):
     data = get_city_by_id(id)
     print(data)
