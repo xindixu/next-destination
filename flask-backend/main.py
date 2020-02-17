@@ -285,22 +285,17 @@ def music():
 def venue():
     return jsonify(venue=venue_data)
 
-<<<<<<< HEAD
-
-@app.route('/api/city/<string:id>')
-=======
-@app.route('/states')
+@app.route('/api/states')
 def states():
     return jsonify(states=states_data)
 
-@app.route('/states/<string:id>')
+@app.route('/api/states/<string:id>')
 def state(id):
     data = get_state_by_id(id)
     print(data)
     return jsonify(city=get_state_by_id(id))
 
-@app.route('/city/<string:id>')
->>>>>>> added states data and routes to flask-backend. Created jsx files for states in react-frontend
+@app.route('/api/city/<string:id>')
 def city(id):
     data = get_city_by_id(id)
     print(data)
