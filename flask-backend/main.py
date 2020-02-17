@@ -21,6 +21,18 @@ cities_data = [
         'population_size': '692,587'}
 ]
 
+artists_data = [
+    {'name': 'Khalid', 'description': 'Khalid Donnel Robinson is an American singer and songwriter. He is signed to Right Hand Music Group and RCA Records.',
+     'numEvents': '7', 'nextEventLoc': 'Austin, TX', 'fbURL': 'https://www.facebook.com/thegreatkhalid/',
+     'id': 'khalid',},
+    {'name': 'Ed Sheeran', 'description': 'Edward Christopher Sheeran, MBE is an English singer, songwriter, record producer, and actor. In early 2011, Sheeran independently released the extended play, No. 5 Collaborations Project. After signing with Asylum Records, his debut album, +, was released in September 2011 and topped the UK Albums Chart.',
+     'numEvents': '4', 'nextEventLoc': 'Houston, TX', 'fbURL': 'https://www.facebook.com/EdSheeranMusic/' ,
+     'id': 'sheeran'},
+    {'name': 'Billie Eilish', 'description': 'Billie Eilish Pirate Baird O\'Connell is an American singer and songwriter. She first gained media attention in 2016 when she uploaded the song "Ocean Eyes" to SoundCloud, and it was subsequently released by Interscope Records subsidiary Darkroom.',
+     'numEvents': '10', 'nextEventLoc': 'Dallas, TX', 'fbURL': 'https://www.facebook.com/billieeilish/' , 
+     'id': 'eilish'}
+]
+
 us_data = [
     {'name': 'Yulissa Montes', "photo": 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
     {'name': 'Xindi Xu', 'photo': 'a', 'description': 'On olemassa monta eri versiota Lorem Ipsumin kappaleista, mutta suurin osa on kärsinyt muunnoksista joissain muodoissa, kuten huumorin tai sattumanvaraisesti asetetuin sanoin jotka eivät näytä edes vähän uskottavalta.'},
@@ -95,6 +107,8 @@ venue_data = [{
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
 
+def get_artist_by_id(id):
+    return [artist for artist in artists_data if artist["id"] == id][0]
 
 @app.route('/api/cities')
 def cities():
@@ -197,6 +211,16 @@ def city(id):
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/artists')
+def artists():
+    return jsonify(artists=artists_data)
+
+@app.route('/artist/<string:id>')
+def artist(id):
+    data = get_artist_by_id(id)
+    print(data)
+    return jsonify(artist=get_artist_by_id(id))
 
 if __name__ == '__main__':
     app.run(debug=True)
