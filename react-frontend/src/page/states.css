@@ -1,9 +1,12 @@
+.background {
+    background-image: url("background-state.jpg");
+}
 .states-list {
-    width: 900px;
+    width: 1200px;
     justify-content: center;
     padding: 25px;
     margin: auto;
 }
 .states-listing{
-    margin: 15px;
+    margin: 25px;
 }

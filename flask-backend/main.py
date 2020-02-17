@@ -270,17 +270,17 @@ def music():
 def venue():
     return jsonify(venue=venue_data)
 
-@app.route('/states')
+@app.route('/api/states')
 def states():
     return jsonify(states=states_data)
 
-@app.route('/states/<string:id>')
+@app.route('/api/states/<string:id>')
 def state(id):
     data = get_state_by_id(id)
     print(data)
     return jsonify(city=get_state_by_id(id))
 
-@app.route('/city/<string:id>')
+@app.route('/api/city/<string:id>')
 def city(id):
     data = get_city_by_id(id)
     print(data)
