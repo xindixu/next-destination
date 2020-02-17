@@ -1,6 +1,13 @@
+table {
+    margin: auto;
+    background-color: #c7f8ff;
+    border-radius: 20px;
+}
+
 table td {
-  width: 20%;
-  padding: 25px;
+    min-width: 150px;
+    max-width: 300px ;
+    padding: 25px;
 }
 
 .artistDescr {
