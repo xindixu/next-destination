@@ -14,6 +14,7 @@ import Music from "../page/music";
 import Venue from "../page/venue";
 import Event from "../page/event";
 import States from "../page/states";
+import State from "../page/state";
 
 
 
@@ -59,6 +60,7 @@ const Navigation = props => (
         <Route path="/states">
           <States />
         </Route>
+        <Route path="/state/:id" children={<State/>} />
         <Route path="/">
           <Home />
         </Route>
