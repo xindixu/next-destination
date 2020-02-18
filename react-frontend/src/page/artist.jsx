@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
-import apiFetch from '../lib/api-fetch'
-import './artist.css'
+import apiFetch from "../lib/api-fetch";
+import "./artist.css";
 
 const Artist = () => {
   const { id } = useParams();
 
-  const [artist, setArtist] = useState(null)
+  const [artist, setArtist] = useState(null);
   useEffect(() => {
     apiFetch(`/artist/${id}`, {})
       .then(resp => resp.json())
       .then(data => {
-        setArtist(data.artist)
-      })
-  }, [])
+        setArtist(data.artist);
+      });
+  }, []);
 
   if (artist) {
     const { name, pic, description, numEvents, nextEventLoc, fbURL } = artist
@@ -35,20 +35,17 @@ const Artist = () => {
 					  </div>
         
       </>
-    )
+    );
+  } else {
+    return (
+      <>
+        <h1> Test</h1>
+      </>
+    );
   }
-    else {
-        return (
-            <>
-                <h1> Test</h1>
-            </>
-        )
-    }
-  return <> </>
-}
+  return <> </>;
+};
 
-Artist.propTypes = {
+Artist.propTypes = {};
 
-}
-
-export default Artist
+export default Artist;
