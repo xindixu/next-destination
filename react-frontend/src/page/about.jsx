@@ -26,12 +26,13 @@ const People = props => {
     <Row>
       {people.length ? (
         people.map(
-          ({ name, photo, stats: { commits, issues }, description }) => (
+          ({ name, photo, responsibilities, stats: { commits, issues }, description }) => (
             <Col xs={12} sm={6} md={4} lg={4}>
             <Card key={name}>
               <CardBody>
                 <CardTitle>{name}</CardTitle>
-                <CardText>{description}</CardText>
+                <CardText>Skills: {responsibilities}</CardText>
+                <CardText>Description: {description}</CardText>
                 <CardText> Commits: {commits} </CardText>
                 <CardText> Issues: {issues} </CardText>
               </CardBody>
