@@ -5,14 +5,13 @@ import { Row, Col, Container } from 'react-bootstrap'
 import Austin from "./austin.jfif"
 import Banner from "./banner.jpg"
 
-
 const Home = props => {
 	return (
 		<div className="body">
 			<h1>Home</h1>
 			<img className="banner" src={Banner} alt="Picture of City" />
 			<p className="descr"> The following are randomized cities and their main attractions. </p>
-			<Container className="Container">
+			<Container className="Container" >
 				<Row className="Row">
 					<Col sm>
 						<div className="randCity1">
