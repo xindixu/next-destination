@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Card, CardBody, CardTitle, CardText, Container, Row, Col } from "reactstrap";
 import apiFetch from "../lib/api-fetch";
+import './about.css'
 
 const People = props => {
   const [people, setPeople] = useState([]);
