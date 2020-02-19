@@ -32,14 +32,14 @@ const Artists = props => {
       title: "Description",
       getBodyFormat: (_, { description }) => <span>{description}</span>,
       isKey: false,
-      dataSort: false
+      dataSort: false,
     },
     numEvents: {
       title: "Number of Upcoming Events",
       getBodyFormat: (_, { numEvents }) => <span>{numEvents}</span>,
       isKey: false,
       dataSort: true,
-      sortFunc: (a, b, order ) => {
+      sortFunc: (a, b, order) => {
         const valueA = parseInt(a.numEvents)
         const valueB = parseInt(b.numEvents)
         console.log(valueA, valueB, a, b)
@@ -65,7 +65,6 @@ const Artists = props => {
     return (
       <>
         <h1>Artists</h1>
-
         <SortableTable
           data={artists}
           settings={settings}

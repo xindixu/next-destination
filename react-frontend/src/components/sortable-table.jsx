@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-
+import './sortable-table.css'
 const SortableTable = ({ data, settings }) => {
   const options = {
     sortName: 'name',
@@ -12,15 +12,17 @@ const SortableTable = ({ data, settings }) => {
     <BootstrapTable version='4' data={data} options={options}
       tableStyle={{ marginBottom: 0 }}
       striped hover
+      headerContainerClass='my-custom-class'
     >
       {Object.keys(settings).map((key) => {
-        const { getBodyFormat, title, isKey, dataSort, sortFunc } = settings[key]
+        const { getBodyFormat, title, isKey, dataSort, sortFunc, width } = settings[key]
         return (<TableHeaderColumn
           key={key}
           isKey={isKey}
           dataField={key}
           dataFormat={(_, row) => getBodyFormat(key, row)}
           dataSort={dataSort}
+          width={width}
           sortFunc={sortFunc}>{title}
         </TableHeaderColumn>)
       })}
