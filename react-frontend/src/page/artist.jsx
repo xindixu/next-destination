@@ -20,20 +20,16 @@ const Artist = () => {
     const { name, pic, description, numEvents, nextEventLoc, fbURL } = artist
     return (
       <>
-        <div className="artist1">
-						  <h1> {name} </h1>
-              <p> {description} </p>
-              <img src={`${pic}`} alt="Pic of Artist" />
-						  
-						  
-							  <div>
-								  <p> Number of Upcoming Events: {numEvents} </p>
-								  <p> Next Event Location: {nextEventLoc}</p>
-								  <p><a href={`${fbURL}`} target="_blank" >Facebook Page </a></p>
-							  </div>
-							  
-					  </div>
-        
+        <div>
+          <h1> {name} </h1>
+          <p> {description} </p>
+          <img src={`${pic}`} alt={`Photo for artist ${name}`} />
+          <div>
+            <p> Number of Upcoming Events: {numEvents} </p>
+            <p> Next Event Location: {nextEventLoc}</p>
+            <p><a href={`${fbURL}`} target="_blank" >Facebook Page </a></p>
+          </div>
+        </div>
       </>
     );
   } else {
