@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import apiFetch from "../lib/api-fetch";
-import "./artists.css";
+import "./cities.css";
+import { Table } from "reactstrap";
 
 const Artists = props => {
   const [artists, setArtists] = useState([]);
@@ -31,15 +32,8 @@ const Artists = props => {
   }
 
   return (
-    <>
-      <h1> Artists </h1>
-
-      <table>
-        <tr>
-          <td> Name </td> <td> Picture </td> <td> Description </td>{" "}
-          <td> Number of Upcoming Events </td>
-          <td> Upcoming Event Location</td> <td> Facecbook Page Link </td>
-        </tr>
+      <div className="cities-list">
+     
         {console.log(artists)}
 
         {artists.length &&
@@ -54,13 +48,23 @@ const Artists = props => {
               fbURL,
               id
             }) => (
+              <Table dark>
+              <thead>
+              <tr>
+                <th> Name </th> 
+                <th> Picture </th>
+                <th> Description </th>{" "}
+                <th> Number of Upcoming Events </th>
+                <th> Upcoming Event Location</th> 
+                <th> Facecbook Page Link </th>
+              </tr>
+              </thead>
+              <tbody>
                 <tr>
                   <td>
-                    {" "}
-                    <a href={`/artist/${id}`}> {name}</a>{" "}
+                    <a href={`/artist/${id}`}> {name}</a>
                   </td>
                   <td>
-                    {" "}
                     <img src={`${pic}`} alt="Pic of Artist" />
                   </td>
                   <td className="artistDescr">{description} </td>
@@ -71,17 +75,15 @@ const Artists = props => {
                     </td>
                   ))}
                   <td>
-                    {" "}
-                    <a href={`${fbURL}`} target="_blank">
-                      {" "}
-                      Facebook Page{" "}
-                    </a>{" "}
+                    <a href={`${fbURL}`} target="_blank"> {name} FB </a>
                   </td>
                 </tr>
-              )
+                </tbody>
+            </Table>
+        )
           )}
-      </table>
-    </>
+      
+    </div>
   );
 };
 

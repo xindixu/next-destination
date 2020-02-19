@@ -120,6 +120,8 @@ venues_data = [
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
 
+def get_artist_by_id(id):
+    return [artist for artist in artists_data if artist["id"] == id][0]
 
 def get_venue_by_id(id):
     return [venue for venue in venues_data if venue["id"] == id][0]
