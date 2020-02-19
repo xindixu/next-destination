@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Button, Navbar, Nav } from "react-bootstrap";
+import { Button, Navbar, Nav, Container } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import Home from "../page/home";
@@ -20,25 +20,27 @@ import Venues from "../page/venues";
 
 const Navigation = props => (
   <Router>
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <ul className="navbar-nav mr-auto">
-        <li className="nav-item active">
-          <Link to="/" className="nav-link">Home</Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/about" className="nav-link">About</Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/cities" className="nav-link">Cities</Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/venues" className="nav-link">Venues</Link>
-        </li>
-        <li className="nav-item active">
-          <Link to="/artists" className="nav-link">Artists</Link>
-        </li>
-      </ul>
-    </nav>
+    <div className="container-fuild mx-auto">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <ul className="navbar-nav mr-auto">
+          <li className="nav-item active">
+            <Link to="/" className="nav-link">Home</Link>
+          </li>
+          <li className="nav-item active">
+            <Link to="/about" className="nav-link">About</Link>
+          </li>
+          <li className="nav-item active">
+            <Link to="/cities" className="nav-link">Cities</Link>
+          </li>
+          <li className="nav-item active">
+            <Link to="/venues" className="nav-link">Venues</Link>
+          </li>
+          <li className="nav-item active">
+            <Link to="/artists" className="nav-link">Artists</Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
 
     <Switch>
       <Route path="/about">
@@ -71,7 +73,7 @@ const Navigation = props => (
         <Venues />
       </Route>
       <Route path="/venue/:id" children={<Venue />} />
-      
+
       <Route path="/event">
         <Event />
       </Route>

@@ -17,12 +17,12 @@ const City = () => {
   }, []);
 
   if (city) {
-    const { name, description } = city;
+    const { name, description, imageUrl } = city;
     return (
       <div className="city1">
         <h1> {name} </h1>
         <p> {description} </p>
-        <img id="randCity1" src="" alt="pic of city" />
+        <img id="randCity1" src={`${imageUrl}`} alt="pic of city" />
         <div>
           <p> Average Airbnb Price: </p>
           <p> Main Attractions: </p>

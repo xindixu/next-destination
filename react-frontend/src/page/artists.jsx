@@ -5,6 +5,7 @@ import "./artists.css";
 
 const Artists = props => {
   const [artists, setArtists] = useState([]);
+  const [cities, setCities] = useState([]);
   useEffect(() => {
     apiFetch("/artists", {})
       .then(resp => resp.json())
@@ -13,6 +14,21 @@ const Artists = props => {
         console.log(data);
       });
   }, []);
+
+  useEffect(() => {
+    apiFetch("/cities", {})
+      .then(resp => resp.json())
+      .then(data => {
+        setCities(data.cities);
+        console.log(data);
+      });
+  }, []);
+
+  const filterCities = (eventCity, cities) => {
+    const city = cities.filter(cities => cities.name === eventCity)
+    console.log(city)
+    return city
+  }
 
   return (
     <>
@@ -33,30 +49,36 @@ const Artists = props => {
               pic,
               description,
               numEvents,
-              nextEventLoc,
+              nextEventCity,
+              state,
               fbURL,
               id
             }) => (
-              <tr>
-                <td>
-                  {" "}
-                  <a href={`/artist/${id}`}> {name}</a>{" "}
-                </td>
-                <td>
-                  {" "}
-                  <img src={`${pic}`} alt="Pic of Artist" />
-                </td>
-                <td className="artistDescr">{description} </td>
-                <td> {numEvents} </td> <td> {nextEventLoc} </td>
-                <td>
-                  {" "}
-                  <a href={`${fbURL}`} target="_blank">
+                <tr>
+                  <td>
                     {" "}
-                    Facebook Page{" "}
-                  </a>{" "}
-                </td>
-              </tr>
-            )
+                    <a href={`/artist/${id}`}> {name}</a>{" "}
+                  </td>
+                  <td>
+                    {" "}
+                    <img src={`${pic}`} alt="Pic of Artist" />
+                  </td>
+                  <td className="artistDescr">{description} </td>
+                  <td> {numEvents} </td>
+                  {filterCities(nextEventCity, cities).map(cities => (
+                    <td>
+                      <a href={`/city/${cities.id}`}>{cities.name}, {state}</a>
+                    </td>
+                  ))}
+                  <td>
+                    {" "}
+                    <a href={`${fbURL}`} target="_blank">
+                      {" "}
+                      Facebook Page{" "}
+                    </a>{" "}
+                  </td>
+                </tr>
+              )
           )}
       </table>
     </>

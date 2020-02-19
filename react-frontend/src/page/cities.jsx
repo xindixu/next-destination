@@ -7,6 +7,7 @@ import "./cities.css";
 import apiFetch from "../lib/api-fetch";
 const Cities = props => {
   const [cities, setCities] = useState([]);
+  const [venues, setVenues] = useState([])
   useEffect(() => {
     apiFetch("/cities", {})
       .then(resp => resp.json())
@@ -15,6 +16,20 @@ const Cities = props => {
         console.log(data);
       });
   }, []);
+
+  useEffect(() => {
+    apiFetch('/venues', {})
+      .then(resp => resp.json())
+      .then(data => {
+        setVenues(data.venues)
+        console.log(data)
+      })
+  }, [])
+
+  const filterVenues = (cityName, venues) => {
+    const venue = venues.filter(venue => venue.city === cityName)
+    return venue
+  }
 
   return (
     <div className="cities-list">
@@ -34,20 +49,24 @@ const Cities = props => {
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">IMAGEURL</th>
+                  <th scope="row"><img className='image' src={`${imageUrl}`} alt="city" /></th>
                   <td>
                     <a href={`/city/${id}`}>{name}</a>
                   </td>
                   <td>{state}</td>
                   <td>{description}</td>
                   <td>{population_size}</td>
-                  <td>list some music venues</td>
+                  {filterVenues(name, venues).map(venue => (
+                    <td>
+                      <a href={`/venue/${venue.id}`}>{venue.name}</a>
+                    </td>
+                  ))}
                 </tr>
               </tbody>
             </Table>
           )
         )}
-    </div>
+    </div >
   );
 };
 
