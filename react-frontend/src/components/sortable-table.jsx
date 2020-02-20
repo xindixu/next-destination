@@ -11,8 +11,9 @@ const SortableTable = ({ data, settings }) => {
   return (
     <BootstrapTable version='4' data={data} options={options}
       tableStyle={{ marginBottom: 0 }}
-      striped hover
-      headerContainerClass='my-custom-class'
+      striped hover 
+      tableBodyClass='table-dark'
+      tableHeaderClass='table-dark'
     >
       {Object.keys(settings).map((key) => {
         const { getBodyFormat, title, isKey, dataSort, sortFunc, width } = settings[key]

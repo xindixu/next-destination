@@ -33,7 +33,7 @@ const Cities = props => {
     return venue
   }
 
-  const venueComponent = ({name}) => {
+  const venueComponent = ({ name }) => {
 
     const venues = filterVenues(name)
     return (<span>{
@@ -72,7 +72,7 @@ const Cities = props => {
     },
     venue: {
       title: "Music venues",
-      getBodyFormat: (_,  object) => venueComponent(object),
+      getBodyFormat: (_, object) => venueComponent(object),
       isKey: false,
       dataSort: false,
     },
@@ -91,9 +91,14 @@ const Cities = props => {
   }
 
   if (cities.length) {
-    return <SortableTable
-      data={cities}
-      settings={settings} />
+    return (
+      <>
+        <h1>Cities</h1>
+        <SortableTable
+          data={cities}
+          settings={settings} />
+      </>
+    )
   }
   return <></>
 };
