@@ -8,6 +8,7 @@ const City = () => {
   const { id } = useParams();
 
   const [city, setCity] = useState(null);
+  const [venues, setVenues] = useState([])
   useEffect(() => {
     apiFetch(`/city/${id}`, {})
       .then(resp => resp.json())
@@ -16,19 +17,34 @@ const City = () => {
       });
   }, []);
 
+  useEffect(() => {
+    apiFetch('/venues', {})
+      .then(resp => resp.json())
+      .then(data => {
+        setVenues(data.venues)
+        console.log(data)
+      })
+  }, [])
+
+  const filterVenues = (cityName, venues) => {
+    console.log(city)
+    const venue = venues.filter(venue => venue.city === cityName)
+    return venue
+  }
+
   if (city) {
-    const { name, description, imageUrl } = city;
+    const { name, description, image, airbnb } = city;
     return (
       <div className="city1">
         <h1> {name} </h1>
         <p> {description} </p>
-        <img id="randCity1" src={`${imageUrl}`} alt="pic of city" />
+        <img id="randCity1" src={`${image}`} alt="pic of city" />
         <div>
-          <p> Average Airbnb Price: </p>
-          <p> Main Attractions: </p>
-          <p> #BBQ, #Music, #Nightlife </p>
-          <p> Similar Cities </p>
-          <p> City A, City B City C </p>
+          <p> Average Airbnb Price: {airbnb}</p>
+        
+          {filterVenues(name, venues).map(venues => (
+            <p> Venues: <a href={`/venue/${venues.id}`}>{venues.name}</a> </p>
+          ))}
         </div>
       </div>
     );

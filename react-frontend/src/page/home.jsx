@@ -21,11 +21,9 @@ const Home = props => {
               <h3> Austin, TX </h3>
               <img id="randCity1" src={Austin} alt="pic of city" />
               <div>
-                <p> Average Airbnb Price: </p>
-                <p> Main Attractions: </p>
-                <p> #BBQ, #Music, #Nightlife </p>
-                <p> Similar Cities </p>
-                <p> City A, City B City C </p>
+                <p> Average Airbnb Price: 80</p>
+                <p> Venues: <a href={`/venue/emos`}> Emo's Austin</a> </p>
+                
               </div>
             </div>
           </Col>
