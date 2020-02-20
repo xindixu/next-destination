@@ -196,7 +196,7 @@ def about():
     about_data = [
         {'name': 'Yulissa Montes', "photo": 'a','stats': member_contribs["yulissa"], 'description': 'Senior mathematics major, loves hanging out with her doggo.',
          'responsibilities':"Routing, Navigation, Design", 'id':'yulissa'},
-        {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': '',
+        {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': 'Senior Advertising student at UT. Working toward a career in Software Engineering! Cat lover and accessibility fan!',
          'responsibilities':"React Master", 'id':'xindi'},
         {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'Senior Economics',
          'responsibilities':"API Integration, Backend", 'id':'marshall'},
