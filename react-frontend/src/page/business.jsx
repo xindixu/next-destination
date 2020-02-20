@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import apiFetch from "../lib/api-fetch";
+
 const Businesses = props => {
   const [business, setBusiness] = useState([]);
   useEffect(() => {
     apiFetch("/business", {})
       .then(resp => resp.json())
-      .then(data => {
-        setBusiness(data.business);
-        console.log(data);
-      });
+      .then(data => setBusiness(data.business));
   }, []);
 
   return (
