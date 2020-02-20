@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useParams } from "react-router-dom";
 import apiFetch from '../lib/api-fetch'
-import './artist.css'
+import './city.css'
 
 const Venue = () => {
   const { id } = useParams();
@@ -20,7 +20,7 @@ const Venue = () => {
     const { name, coordinates, city, capacity, pic  } = venue
     return (
       <>
-        <div className="artist1">
+        <div className="city1">
 						  <h1> {name} </h1>
               <img src={`${pic}`} alt="Pic of Venue" />
 						  

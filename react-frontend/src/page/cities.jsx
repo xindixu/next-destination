@@ -75,6 +75,18 @@ const Cities = props => {
       getBodyFormat: (_, object) => venueComponent(object),
       isKey: false,
       dataSort: false,
+    },
+    airbnb: {
+      title: "Avg Airbnb Price",
+      getBodyFormat: (_, { airbnb }) => <span>{airbnb}</span>,
+      isKey: false,
+      dataSort: true,
+      sortFunc: (a, b, order) => {
+        const valueA = parseInt(a.airbnb)
+        const valueB = parseInt(b.airbnb)
+        console.log(valueA, valueB, a, b)
+        return order === 'desc' ? valueA - valueB : valueB - valueA
+      }
     }
   }
 
