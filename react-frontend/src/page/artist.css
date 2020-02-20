@@ -14,14 +14,14 @@
 .artist1 img {
   position: absolute;
   left: 200px;
-  top: 135px;
+  top: 170px;
   border-radius: 15px;
 }
 
 .artist1 div {
   position: absolute;
   right: 100px;
-  top: 135px;
+  top: 170px;
   width: 350px;
   min-height: 250px;
   text-align: left;
