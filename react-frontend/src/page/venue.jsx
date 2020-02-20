@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import apiFetch from '../lib/api-fetch'
 import './city.css'
 

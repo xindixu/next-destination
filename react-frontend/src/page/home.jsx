@@ -4,6 +4,7 @@ import "./home.css";
 import { Row, Col, Container } from "react-bootstrap";
 import Austin from "./austin.jpg";
 import Banner from "./banner.jpg";
+import { Link } from "react-router-dom";
 
 const Home = props => {
   return (
