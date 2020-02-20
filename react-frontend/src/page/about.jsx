@@ -48,6 +48,13 @@ const People = props => {
         <li><a href="http://developers.teleport.org/api/getting_started/#search_name">City Searching Feature and Photo Database</a></li>
         <li><a href="https://www.mediawiki.org/wiki/API:Main_page">Information about Cities</a></li>
         <li><a href="http://insideairbnb.com/get-the-data.html">Airbnb Data for Different Cities</a></li>
+        <p><b>Links about Tools</b></p>
+        <li><a href="https://reactjs.org/">Frontend- Reactjs</a></li>
+        <li><a href="https://palletsprojects.com/p/flask/">Backend- Flask</a></li>
+        <li><a href="https://reactstrap.github.io/">CSS- Reactstrap- a bootstrap library for react</a></li>
+        <li><a href="http://insideairbnb.com/get-the-data.html">Airbnb Data for Different Cities</a></li>
+        <li><a href="https://slack.com/">Communication and gitlab integration done with Slack</a></li>
+        <li><a href="https://cloud.google.com/">Deployment through Google Cloud Platform</a></li>
     </ul>
     </div>
     <h2>The Team</h2>
