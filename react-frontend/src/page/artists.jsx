@@ -16,8 +16,6 @@ const Artists = props => {
       .then(resp => resp.json())
       .then(data =>
         setArtists(data.artists));
-    console.log(artists)
-
   }, []);
 
   useEffect(() => {
@@ -25,7 +23,6 @@ const Artists = props => {
       .then(resp => resp.json())
       .then(data => {
         setCities(data.cities);
-        console.log(data);
       });
   }, []);
 
@@ -33,7 +30,6 @@ const Artists = props => {
 
   const eventCitiesComponent = ({ nextEventCity }) => {
     const cities = filterCities(nextEventCity)
-
     return (<span>{
       cities.map(city => (
         <a href={`/city/${city.id}`}>{city.name}, {city.state}</a>
@@ -41,21 +37,18 @@ const Artists = props => {
     </span>)
   }
 
-  
-
   const settings = {
-    name: {
-      title: "Name",
-      getBodyFormat: (_, { id, name }) => <a href={`/artist/${id}`}>{name}</a>,
-      isKey: true,
-      dataSort: true
-    },
-
     pic: {
       title: "Picture",
       getBodyFormat: (_, { pic, name }) => <img src={pic} alt={`Picture for artist ${name}`} />,
       isKey: false,
       dataSort: false
+    },
+    name: {
+      title: "Name",
+      getBodyFormat: (_, { id, name }) => <a href={`/artist/${id}`}>{name}</a>,
+      isKey: true,
+      dataSort: true
     },
     description: {
       title: "Description",
@@ -71,7 +64,6 @@ const Artists = props => {
       sortFunc: (a, b, order) => {
         const valueA = parseInt(a.numEvents)
         const valueB = parseInt(b.numEvents)
-        console.log(valueA, valueB, a, b)
         return order === 'desc' ? valueA - valueB : valueB - valueA
       }
     },
