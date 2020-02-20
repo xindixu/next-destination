@@ -37,7 +37,6 @@ const Artist = () => {
 
   const filterCities = (eventCity, cities) => {
     const city = cities.filter(cities => cities.name === eventCity)
-    console.log(city)
     return city
   }
 
@@ -51,27 +50,26 @@ const Artist = () => {
     return (
       <>
         <div className="artist1">
-						  <h1> {name} </h1>
-              <p> {description} </p>
-              <img src={`${pic}`} alt="Pic of Artist" />
-							  <div>
-								  <p> Number of Upcoming Events: {numEvents} </p>
-                  {filterCities(nextEventCity, cities).map(cities => (
-                    <p> Next Event Location: <Link to={`/city/${cities.id}`}>{cities.name}, {state}</Link> </p>
-                  
-                  ))}
-                  {filterVenues(venue, venues).map(venues => (
-                    <p> Next Event Venue: <Link to={`/venue/${venues.id}`}>{venues.name}</Link> </p>
-                  
-                  ))}
-								  <p><a href={`${fbURL}`} target="_blank" > {name}'s FB </a></p>
-							  </div>
-							  
-					  </div>
-        
+          <h1> {name} </h1>
+          <p> {description} </p>
+          <img src={pic} alt="Pic of Artist" />
+          <div>
+            <p> Number of Upcoming Events: {numEvents} </p>
+            {filterCities(nextEventCity, cities).map(cities => (
+              <p> Next Event Location: <Link to={`/city/${cities.id}`}>{cities.name}, {state}</Link> </p>
+            ))}
+            {filterVenues(venue, venues).map(venues => (
+              <p> Next Event Venue: <Link to={`/venue/${venues.id}`}>{venues.name}</Link> </p>
+
+            ))}
+            <p><a href={fbURL} target="_blank" > {name}'s FB </a></p>
+          </div>
+
+        </div>
+
       </>
     );
-  } 
+  }
   return <> </>;
 };
 
