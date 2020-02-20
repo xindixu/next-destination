@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import apiFetch from "../lib/api-fetch";
 import "./artist.css";
 
@@ -57,11 +57,11 @@ const Artist = () => {
 							  <div>
 								  <p> Number of Upcoming Events: {numEvents} </p>
                   {filterCities(nextEventCity, cities).map(cities => (
-                    <p> Next Event Location: <a href={`/city/${cities.id}`}>{cities.name}, {state}</a> </p>
+                    <p> Next Event Location: <Link to={`/city/${cities.id}`}>{cities.name}, {state}</Link> </p>
                   
                   ))}
                   {filterVenues(venue, venues).map(venues => (
-                    <p> Next Event Venue: <a href={`/venue/${venues.id}`}>{venues.name}</a> </p>
+                    <p> Next Event Venue: <Link to={`/venue/${venues.id}`}>{venues.name}</Link> </p>
                   
                   ))}
 								  <p><a href={`${fbURL}`} target="_blank" > {name}'s FB </a></p>
