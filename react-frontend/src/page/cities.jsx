@@ -23,18 +23,15 @@ const Cities = props => {
       .then(resp => resp.json())
       .then(data => {
         setVenues(data.venues)
-        console.log(data)
       })
   }, [])
 
   const filterVenues = (city) => {
-    console.log(city)
     const venue = venues.filter(venue => venue.city === city)
     return venue
   }
 
   const venueComponent = ({ name }) => {
-
     const venues = filterVenues(name)
     return (<span>{
       venues.map(venue => (
@@ -43,9 +40,13 @@ const Cities = props => {
     </span>)
   }
 
-
-
   const settings = {
+    image: {
+      title: "Picture",
+      getBodyFormat: (_, { image, name }) => <img src={image} alt={`Picture for city ${name}`} />,
+      isKey: false,
+      dataSort: false
+    },
     name: {
       title: "City",
       getBodyFormat: (_, { id, name }) => <a href={`/city/${id}`}>{name}</a>,
@@ -57,12 +58,6 @@ const Cities = props => {
       getBodyFormat: (_, { state }) => <span>{state}</span>,
       isKey: false,
       dataSort: true
-    },
-    image: {
-      title: "Picture",
-      getBodyFormat: (_, { image, name }) => <img src={image} alt={`Picture for city ${name}`} />,
-      isKey: false,
-      dataSort: false
     },
     description: {
       title: "Description",
