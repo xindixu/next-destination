@@ -35,8 +35,7 @@ const People = props => {
 	<Container>
 	<h1>About Us</h1>
 	<h2>The Project</h2>
-
-
+    This is project connects music-focused travellers to artists, venues, and cities.
     <h2>The Team</h2>
     <Row>
       {people.length ? (
@@ -57,7 +56,7 @@ const People = props => {
           )
         )
       ) : (
-        <p>Fetching data...</p>
+        <Spinner type="grow" color="info" />
       )}
     </Row>
     </Container>
