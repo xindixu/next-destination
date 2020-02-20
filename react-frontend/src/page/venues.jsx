@@ -60,15 +60,15 @@ const Venues = props => {
       isKey: false,
       dataSort: true,
     },
-    coordinates: {
-      title: "Coordinates",
-      getBodyFormat: (_, {coordinates}) => coordinates,
-      isKey: false,
-      dataSort: true,
-    },
     capacity: {
       title: "Capacity",
       getBodyFormat: (_, { capacity }) => <span>{capacity}</span>,
+      isKey: false,
+      dataSort: true,
+    },
+    coordinates: {
+      title: "Coordinates",
+      getBodyFormat: (_, {coordinates}) => coordinates,
       isKey: false,
       dataSort: true,
     },
@@ -93,39 +93,6 @@ const Venues = props => {
   }
 
   return <></>
-
-    // <div className="cities-list">
-    //   {venues.length &&
-    //     venues.map(({ name, pic, city, capacity, coordinates, restaurant, id }) => (
-    //       <Table dark>
-    //         <thead>
-    //           <tr>
-    //             <th></th>
-    //             <th>Name</th>
-    //             <th>City</th>
-    //             <th>Capacity</th>
-    //             <th>Coordinates</th>
-    //             <th>Restaurants Close By</th>
-    //           </tr>
-    //         </thead>
-    //         <tbody>
-    //           <tr>
-    //             <th scope="row" ><img src={`${pic}`} alt="pic of venue" /></th>
-    //             <td><a href={`/venue/${id}`}>{name}</a></td>
-    //             {filterCities(city, cities).map(cities => (
-    //               <td>
-    //                 <a href={`/city/${cities.id}`}>{cities.name}</a>
-    //               </td>
-    //             ))}
-    //             <td>{capacity}</td>
-    //             <td>{coordinates}</td>
-    //             <td>{restaurant}</td>
-    //           </tr>
-    //         </tbody>
-    //       </Table>
-    //     ))}
-    // </div>
-  
 }
 Venues.propTypes = {
 
