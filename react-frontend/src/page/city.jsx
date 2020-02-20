@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import apiFetch from "../lib/api-fetch";
 import "./city.css";
 
@@ -56,10 +56,10 @@ const City = () => {
           <p> Average Airbnb Price: {airbnb}</p>
         
           {filterVenues(name, venues).map(venues => (
-            <p> Venues: <a href={`/venue/${venues.id}`}>{venues.name}</a> </p>
+            <p> Venues: <Link to={`/venue/${venues.id}`}>{venues.name}</Link> </p>
           ))}
           {filterArtists(artist, artists).map(artists => (
-            <p> Upcoming Artists: <a href={`/artist/${artists.id}`}>{artists.name}</a> </p>
+            <p> Upcoming Artists: <Link to={`/artist/${artists.id}`}>{artists.name}</Link> </p>
           ))}
         </div>
       </div>

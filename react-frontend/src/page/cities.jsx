@@ -4,6 +4,7 @@ import { Table } from "reactstrap";
 import "./cities.css";
 import SortableTable from '../components/sortable-table'
 import apiFetch from "../lib/api-fetch";
+import { Link } from "react-router-dom";
 
 
 const Cities = props => {
@@ -48,7 +49,7 @@ const Cities = props => {
     const venues = filterVenues(name)
     return (<span>{
       venues.map(venue => (
-        <a href={`/venue/${venue.id}`}>{venue.name}</a>
+        <Link to={`/venue/${venue.id}`}>{venue.name}</Link>
       ))}
     </span>)
   }
@@ -58,7 +59,7 @@ const Cities = props => {
 
     return (<span>{
       artists.map(artist => (
-        <a href={`/artist/${artist.id}`}>{artist.name}</a>
+        <Link to={`/artist/${artist.id}`}>{artist.name}</Link>
       ))}
     </span>)
   }
@@ -72,7 +73,7 @@ const Cities = props => {
     },
     name: {
       title: "City",
-      getBodyFormat: (_, { id, name }) => <a href={`/city/${id}`}>{name}</a>,
+      getBodyFormat: (_, { id, name }) => <Link to={`/city/${id}`}>{name}</Link>,
       isKey: true,
       dataSort: true
     },

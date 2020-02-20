@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import apiFetch from "../lib/api-fetch";
 import "./cities.css";
 import { Table } from "reactstrap";
+import { Link } from "react-router-dom";
 
 import "./artists.css";
 import SortableTable from '../components/sortable-table'
@@ -46,7 +47,7 @@ const Artists = props => {
     const cities = filterCities(nextEventCity)
     return (<span>{
       cities.map(city => (
-        <a href={`/city/${city.id}`}>{city.name}, {city.state}</a>
+        <Link to={`/city/${city.id}`}>{city.name}, {city.state}</Link>
       ))}
     </span>)
   }
@@ -55,7 +56,7 @@ const Artists = props => {
     const venues = filterVenues(venue)
     return (<span>{
       venues.map(venue => (
-        <a href={`/venue/${venue.id}`}>{venue.name}</a>
+        <Link to={`/venue/${venue.id}`}>{venue.name}</Link>
       ))}
     </span>)
   }
@@ -69,7 +70,7 @@ const Artists = props => {
     },
     name: {
       title: "Name",
-      getBodyFormat: (_, { id, name }) => <a href={`/artist/${id}`}>{name}</a>,
+      getBodyFormat: (_, { id, name }) => <Link to={`/artist/${id}`}>{name}</Link>,
       isKey: true,
       dataSort: true
     },
