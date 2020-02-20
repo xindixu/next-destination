@@ -11,6 +11,7 @@ import SortableTable from '../components/sortable-table'
 const Artists = props => {
   const [artists, setArtists] = useState([]);
   const [cities, setCities] = useState([]);
+  const [venues, setVenues] = useState([]);
   useEffect(() => {
     apiFetch("/artists", {})
       .then(resp => resp.json())
@@ -26,13 +27,35 @@ const Artists = props => {
       });
   }, []);
 
+  useEffect(() => {
+    apiFetch('/venues', {})
+      .then(resp => resp.json())
+      .then(data => {
+        setVenues(data.venues)
+      })
+  }, [])
+
   const filterCities = (eventCity) => cities.filter(cities => cities.name === eventCity)
+
+  const filterVenues = (artistVenue) => {
+    const venue = venues.filter(venue => venue.name === artistVenue)
+    return venue
+  }
 
   const eventCitiesComponent = ({ nextEventCity }) => {
     const cities = filterCities(nextEventCity)
     return (<span>{
       cities.map(city => (
         <a href={`/city/${city.id}`}>{city.name}, {city.state}</a>
+      ))}
+    </span>)
+  }
+
+  const eventVenuesComponent = ({ venue }) => {
+    const venues = filterVenues(venue)
+    return (<span>{
+      venues.map(venue => (
+        <a href={`/venue/${venue.id}`}>{venue.name}</a>
       ))}
     </span>)
   }
@@ -70,6 +93,12 @@ const Artists = props => {
     nextEventLoc: {
       title: "Upcoming Event Location",
       getBodyFormat: (_, object) => eventCitiesComponent(object),
+      isKey: false,
+      dataSort: true,
+    },
+    nextEventVenue: {
+      title: "Upcoming Event Venue",
+      getBodyFormat: (_, object) => eventVenuesComponent(object),
       isKey: false,
       dataSort: true,
     },

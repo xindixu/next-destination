@@ -8,6 +8,8 @@ const Venue = () => {
   const { id } = useParams();
 
   const [venue, setVenue] = useState(null)
+  const [cities, setCities] = useState([]);
+  const [artists, setArtists] = useState([]);
   useEffect(() => {
     apiFetch(`/venue/${id}`, {})
       .then(resp => resp.json())
@@ -16,8 +18,35 @@ const Venue = () => {
       })
   }, [])
 
+  useEffect(() => {
+    apiFetch("/cities", {})
+      .then(resp => resp.json())
+      .then(data => {
+        setCities(data.cities);
+      });
+  }, []);
+
+  useEffect(() => {
+    apiFetch("/artists", {})
+      .then(resp => resp.json())
+      .then(data => {
+        setArtists(data.artists);
+      });
+  }, []);
+
+  const filterCities = (venueCity, cities) => {
+    const city = cities.filter(cities => cities.name === venueCity)
+    console.log(city)
+    return city
+  }
+
+  const filterArtists = (venueArtist, artists) => {
+    const artist = artists.filter(artists => artists.name === venueArtist)
+    return artist
+  }
+
   if (venue) {
-    const { name, coordinates, city, capacity, pic  } = venue
+    const { name, coordinates, city, capacity, artist, pic  } = venue
     return (
       <>
         <div className="city1">
@@ -26,7 +55,14 @@ const Venue = () => {
 						  
 						  
 							  <div>
-								  <p> city: {city} </p>
+                {filterCities(city, cities).map(cities => (
+                    <p> City: <a href={`/city/${cities.id}`}>{cities.name}</a> </p>
+                  
+                  ))}
+                  {filterArtists(artist, artists).map(artists => (
+                    <p> Upcoming Artists: <a href={`/artist/${artists.id}`}>{artists.name}</a> </p>
+                  
+                  ))}
 								  <p> capacity: {capacity}</p>
                   <p> coordinates: {coordinates} </p>
 							  </div>

@@ -23,7 +23,7 @@ const Home = props => {
               <div>
                 <p> Average Airbnb Price: 80</p>
                 <p> Venues: <a href={`/venue/emos`}> Emo's Austin</a> </p>
-                
+                <p> Upcoming Artists: <a href={`/artist/khalid`}> Khalid</a></p>
               </div>
             </div>
           </Col>

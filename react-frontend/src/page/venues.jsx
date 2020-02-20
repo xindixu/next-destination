@@ -8,6 +8,7 @@ import SortableTable from '../components/sortable-table'
 const Venues = props => {
   const [venues, setVenues] = useState([])
   const [cities, setCities] = useState([]);
+  const [artists, setArtists] = useState([]);
   useEffect(() => {
     apiFetch('/venues', {})
       .then(resp => resp.json())
@@ -25,10 +26,23 @@ const Venues = props => {
       });
   }, []);
 
+  useEffect(() => {
+    apiFetch("/artists", {})
+      .then(resp => resp.json())
+      .then(data => {
+        setArtists(data.artists);
+      });
+  }, []);
+
   const filterCities = (venueCity) => {
     const city = cities.filter(cities => cities.name === venueCity)
     console.log(city)
     return city
+  }
+
+  const filterArtists = (venueArtist) => {
+    const artist = artists.filter(artist => artist.name === venueArtist)
+    return artist
   }
 
   const venueCitiesComponent = ({ city }) => {
@@ -37,6 +51,16 @@ const Venues = props => {
     return (<span>{
       cities.map(city => (
         <a href={`/city/${city.id}`}>{city.name}, {city.state}</a>
+      ))}
+    </span>)
+  }
+
+  const venueArtistsComponent = ({ artist }) => {
+    const artists = filterArtists(artist)
+
+    return (<span>{
+      artists.map(artist => (
+        <a href={`/artist/${artist.id}`}>{artist.name}</a>
       ))}
     </span>)
   }
@@ -50,13 +74,19 @@ const Venues = props => {
     },
     name: {
       title: "Name",
-      getBodyFormat: (_, { id, name }) => <a href={`/artist/${id}`}>{name}</a>,
+      getBodyFormat: (_, { id, name }) => <a href={`/venue/${id}`}>{name}</a>,
       isKey: true,
       dataSort: true
     },
     city: {
       title: "City",
       getBodyFormat: (_, object) => venueCitiesComponent(object),
+      isKey: false,
+      dataSort: true,
+    },
+    artist: {
+      title: "Upcoming Artists",
+      getBodyFormat: (_, object) => venueArtistsComponent(object),
       isKey: false,
       dataSort: true,
     },
