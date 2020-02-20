@@ -34,7 +34,7 @@ const Venues = props => {
   return (
     <div className="cities-list">
       {venues.length &&
-        venues.map(({ name, pic, city, capacity, coordinates, id }) => (
+        venues.map(({ name, pic, city, capacity, coordinates, restaurant, id }) => (
           <Table dark>
             <thead>
               <tr>
@@ -43,6 +43,7 @@ const Venues = props => {
                 <th>City</th>
                 <th>Capacity</th>
                 <th>Coordinates</th>
+                <th>Restaurants Close By</th>
               </tr>
             </thead>
             <tbody>
@@ -56,6 +57,7 @@ const Venues = props => {
                 ))}
                 <td>{capacity}</td>
                 <td>{coordinates}</td>
+                <td>{restaurant}</td>
               </tr>
             </tbody>
           </Table>

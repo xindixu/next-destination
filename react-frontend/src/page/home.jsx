@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./home.css";
 import { Row, Col, Container } from "react-bootstrap";
-import Austin from "./austin.jfif";
+import Austin from "./austin.jpg";
 import Banner from "./banner.jpg";
 
 const Home = props => {
