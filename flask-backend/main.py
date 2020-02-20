@@ -186,16 +186,16 @@ def about():
             member_contribs["quinton"]["issues"] += 1
 
     about_data = [
-        {'name': 'Yulissa Montes', "photo": 'a', 'stats': member_contribs["yulissa"], 'description': 'Mathematics',
-         'responsibilities':"asdf"},
-        {'name': 'Xindi Xu', 'photo': 'a',  'stats': member_contribs["xindi"], 'description': 'Advertising',
-         'responsibilities':"asdf"},
-        {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'Economics',
-         'responsibilities':"adsf"},
-        {'name': 'Nathan Craig', 'photo': 'a', 'stats': member_contribs["nathan"], 'description': 'Mechanical Engineering',
-         'responsibilities':"asdf"},
-        {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'BioChemistry',
-         'responsibilities':"asdf"}
+        {'name': 'Yulissa Montes', "photo": 'a','stats': member_contribs["yulissa"], 'description': 'asdfasd',
+         'responsibilities':"Routing, Navigation, Design"},
+        {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': 'qewrqre',
+         'responsibilities':"React Master"},
+        {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'rytu',
+         'responsibilities':"API Integration, Backend"},
+        {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'rytu',
+         'responsibilities':"Frontend Design"},
+        {'name': 'Quinton Pham', 'photo': 'a','stats': member_contribs["quinton"], 'description': 'vnm',
+         'responsibilities':"API Integration"}
     ]
 
     return jsonify(about=about_data)
