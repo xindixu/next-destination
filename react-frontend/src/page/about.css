@@ -1,34 +1,33 @@
 .body {
-    color: black;
+  color: black;
 }
 h1 {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 p {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 h2 {
-    display: flex;
-    justify-content: center;
-    padding: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 }
 .flex-links {
-    list-decoration: none;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 Card {
-    padding: 2px;
+  padding: 2px;
 }
 
 .abs_spinner {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
-
