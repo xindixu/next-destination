@@ -1,0 +1,11 @@
+.react-bs-table .table {
+  margin-bottom: 0;
+  table-layout: fixed;
+}
+
+td.fit-content {
+  width: auto;
+}
+.sort-column:hover {
+  cursor: pointer;
+}

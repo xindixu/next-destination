@@ -4,16 +4,20 @@ import apiFetch from "../lib/api-fetch";
 import "./cities.css";
 import { Table } from "reactstrap";
 
+import "./artists.css";
+import SortableTable from '../components/sortable-table'
+
+
 const Artists = props => {
   const [artists, setArtists] = useState([]);
   const [cities, setCities] = useState([]);
   useEffect(() => {
     apiFetch("/artists", {})
       .then(resp => resp.json())
-      .then(data => {
-        setArtists(data.artists);
-        console.log(data);
-      });
+      .then(data =>
+        setArtists(data.artists));
+    console.log(artists)
+
   }, []);
 
   useEffect(() => {
@@ -25,66 +29,79 @@ const Artists = props => {
       });
   }, []);
 
-  const filterCities = (eventCity, cities) => {
-    const city = cities.filter(cities => cities.name === eventCity)
-    console.log(city)
-    return city
+  const filterCities = (eventCity) => cities.filter(cities => cities.name === eventCity)
+
+  const eventCitiesComponent = ({ nextEventCity }) => {
+    const cities = filterCities(nextEventCity)
+
+    return (<span>{
+      cities.map(city => (
+        <a href={`/city/${city.id}`}>{city.name}, {city.state}</a>
+      ))}
+    </span>)
   }
 
-  return (
-      <div className="cities-list">
-     
-        {console.log(artists)}
+  
 
-        {artists.length &&
-          artists.map(
-            ({
-              name,
-              pic,
-              description,
-              numEvents,
-              nextEventCity,
-              state,
-              fbURL,
-              id
-            }) => (
-              <Table dark>
-              <thead>
-              <tr>
-                <th> Name </th> 
-                <th> Picture </th>
-                <th> Description </th>{" "}
-                <th> Number of Upcoming Events </th>
-                <th> Upcoming Event Location</th> 
-                <th> Facecbook Page Link </th>
-              </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <a href={`/artist/${id}`}> {name}</a>
-                  </td>
-                  <td>
-                    <img src={`${pic}`} alt="Pic of Artist" />
-                  </td>
-                  <td className="artistDescr">{description} </td>
-                  <td> {numEvents} </td>
-                  {filterCities(nextEventCity, cities).map(cities => (
-                    <td>
-                      <a href={`/city/${cities.id}`}>{cities.name}, {state}</a>
-                    </td>
-                  ))}
-                  <td>
-                    <a href={`${fbURL}`} target="_blank"> {name} FB </a>
-                  </td>
-                </tr>
-                </tbody>
-            </Table>
-        )
-          )}
-      
-    </div>
-  );
+  const settings = {
+    name: {
+      title: "Name",
+      getBodyFormat: (_, { id, name }) => <a href={`/artist/${id}`}>{name}</a>,
+      isKey: true,
+      dataSort: true
+    },
+
+    pic: {
+      title: "Picture",
+      getBodyFormat: (_, { pic, name }) => <img src={pic} alt={`Picture for artist ${name}`} />,
+      isKey: false,
+      dataSort: false
+    },
+    description: {
+      title: "Description",
+      getBodyFormat: (_, { description }) => <span>{description}</span>,
+      isKey: false,
+      dataSort: false,
+    },
+    numEvents: {
+      title: "Number of Upcoming Events",
+      getBodyFormat: (_, { numEvents }) => <span>{numEvents}</span>,
+      isKey: false,
+      dataSort: true,
+      sortFunc: (a, b, order) => {
+        const valueA = parseInt(a.numEvents)
+        const valueB = parseInt(b.numEvents)
+        console.log(valueA, valueB, a, b)
+        return order === 'desc' ? valueA - valueB : valueB - valueA
+      }
+    },
+    nextEventLoc: {
+      title: "Upcoming Event Location",
+      getBodyFormat: (_, object) => eventCitiesComponent(object),
+      isKey: false,
+      dataSort: true,
+    },
+    fbURL: {
+      title: "Facebook Page Link",
+      getBodyFormat: (_, { fbURL }) => (<a href={fbURL} target="_blank">
+        Facebook Page</a>),
+      isKey: false,
+      dataSort: false
+    }
+  }
+
+  if (artists.length && cities.length) {
+    return (
+      <>
+        <h1>Artists</h1>
+        <SortableTable
+          data={artists}
+          settings={settings}
+        />
+      </>
+    );
+  }
+  return <></>
 };
 
 Artists.propTypes = {};
