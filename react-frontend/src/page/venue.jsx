@@ -46,33 +46,33 @@ const Venue = () => {
   }
 
   if (venue) {
-    const { name, coordinates, city, capacity, artist, pic  } = venue
+    const { name, coordinates, city, capacity, artist, pic } = venue
     return (
       <>
         <div className="city1">
-						  <h1> {name} </h1>
-              <img src={`${pic}`} alt="Pic of Venue" />
-						  
-						  
-							  <div>
-                {filterCities(city, cities).map(cities => (
-                    <p> City: <a href={`/city/${cities.id}`}>{cities.name}</a> </p>
-                  
-                  ))}
-                  {filterArtists(artist, artists).map(artists => (
-                    <p> Upcoming Artists: <a href={`/artist/${artists.id}`}>{artists.name}</a> </p>
-                  
-                  ))}
-								  <p> capacity: {capacity}</p>
-                  <p> coordinates: {coordinates} </p>
-							  </div>
-							  
-					  </div>
-        
+          <h1> {name} </h1>
+          <img src={`${pic}`} alt="Pic of Venue" />
+
+
+          <div>
+            {filterCities(city, cities).map(cities => (
+              <p> City: <Link to={`/city/${cities.id}`}>{cities.name}</Link> </p>
+
+            ))}
+            {filterArtists(artist, artists).map(artists => (
+              <p> Upcoming Artists: <Link to={`/artist/${artists.id}`}>{artists.name}</Link> </p>
+
+            ))}
+            <p> capacity: {capacity}</p>
+            <p> coordinates: {coordinates} </p>
+          </div>
+
+        </div>
+
       </>
     )
   }
-    
+
   return <> </>
 }
 

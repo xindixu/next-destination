@@ -22,8 +22,8 @@ const Home = props => {
               <img id="randCity1" src={Austin} alt="pic of city" />
               <div>
                 <p> Average Airbnb Price: 80</p>
-                <p> Venues: <a href={`/venue/emos`}> Emo's Austin</a> </p>
-                <p> Upcoming Artists: <a href={`/artist/khalid`}> Khalid</a></p>
+                <p> Venues: <Link to={`/venue/emos`}> Emo's Austin</Link> </p>
+                <p> Upcoming Artists: <Link to={`/artist/khalid`}> Khalid</Link></p>
               </div>
             </div>
           </Col>
