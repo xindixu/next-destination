@@ -198,9 +198,9 @@ def about():
          'responsibilities':"Routing, Navigation, Design", 'id':'yulissa'},
         {'name': 'Xindi Xu', 'photo': 'a', 'stats': member_contribs["xindi"], 'description': 'Senior Advertising student at UT. Working toward a career in Software Engineering! Cat lover and accessibility fan!',
          'responsibilities':"React Master", 'id':'xindi'},
-        {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'Senior Economics',
+        {'name': 'Marshall Munsch-Hayhurst', 'stats': member_contribs["marshall"], 'photo': 'a', 'description': 'Senior Economics, loves hiking in the hill country',
          'responsibilities':"API Integration, Backend", 'id':'marshall'},
-        {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'Senior Mechanical Engineer',
+        {'name': 'Nathan Craig', 'photo': 'a','stats': member_contribs["nathan"], 'description': 'Senior Mechanical Engineer, loves swimming',
          'responsibilities':"Frontend Design", 'id':'nathan'},
         {'name': 'Quinton Pham', 'photo': 'a','stats': member_contribs["quinton"], 'description': 'Junior Biochemistry; loves long walks on the beach',
          'responsibilities':"API Integration", 'id':'quinton'}

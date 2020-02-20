@@ -33,11 +33,12 @@ const People = props => {
     <div className="body">
 
 	<Container>
-	<h1>About Us</h1>
+    <h1>About Us</h1>
 	<h2>The Project</h2>
-    This is project connects music-focused travellers to artists, venues, and cities.
+    <p>This project connects music-focused travellers to artists, venues, and cities.</p>
     <h2>The Team</h2>
     <Row>
+
       {people.length ? (
         people.map(
           ({ name, responsibilities, stats: { commits, issues }, description, id }) => (
@@ -56,7 +57,9 @@ const People = props => {
           )
         )
       ) : (
-        <Spinner type="grow" color="info" />
+        <div className='abs_spinner'>
+            <Spinner type="grow" color="info" />
+        </div>
       )}
     </Row>
     </Container>
