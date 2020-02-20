@@ -35,7 +35,21 @@ const People = props => {
 	<Container>
     <h1>About Us</h1>
 	<h2>The Project</h2>
+    <div className='flex-links'>
     <p>This project connects music-focused travellers to artists, venues, and cities.</p>
+    <ul>
+        <p><b>Links about our project</b></p>
+        <li><a href="https://gitlab.com/nmcraig/cs-331e/issues">Our Issue Tracker</a></li>
+        <li><a href="https://gitlab.com/nmcraig/cs-331e/">Our Repo</a></li>
+        <li><a href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Phase-1-Development">Our report for phase 1 Development</a></li>
+        <li><a href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Technical-Report">The overall technical report</a></li>
+        <p><b>Links about Data</b></p>
+        <li><a href="https://www.artists.bandsintown.com/support/api-installation">Artists and Venues through BandsinTown</a></li>
+        <li><a href="http://developers.teleport.org/api/getting_started/#search_name">City Searching Feature and Photo Database</a></li>
+        <li><a href="https://www.mediawiki.org/wiki/API:Main_page">Information about Cities</a></li>
+        <li><a href="http://insideairbnb.com/get-the-data.html">Airbnb Data for Different Cities</a></li>
+    </ul>
+    </div>
     <h2>The Team</h2>
     <Row>
 
