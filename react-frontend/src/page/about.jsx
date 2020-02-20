@@ -31,10 +31,7 @@ const People = props => {
   useEffect(() => {
     apiFetch("/about", {})
       .then(resp => resp.json())
-      .then(data => {
-        setPeople(data.about);
-        console.log(data);
-      });
+      .then(data => setPeople(data.about));
   }, []);
 
   return (
@@ -196,7 +193,7 @@ const People = props => {
                 description,
                 id
               }) => (
-                <Col xs={12} sm={6} md={4} lg={4}>
+                <Col xs={12} sm={6} md={4} lg={4} key={id}>
                   <Card key={name}>
                     <CardBody>
                       <CardTitle>{name}</CardTitle>

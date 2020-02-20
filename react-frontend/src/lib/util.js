@@ -6,3 +6,6 @@ export const filterArtists = (venueArtist, artists) =>
 
 export const filterVenues = (artistVenue, venues) =>
   venues.filter(venue => venue.name === artistVenue);
+
+export const filterVenuesByCities = (city, venues) =>
+  venues.filter(venue => venue.city === city);

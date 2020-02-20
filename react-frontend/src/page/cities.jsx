@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Table } from "reactstrap";
 import "./cities.css";
-import SortableTable from '../components/sortable-table'
-import apiFetch from "../lib/api-fetch";
 import { Link } from "react-router-dom";
-
+import SortableTable from "../components/sortable-table";
+import apiFetch from "../lib/api-fetch";
+import { filterArtists, filterVenuesByCities } from "../lib/util";
 
 const Cities = props => {
   const [cities, setCities] = useState([]);
@@ -21,59 +20,56 @@ const Cities = props => {
   }, []);
 
   useEffect(() => {
-    apiFetch('/venues', {})
+    apiFetch("/venues", {})
       .then(resp => resp.json())
       .then(data => {
-        setVenues(data.venues)
-      })
-  }, [])
+        setVenues(data.venues);
+      });
+  }, []);
 
   useEffect(() => {
     apiFetch("/artists", {})
       .then(resp => resp.json())
-      .then(data =>
-        setArtists(data.artists));
+      .then(data => setArtists(data.artists));
   }, []);
 
-  const filterVenues = (city) => {
-    const venue = venues.filter(venue => venue.city === city)
-    return venue
-  }
-
-  const filterArtists = (cityArtist) => {
-    const artist = artists.filter(artist => artist.name === cityArtist)
-    return artist
-  }
-
-  const venueComponent = ({ name }) => {
-    const venues = filterVenues(name)
-    return (<span>{
-      venues.map(venue => (
-        <Link to={`/venue/${venue.id}`}>{venue.name}</Link>
-      ))}
-    </span>)
-  }
+  const cityVenuesComponent = ({ name }) => {
+    const cityVenues = filterVenuesByCities(name, venues);
+    return (
+      <span>
+        {cityVenues.map(({ id, name }) => (
+          <Link to={`/venue/${id}`}>{name}</Link>
+        ))}
+      </span>
+    );
+  };
 
   const cityArtistsComponent = ({ artist }) => {
-    const artists = filterArtists(artist)
+    const cityArtists = filterArtists(artist, artists);
 
-    return (<span>{
-      artists.map(artist => (
-        <Link to={`/artist/${artist.id}`}>{artist.name}</Link>
-      ))}
-    </span>)
-  }
+    return (
+      <span>
+        {cityArtists.map(({ id, name }) => (
+          <Link to={`/artist/${id}`}>{name}</Link>
+        ))}
+      </span>
+    );
+  };
 
   const settings = {
     image: {
       title: "Picture",
-      getBodyFormat: (_, { image, name }) => <img src={image} alt={`Picture for city ${name}`} />,
+      getBodyFormat: (_, { image, name }) => (
+        <img src={image} alt={`Picture for city ${name}`} />
+      ),
       isKey: false,
       dataSort: false
     },
     name: {
       title: "City",
-      getBodyFormat: (_, { id, name }) => <Link to={`/city/${id}`}>{name}</Link>,
+      getBodyFormat: (_, { id, name }) => (
+        <Link to={`/city/${id}`}>{name}</Link>
+      ),
       isKey: true,
       dataSort: true
     },
@@ -87,19 +83,19 @@ const Cities = props => {
       title: "Description",
       getBodyFormat: (_, { description }) => <span>{description}</span>,
       isKey: false,
-      dataSort: false,
+      dataSort: false
     },
-    venue: {
+    venues: {
       title: "Music venues",
-      getBodyFormat: (_, object) => venueComponent(object),
+      getBodyFormat: (_, object) => cityVenuesComponent(object),
       isKey: false,
-      dataSort: false,
+      dataSort: true
     },
     artist: {
       title: "Upcoming Artists",
       getBodyFormat: (_, object) => cityArtistsComponent(object),
       isKey: false,
-      dataSort: false,
+      dataSort: true
     },
     airbnb: {
       title: "Avg Airbnb Price",
@@ -107,25 +103,22 @@ const Cities = props => {
       isKey: false,
       dataSort: true,
       sortFunc: (a, b, order) => {
-        const valueA = parseInt(a.airbnb)
-        const valueB = parseInt(b.airbnb)
-        console.log(valueA, valueB, a, b)
-        return order === 'desc' ? valueA - valueB : valueB - valueA
+        const valueA = parseInt(a.airbnb);
+        const valueB = parseInt(b.airbnb);
+        return order === "desc" ? valueA - valueB : valueB - valueA;
       }
     }
-  }
+  };
 
   if (cities.length) {
     return (
       <>
         <h1>Cities</h1>
-        <SortableTable
-          data={cities}
-          settings={settings} />
+        <SortableTable data={cities} settings={settings} />
       </>
-    )
+    );
   }
-  return <></>
+  return <></>;
 };
 
 Cities.propTypes = {};
