@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 import requests
 
 from data import cities_data, business_data, about_data, event_data, venues_data, artists_data, member_contribs
+from api_keys import yelp_api_key
 
 app = Flask(__name__)
 CORS(app, resources=r'/*')
@@ -72,12 +73,6 @@ def about():
 
     return jsonify(about=about_data)
 
-
-@app.route('/api/business')
-def business():
-    return jsonify(business=business_data)
-
-
 @app.route('/api/event')
 def event():
     return jsonify(event=event_data)
@@ -89,6 +84,33 @@ def city(id):
     print(data)
     return jsonify(city=get_city_by_id(id))
 
+@app.route('/api/restruants/<string:location>')
+def restruants(location):
+    # test: austin
+    # data from yelp api
+    url = "https://api.yelp.com/v3/businesses/search"
+    params = {
+        "location": location
+    }
+    headers = {
+        "Authorization": f"Bearer {yelp_api_key}",
+        "Content-type": "json"
+    }
+
+    restruants = requests.get(url, params=params, headers=headers).json()
+    return jsonify(restruants=restruants)
+    
+@app.route('/api/restruant/<string:id>')
+def restruant(id):
+    # test: MGzro82Fi4LYvc86acoONQ
+    url = f"https://api.yelp.com/v3/businesses/{id}"
+    headers = {
+        "Authorization": f"Bearer {yelp_api_key}",
+        "Content-type": "json"
+    }
+
+    restruant = requests.get(url, headers=headers).json()
+    return jsonify(restruant=restruant)
 
 @app.route('/')
 def index():
