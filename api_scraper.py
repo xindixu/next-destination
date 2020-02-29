@@ -27,19 +27,33 @@ venue_name = 'Emos'
 # for i in chart:
 #     print(i)
 
-#! Accessing Metro Area Data
-metro_area = '9179'
-URL = 'https://api.songkick.com/api/3.0/metro_areas/{}/calendar.json?apikey={}'.format(
-    metro_area, api_key)
-response = requests.get(URL)
-print(response.status_code)
-data = response.text
-parsed = json.loads(data)
-# print(json.dumps(ok, indent=2))
-df = pandas.DataFrame(parsed['resultsPage']['results']['event'])
-df.to_csv('MetroAreaData.csv')
-
+# #! Accessing Metro Area Data
+# metro_area = '9179'
+# URL = 'https://api.songkick.com/api/3.0/metro_areas/{}/calendar.json?apikey={}'.format(
+#     metro_area, api_key)
+# response = requests.get(URL)
+# print(response.status_code)
+# data = response.text
+# parsed = json.loads(data)
+# # print(json.dumps(ok, indent=2))
+# df = pandas.DataFrame(parsed['resultsPage']['results']['event'])
+# df.to_csv('MetroAreaData.csv', index=False)
 #! end
-# print(json.dumps(parsed, indent=2))
-# for i in ok:
-#     print(i['id'])
+
+a = pandas.read_csv('cities.csv')
+
+my_list = []
+
+with open('cities.csv', 'r') as f:
+    reader = csv.reader(f)
+    for row in reader:
+        my_list.append(row[0])
+
+#! Accessing City ID
+URL = 'https://api.songkick.com/api/3.0/search/locations.json?query={}&apikey={}'.format(
+    'Birmingham', api_key)
+response = requests.get(URL)
+# print(response.status_code)
+print(response)
+
+# for i in my_list:
