@@ -1,11 +1,13 @@
 import requests
 import json
 import billboard
+import csv
+import pandas
 
 api_key = 'CM7RXF3cu7qfjLoQ'
 venue_name = 'Emos'
 
-# # Accessing Venue Data
+# #! Accessing Venue Data
 # URL = 'https://api.songkick.com/api/3.0/search/venues.json?query={0}&apikey={1}'.format(
 #     venue_name, api_key)
 # response = requests.get(URL)
@@ -15,6 +17,7 @@ venue_name = 'Emos'
 # parsed = json.loads(data)
 # print(json.dumps(parsed['resultsPage']['results']['venue'], indent=2))
 # # print(json.dumps(parsed, indent=2))
+# #!end
 
 # Accessing Artist Data
 
@@ -32,9 +35,11 @@ response = requests.get(URL)
 print(response.status_code)
 data = response.text
 parsed = json.loads(data)
-ok = (parsed['resultsPage']['results']['event'])
-
 # print(json.dumps(ok, indent=2))
+df = pandas.DataFrame(parsed['resultsPage']['results']['event'])
+df.to_csv('MetroAreaData.csv')
+
+#! end
 # print(json.dumps(parsed, indent=2))
-for i in ok:
-    print(i['id'])
+# for i in ok:
+#     print(i['id'])
