@@ -6,6 +6,7 @@ import SortableTable from "../components/sortable-table";
 import apiFetch from "../lib/api-fetch";
 import { filterArtists, filterVenuesByCities } from "../lib/util";
 
+const getCityById = (cities, id) => cities.filter(item => item.id === id);
 const Cities = props => {
   const [cities, setCities] = useState([]);
   const [venues, setVenues] = useState([]);
@@ -38,7 +39,9 @@ const Cities = props => {
     return (
       <span>
         {cityVenues.map(({ id, name }) => (
-          <Link to={`/venue/${id}`}>{name}</Link>
+          <Link key={id} to={`/venue/${id}`}>
+            {name}
+          </Link>
         ))}
       </span>
     );
@@ -50,7 +53,9 @@ const Cities = props => {
     return (
       <span>
         {cityArtists.map(({ id, name }) => (
-          <Link to={`/artist/${id}`}>{name}</Link>
+          <Link key={id} to={`/artist/${id}`}>
+            {name}
+          </Link>
         ))}
       </span>
     );
@@ -60,7 +65,7 @@ const Cities = props => {
     image: {
       title: "Picture",
       getBodyFormat: (_, { image, name }) => (
-        <img src={image} alt={`Picture for city ${name}`} />
+        <img src={image} alt={`city of ${name}`} />
       ),
       isKey: false,
       dataSort: false

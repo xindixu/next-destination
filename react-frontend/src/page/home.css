@@ -67,10 +67,8 @@ a {
 
 .banner {
   position: absolute;
-  left: 0px;
-  top: 130px;
   width: 100%;
-  height: 300px;
+  border-radius: 0;
 }
 
 .descr {

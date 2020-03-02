@@ -84,8 +84,8 @@ def city(id):
     print(data)
     return jsonify(city=get_city_by_id(id))
 
-@app.route('/api/restruants/<string:location>')
-def restruants(location):
+@app.route('/api/restaurants/<string:location>')
+def restaurants(location):
     # test: austin
     # data from yelp api
     url = "https://api.yelp.com/v3/businesses/search"
@@ -97,11 +97,11 @@ def restruants(location):
         "Content-type": "json"
     }
 
-    restruants = requests.get(url, params=params, headers=headers).json()
-    return jsonify(restruants=restruants)
+    restaurants = requests.get(url, params=params, headers=headers).json()
+    return jsonify(restaurants=restaurants)
     
-@app.route('/api/restruant/<string:id>')
-def restruant(id):
+@app.route('/api/restaurant/<string:id>')
+def restaurant(id):
     # test: MGzro82Fi4LYvc86acoONQ
     url = f"https://api.yelp.com/v3/businesses/{id}"
     headers = {
@@ -109,8 +109,8 @@ def restruant(id):
         "Content-type": "json"
     }
 
-    restruant = requests.get(url, headers=headers).json()
-    return jsonify(restruant=restruant)
+    restaurant = requests.get(url, headers=headers).json()
+    return jsonify(restaurant=restaurant)
 
 @app.route('/')
 def index():

@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useParams, Link } from "react-router-dom";
 
 import apiFetch from "../lib/api-fetch";
 
-const Businesses = props => {
-  const [business, setBusiness] = useState([]);
+const Restaurant = props => {
+  const [restaurant, setRestaurant] = useState([]);
+  const { id } = useParams();
+
   useEffect(() => {
-    apiFetch("/business", {})
+    apiFetch(`/restaurant/${id}`, {})
       .then(resp => resp.json())
-      .then(data => setBusiness(data.business));
+      .then(data => setRestaurant(data.restaurant));
   }, []);
 
   return (
     <div>
-      {business.length &&
-        business.map(
+      {restaurant.length &&
+        restaurant.map(
           ({
             name,
             category,
@@ -48,6 +51,6 @@ const Businesses = props => {
     </div>
   );
 };
-Businesses.propTypes = {};
+Restaurant.propTypes = {};
 
-export default Businesses;
+export default Restaurant;
