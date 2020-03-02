@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Button, Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import PropTypes from "prop-types";
 
 import Home from "../page/home";
@@ -18,37 +18,25 @@ import Venues from "../page/venues";
 
 const Navigation = props => (
   <Router>
-    <div className="container-fuild mx-auto">
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <Link to="/" className="nav-link">
-              Home
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link to="/about" className="nav-link">
-              About
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link to="/cities" className="nav-link">
-              Cities
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link to="/venues" className="nav-link">
-              Venues
-            </Link>
-          </li>
-          <li className="nav-item active">
-            <Link to="/artists" className="nav-link">
-              Artists
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
+    <Navbar bg="dark" variant="dark">
+      <Nav className="mr-auto" defaultActiveKey="/">
+        <Nav.Link eventKey="/">
+          <Link to="/">Home</Link>
+        </Nav.Link>
+        <Nav.Link eventKey="/about">
+          <Link to="/about">About</Link>
+        </Nav.Link>
+        <Nav.Link eventKey="/cities">
+          <Link to="/cities">Cities</Link>
+        </Nav.Link>
+        <Nav.Link eventKey="/venues">
+          <Link to="/venues">Venues</Link>
+        </Nav.Link>
+        <Nav.Link eventKey="/artists">
+          <Link to="/artists">Artists</Link>
+        </Nav.Link>
+      </Nav>
+    </Navbar>
 
     <Switch>
       <Route path="/about">
