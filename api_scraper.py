@@ -1,14 +1,17 @@
 import requests
 import json
 import billboard
+import pprint
 import csv
 import pandas as pd
 import musicbrainzngs
 
 musicbrainzngs.set_useragent("cityhunt", "1.0", "quintonpham@utexas.edu")
 api_key = 'CM7RXF3cu7qfjLoQ'
-venue_name = 'Emos'
+venue_name = 'Emos' 
+artist_id = "c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6"
 
+pp = pprint.PrettyPrinter(depth=6)
 
 def get_venue_data():
     URL = 'https://api.songkick.com/api/3.0/search/venues.json?query={0}&apikey={1}'.format(
@@ -19,7 +22,31 @@ def get_venue_data():
     data = response.text
     parsed = json.loads(data)
     print(json.dumps(parsed['resultsPage']['results']['venue'], indent=2))
-    # print(json.dumps(parsed, indent=2))
+
+
+def get_artist_by_id(id):
+    try:
+        result = musicbrainzngs.get_artist_by_id(id)
+    except:
+        pass
+    else:
+        artist = result
+    pp.pprint(result['artist'])
+
+get_artist_by_id(artist_id)
+
+def get_artists_data():
+    try:
+        result = musicbrainzngs.search_artists(limit=10, artist="", type="person", country="US", ended="false")
+
+    except WebServiceError as exc:
+        print("Something went wrong with the request: %s" % exc)
+    else:
+        artist = result
+        # print("name:\t\t%s" % artist["name"])
+        # print("sort name:\t%s" % artist["sort-name"])
+        # print(artist[])
+    pp.pprint(result['artist-list'])
 
 
 def get_chart_data():  # ! Accessing top 50 artists
@@ -41,8 +68,6 @@ def get_chart_data():  # ! Accessing top 50 artists
     df = pd.DataFrame.from_dict(artist_dict, orient='index', columns=['MusicBrainz ID'])
     df.rename(columns={'0':'Artist Name', '1':'MusicBrainz ID'})
     df.to_csv("artist.csv")
-
-# get_chart_data()
 
 
 def get_metro_area_data():  # ! Accessing Metro Area Data
