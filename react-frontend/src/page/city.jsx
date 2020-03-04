@@ -5,8 +5,9 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 
 import apiFetch from "../lib/api-fetch";
+
+import Restaurants from "../containers/restaurants";
 import "./city.css";
-import SortableTable from "../components/sortable-table";
 
 const TABS = {
   restaurants: {
@@ -17,57 +18,6 @@ const TABS = {
     key: "airbnb",
     title: "AirBnb"
   }
-};
-const Restaurants = ({ data }) => {
-  const settings = {
-    name: {
-      title: "Restaurants",
-      getBodyFormat: (_, { id, alias, name }) => (
-        <Link to={`/restaurants/${alias}`}>{name}</Link>
-      ),
-      isKey: true,
-      dataSort: true
-    },
-    distance: {
-      title: "Distance",
-      getBodyFormat: (_, { distance }) => <span>{distance}</span>,
-      isKey: false,
-      dataSort: true
-    },
-    location: {
-      title: "Address",
-      getBodyFormat: (_, { location: { address1, address2 } }) => (
-        <span>
-          {address1}, {address2}
-        </span>
-      ),
-      isKey: false,
-      dataSort: false
-    },
-    price: {
-      title: "Price",
-      getBodyFormat: (_, { price }) => <span>{price}</span>,
-      isKey: false,
-      dataSort: true
-    },
-    rating: {
-      title: "Rating",
-      getBodyFormat: (_, { rating }) => <span>{rating}</span>,
-      isKey: false,
-      dataSort: true
-    },
-    url: {
-      title: "URL",
-      getBodyFormat: (_, { url }) => (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          Yelp
-        </a>
-      ),
-      isKey: false,
-      dataSort: false
-    }
-  };
-  return <SortableTable settings={settings} data={data} />;
 };
 
 const City = () => {
