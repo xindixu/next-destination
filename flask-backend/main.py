@@ -3,11 +3,10 @@ from flask_cors import CORS, cross_origin
 import requests
 
 from data import cities_data, business_data, about_data, event_data, venues_data, artists_data, member_contribs
-from api_keys import yelp_api_key
+from api import yelp_api_key, songkick_api_key
 
 app = Flask(__name__)
 CORS(app, resources=r'/*')
-
 
 
 def get_city_by_id(id):
@@ -21,10 +20,11 @@ def get_artist_by_id(id):
 def get_venue_by_id(id):
     return [venue for venue in venues_data if venue["id"] == id][0]
 
+# TODO: get location id from name
 
-@app.route('/api/cities')
-def cities():
-    return jsonify(cities=cities_data)
+
+def get_city_id_by_name(name):
+    return "26330"
 
 
 def get_gitlab_data(url):
@@ -45,7 +45,6 @@ def about():
     url = "https://gitlab.com/api/v4/projects/16729459"
     commits = get_gitlab_data(f"{url}/repository/commits")
     issues = get_gitlab_data(f"{url}/issues")
-
 
     for commit in commits:
         if commit["committer_email"] == "marshallmhayhurst@gmail.com":
@@ -73,9 +72,28 @@ def about():
 
     return jsonify(about=about_data)
 
-@app.route('/api/event')
-def event():
-    return jsonify(event=event_data)
+
+@app.route('/api/events/<string:city>')
+def events(city):
+    city_id = get_city_id_by_name(city)
+    url = f"https://api.songkick.com/api/3.0/metro_areas/{city_id}/calendar.json?apikey={songkick_api_key}"
+    response = requests.get(url).json()
+    events = response["resultsPage"]["results"]["event"]
+    return jsonify(events=events)
+
+
+@app.route('/api/event/<string:id>')
+def event(id):
+    # test: 3037536
+    url = f"https://api.songkick.com/api/3.0/events/{id}.json?apikey={songkick_api_key}"
+    response = requests.get(url).json()
+    event = response["resultsPage"]["results"]["event"]
+    return jsonify(event=event)
+
+
+@app.route('/api/cities')
+def cities():
+    return jsonify(cities=cities_data)
 
 
 @app.route('/api/city/<string:id>')
@@ -84,13 +102,14 @@ def city(id):
     print(data)
     return jsonify(city=get_city_by_id(id))
 
-@app.route('/api/restaurants/<string:location>')
-def restaurants(location):
+
+@app.route('/api/restaurants/<string:city>')
+def restaurants(city):
     # test: austin
     # data from yelp api
     url = "https://api.yelp.com/v3/businesses/search"
     params = {
-        "location": location
+        "location": city
     }
     headers = {
         "Authorization": f"Bearer {yelp_api_key}",
@@ -99,7 +118,8 @@ def restaurants(location):
 
     restaurants = requests.get(url, params=params, headers=headers).json()
     return jsonify(restaurants=restaurants)
-    
+
+
 @app.route('/api/restaurant/<string:id>')
 def restaurant(id):
     # test: MGzro82Fi4LYvc86acoONQ
@@ -111,6 +131,7 @@ def restaurant(id):
 
     restaurant = requests.get(url, headers=headers).json()
     return jsonify(restaurant=restaurant)
+
 
 @app.route('/')
 def index():

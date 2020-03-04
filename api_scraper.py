@@ -8,10 +8,12 @@ import musicbrainzngs
 
 musicbrainzngs.set_useragent("cityhunt", "1.0", "quintonpham@utexas.edu")
 api_key = 'CM7RXF3cu7qfjLoQ'
-venue_name = 'Emos' 
+venue_name = 'Emos'
 artist_id = "c5c2ea1c-4bde-4f4d-bd0b-47b200bf99d6"
+metro_area_id = "26330"
 
 pp = pprint.PrettyPrinter(depth=6)
+
 
 def get_venue_data():
     URL = 'https://api.songkick.com/api/3.0/search/venues.json?query={0}&apikey={1}'.format(
@@ -33,11 +35,21 @@ def get_artist_by_id(id):
         artist = result
     pp.pprint(result['artist'])
 
-get_artist_by_id(artist_id)
 
+
+def get_upcoming_events_data():
+    URL = f"https://api.songkick.com/api/3.0/metro_areas/{metro_area_id}/calendar.json?apikey={api_key}"
+    response = requests.get(URL)
+    data = response.text
+    parsed = json.loads(data)
+
+    print(json.dumps(parsed['resultsPage']['results']['event'], indent=2))
+
+get_upcoming_events_data()
 def get_artists_data():
     try:
-        result = musicbrainzngs.search_artists(limit=10, artist="", type="person", country="US", ended="false")
+        result = musicbrainzngs.search_artists(
+            limit=10, artist="", type="person", country="US", ended="false")
 
     except WebServiceError as exc:
         print("Something went wrong with the request: %s" % exc)
@@ -59,14 +71,15 @@ def get_chart_data():  # ! Accessing top 50 artists
     for i in tmp_list:
         result = musicbrainzngs.search_artists(artist=i)
         artist_dict[i] = result['artist-list'][0]['id']
-        #* for testing purposes
+        # * for testing purposes
         # if len(artist_dict) == 5:
         #     break
 
     # print(artist_dict)
-    #! Can't figure out how to rename the first row and column cell as artist name becuase orient = index line. 
-    df = pd.DataFrame.from_dict(artist_dict, orient='index', columns=['MusicBrainz ID'])
-    df.rename(columns={'0':'Artist Name', '1':'MusicBrainz ID'})
+    #! Can't figure out how to rename the first row and column cell as artist name becuase orient = index line.
+    df = pd.DataFrame.from_dict(
+        artist_dict, orient='index', columns=['MusicBrainz ID'])
+    df.rename(columns={'0': 'Artist Name', '1': 'MusicBrainz ID'})
     df.to_csv("artist.csv")
 
 
