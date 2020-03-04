@@ -132,7 +132,7 @@ const People = props => {
                 rel="noopener noreferrer"
                 href="https://reactjs.org/"
               >
-                Frontend- Reactjs
+                Frontend - React.js
               </a>
             </li>
             <li>
@@ -141,7 +141,7 @@ const People = props => {
                 rel="noopener noreferrer"
                 href="https://palletsprojects.com/p/flask/"
               >
-                Backend- Flask
+                Backend - Flask
               </a>
             </li>
             <li>
@@ -150,7 +150,7 @@ const People = props => {
                 rel="noopener noreferrer"
                 href="https://reactstrap.github.io/"
               >
-                CSS- Reactstrap- a bootstrap library for react
+                CSS - Reactstrap - a bootstrap library for react
               </a>
             </li>
             <li>
@@ -193,22 +193,22 @@ const People = props => {
                 description,
                 id
               }) => (
-                <Col xs={12} sm={6} md={4} lg={4} key={id}>
-                  <Card key={name}>
+                <Col key={name} xs={12} sm={12} md={6} lg={4}>
+                  <Card>
                     <CardBody>
                       <CardTitle>{name}</CardTitle>
                       <img src={photos[id]} alt={name} />
                       <CardText>Skills: {responsibilities}</CardText>
                       <CardText>Description: {description}</CardText>
-                      <CardText> Commits: {commits} </CardText>
-                      <CardText> Issues: {issues} </CardText>
+                      <CardText>Commits: {commits} </CardText>
+                      <CardText>Issues: {issues} </CardText>
                     </CardBody>
                   </Card>
                 </Col>
               )
             )
           ) : (
-            <div className="abs_spinner">
+            <div className="w-100 d-flex justify-content-center">
               <Spinner type="grow" color="info" />
             </div>
           )}

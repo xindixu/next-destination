@@ -8,32 +8,30 @@ import About from "../page/about";
 import Cities from "../page/cities";
 import City from "../page/city";
 import Artists from "../page/artists";
-import Attractions from "../page/attractions";
 import Restaurant from "../page/restaurant";
-import Music from "../page/music";
 import Venue from "../page/venue";
 import Event from "../page/event";
 import Artist from "../page/artist";
 import Venues from "../page/venues";
 
-const Navigation = props => (
+const Navigation = () => (
   <Router>
     <Navbar bg="dark" variant="dark">
       <Nav className="mr-auto" defaultActiveKey="/">
-        <Nav.Link eventKey="/">
-          <Link to="/">Home</Link>
+        <Nav.Link eventKey="/" as={Link} to="/">
+          Home
         </Nav.Link>
-        <Nav.Link eventKey="/about">
-          <Link to="/about">About</Link>
+        <Nav.Link eventKey="/about" as={Link} to="/about">
+          About
         </Nav.Link>
-        <Nav.Link eventKey="/cities">
-          <Link to="/cities">Cities</Link>
+        <Nav.Link eventKey="/cities" as={Link} to="/cities">
+          Cities
         </Nav.Link>
-        <Nav.Link eventKey="/venues">
-          <Link to="/venues">Venues</Link>
+        <Nav.Link eventKey="/venues" as={Link} to="/venues">
+          Venues
         </Nav.Link>
-        <Nav.Link eventKey="/artists">
-          <Link to="/artists">Artists</Link>
+        <Nav.Link eventKey="/artists" as={Link} to="/artists">
+          Artists
         </Nav.Link>
       </Nav>
     </Navbar>
@@ -48,9 +46,6 @@ const Navigation = props => (
       <Route path="/city/:id">
         <City />
       </Route>
-      <Route path="/attractions">
-        <Attractions />
-      </Route>
       <Route path="/artists">
         <Artists />
       </Route>
@@ -59,9 +54,6 @@ const Navigation = props => (
       </Route>
       <Route path="/restaurant/:id">
         <Restaurant />
-      </Route>
-      <Route path="/music">
-        <Music />
       </Route>
       <Route path="/venues">
         <Venues />

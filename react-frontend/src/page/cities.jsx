@@ -6,7 +6,6 @@ import SortableTable from "../components/sortable-table";
 import apiFetch from "../lib/api-fetch";
 import { filterArtists, filterVenuesByCities } from "../lib/util";
 
-const getCityById = (cities, id) => cities.filter(item => item.id === id);
 const Cities = props => {
   const [cities, setCities] = useState([]);
   const [venues, setVenues] = useState([]);
