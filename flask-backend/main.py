@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS, cross_origin
 import requests
 
-from data import cities_data, business_data, about_data, event_data, venues_data, artists_data, member_contribs
+from data import cities_data, restaurant_data, about_data, event_data, venues_data, artists_data, member_contribs
 from api import yelp_api_key, songkick_api_key
 
 app = Flask(__name__)
@@ -101,6 +101,11 @@ def city(id):
     data = get_city_by_id(id)
     print(data)
     return jsonify(city=get_city_by_id(id))
+
+#! need to make a distinction about if we want to categorize as restaurants or as busineses
+@app.route('/api/restaurants')
+def businesses():
+    return jsonify(restaurants=restaurant_data)
 
 
 @app.route('/api/restaurants/<string:city>')

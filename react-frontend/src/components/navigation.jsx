@@ -8,6 +8,7 @@ import About from "../page/about";
 import Cities from "../page/cities";
 import City from "../page/city";
 import Artists from "../page/artists";
+import Restaurants from "../page/restaurants";
 import Restaurant from "../page/restaurant";
 import Venue from "../page/venue";
 import Event from "../page/event";
@@ -33,6 +34,9 @@ const Navigation = () => (
         <Nav.Link eventKey="/artists" as={Link} to="/artists">
           Artists
         </Nav.Link>
+        <Nav.Link eventKey="/restaurants" as={Link} to="/restaurants">
+          Restaurants
+        </Nav.Link>
       </Nav>
     </Navbar>
 
@@ -54,6 +58,9 @@ const Navigation = () => (
       </Route>
       <Route path="/restaurant/:id">
         <Restaurant />
+      </Route>
+      <Route path="/restaurants/">
+        <Restaurants />
       </Route>
       <Route path="/venues">
         <Venues />
