@@ -15,50 +15,8 @@ const Cities = props => {
       .then(resp => resp.json())
       .then(data => {
         setCities(data.cities);
-        console.log(data);
       });
   }, []);
-
-  useEffect(() => {
-    apiFetch("/venues", {})
-      .then(resp => resp.json())
-      .then(data => {
-        setVenues(data.venues);
-      });
-  }, []);
-
-  useEffect(() => {
-    apiFetch("/artists", {})
-      .then(resp => resp.json())
-      .then(data => setArtists(data.artists));
-  }, []);
-
-  const cityVenuesComponent = ({ name }) => {
-    const cityVenues = filterVenuesByCities(name, venues);
-    return (
-      <span>
-        {cityVenues.map(({ id, name }) => (
-          <Link key={id} to={`/venue/${id}`}>
-            {name}
-          </Link>
-        ))}
-      </span>
-    );
-  };
-
-  const cityArtistsComponent = ({ artist }) => {
-    const cityArtists = filterArtists(artist, artists);
-
-    return (
-      <span>
-        {cityArtists.map(({ id, name }) => (
-          <Link key={id} to={`/artist/${id}`}>
-            {name}
-          </Link>
-        ))}
-      </span>
-    );
-  };
 
   const settings = {
     image: {
@@ -88,18 +46,6 @@ const Cities = props => {
       getBodyFormat: (_, { description }) => <span>{description}</span>,
       isKey: false,
       dataSort: false
-    },
-    venues: {
-      title: "Music venues",
-      getBodyFormat: (_, object) => cityVenuesComponent(object),
-      isKey: false,
-      dataSort: true
-    },
-    artist: {
-      title: "Upcoming Artists",
-      getBodyFormat: (_, object) => cityArtistsComponent(object),
-      isKey: false,
-      dataSort: true
     },
     airbnb: {
       title: "Avg Airbnb Price",

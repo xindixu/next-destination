@@ -7,6 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import apiFetch from "../lib/api-fetch";
 
 import Restaurants from "../containers/restaurants";
+import Events from "../containers/events";
 import "./city.css";
 
 const TABS = {
@@ -17,6 +18,10 @@ const TABS = {
   airbnb: {
     key: "airbnb",
     title: "AirBnb"
+  },
+  events: {
+    key: "events",
+    title: "Events"
   }
 };
 
@@ -24,10 +29,11 @@ const City = () => {
   const { id } = useParams();
 
   const [city, setCity] = useState(null);
-  const [venues, setVenues] = useState([]);
-  const [artists, setArtists] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
+  const [events, setEvents] = useState([]);
   const [isFetchingData, setIsFetchingData] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [activeTab, setactiveTab] = useState(TABS.restaurants.key);
 
   // TODO: data should be passed down from parent
   useEffect(() => {
@@ -39,42 +45,35 @@ const City = () => {
   }, [id]);
 
   useEffect(() => {
-    apiFetch("/venues", {})
-      .then(resp => resp.json())
-      .then(data => setVenues(data.venues));
-  }, [id]);
-
-  useEffect(() => {
-    apiFetch("/artists", {})
-      .then(resp => resp.json())
-      .then(data => setArtists(data.artists));
-  }, [id]);
-
-  useEffect(() => {
     setIsFetchingData(true);
     apiFetch(`/restaurants/${id}`, {})
       .then(resp => resp.json())
       .then(data => {
-        setRestaurants(data.restaurants.businesses);
+        setRestaurants(data.response.businesses);
         setIsFetchingData(false);
       })
       .catch(() => {
         setIsFetchingData(false);
+        isError(true);
       });
   }, [id]);
 
-  const filterVenues = (cityName, venues) => {
-    const venue = venues.filter(venue => venue.city === cityName);
-    return venue;
-  };
-
-  const filterArtists = (cityArtist, artists) => {
-    const artist = artists.filter(artists => artists.name === cityArtist);
-    return artist;
-  };
+  useEffect(() => {
+    setIsFetchingData(true);
+    apiFetch(`/events/${id}`, {})
+      .then(resp => resp.json())
+      .then(data => {
+        setEvents(data.response.events);
+        setIsFetchingData(false);
+      })
+      .catch(() => {
+        setIsFetchingData(false);
+        isError(true);
+      });
+  }, [id]);
 
   if (city) {
-    const { name, description, image, artist, airbnb } = city;
+    const { name, description, image, airbnb } = city;
     return (
       <>
         <div className="city1">
@@ -84,27 +83,23 @@ const City = () => {
           <img id="randCity1" src={`${image}`} alt="pic of city" />
           <div>
             <p> Average Airbnb Price: {airbnb}</p>
-            {filterVenues(name, venues).map(({ id, name }) => (
-              <p key={id}>
-                Venues: <Link to={`/venue/${id}`}>{name}</Link>{" "}
-              </p>
-            ))}
-            {filterArtists(artist, artists).map(({ id, name }) => (
-              <p key={id}>
-                Upcoming Artists:
-                <Link to={`/artist/${id}`}>{name}</Link>{" "}
-              </p>
-            ))}
           </div>
         </div>
 
-        <Tabs defaultActiveKey={TABS.restaurants.key}>
-          {restaurants.length ? (
+        <Tabs defaultActiveKey={activeTab}>
+          {isFetchingData ? (
+            <></>
+          ) : (
             <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
               <Restaurants data={restaurants} />
             </Tab>
-          ) : (
+          )}
+          {isFetchingData ? (
             <></>
+          ) : (
+            <Tab eventKey={TABS.events.key} title={TABS.events.title}>
+              <Events data={events} />
+            </Tab>
           )}
         </Tabs>
       </>

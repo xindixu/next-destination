@@ -4,49 +4,61 @@ import { Link } from "react-router-dom";
 
 import SortableTable from "../components/sortable-table";
 
-const Restaurants = ({ data }) => {
+const Events = ({ data }) => {
   const settings = {
-    image: {
-      title: "",
-      getBodyFormat: (_, { image_url: img, name }) => (
-        <img src={img} alt={name} />
-      ),
-      isKey: false,
-      dataSort: false
-    },
     name: {
-      title: "Restaurants",
+      title: "Events",
       getBodyFormat: (_, { alias, name }) => (
-        <Link to={`/restaurant/${alias}`}>{name}</Link>
+        <Link to={`/event/${alias}`}>{name}</Link>
       ),
       isKey: true,
       dataSort: true
     },
-    distance: {
-      title: "Distance",
-      getBodyFormat: (_, { distance }) => <span>{distance}</span>,
-      isKey: false,
-      dataSort: true
-    },
+    // distance: {
+    //   title: "Distance",
+    //   getBodyFormat: (_, { distance }) => <span>{distance}</span>,
+    //   isKey: false,
+    //   dataSort: true
+    // },
     location: {
       title: "Address",
-      getBodyFormat: (_, { location: { address1, address2 } }) => (
-        <span>
-          {address1}, {address2}
-        </span>
+      getBodyFormat: (_, { location: { display_address } }) => (
+        <span>{display_address}</span>
       ),
       isKey: false,
       dataSort: false
     },
-    price: {
-      title: "Price",
-      getBodyFormat: (_, { price }) => <span>{price}</span>,
+    interested_count: {
+      title: "Interested Count",
+      getBodyFormat: (_, { interested_count }) => (
+        <span>{interested_count}</span>
+      ),
       isKey: false,
       dataSort: true
     },
-    rating: {
+    is_free: {
+      title: "Free",
+      getBodyFormat: (_, { is_free }) => <span>{is_free ? "Yes" : "No"}</span>,
+      isKey: false,
+      dataSort: true
+    },
+    description: {
+      title: "Description",
+      getBodyFormat: (_, { description }) => <span>{description}</span>,
+      isKey: false,
+      dataSort: false
+    },
+    category: {
+      title: "Category",
+      getBodyFormat: (_, { category }) => <span>{category}</span>,
+      isKey: false,
+      dataSort: true
+    },
+    time: {
       title: "Rating",
-      getBodyFormat: (_, { rating }) => <span>{rating}</span>,
+      getBodyFormat: (_, { time_start: start, time_end: end }) => (
+        <span>{new Date(start).toLocaleDateString()}</span>
+      ),
       isKey: false,
       dataSort: true
     },
@@ -64,7 +76,7 @@ const Restaurants = ({ data }) => {
   return <SortableTable settings={settings} data={data} />;
 };
 
-Restaurants.propTypes = {
+Events.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -81,4 +93,4 @@ Restaurants.propTypes = {
   ).isRequired
 };
 
-export default Restaurants;
+export default Events;
