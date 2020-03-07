@@ -90,6 +90,11 @@ def event(id):
     response = requests.get(url, headers=yelp_api_header).json()
     return jsonify(response=response)
 
+#! need to make a distinction about if we want to categorize as restaurants or as busineses
+@app.route('/api/restaurants')
+def businesses():
+    return jsonify(restaurants=restaurant_data)
+
 
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):

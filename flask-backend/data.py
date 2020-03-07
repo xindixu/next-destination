@@ -30,6 +30,7 @@ cities_data = [
         'population': '2,325,502'}
 ]
 
+#! DELETE 
 artists_data = [
     {'name': 'Khalid', 'description': 'Khalid Donnel Robinson is an American singer and songwriter. He is signed to Right Hand Music Group and RCA Records.',
      'numEvents': '7', 'nextEventCity': 'Austin', 'state': 'TX', 'fbURL': 'https://www.facebook.com/thegreatkhalid/',
@@ -48,11 +49,12 @@ artists_data = [
      'id': 'eilish'}
 ]
 
-business_data = [{
+restaurant_data = [{
     'name': 'Barbeque Resstaurant',
     'category': 'Barbeque',
     'description': 'as;dfalsdf;',
     'address': '1234 Rockefeller Street',
+    'city': 'Austin',
     'coordinates': {'x': '1234', 'y': '1234'},
     'price': '$$$',
     'hours': [{
@@ -62,9 +64,10 @@ business_data = [{
 },
     {
     'name': 'Marshalls Restaurant',
-    'category': 'Barbeque',
+    'category': 'Seafood',
     'description': 'as;dfalsdf;',
     'address': '1234 Rockefeller Street',
+    'city': 'Austin',
     'coordinates': {'x': '1234', 'y': '1234'},
     'price': '$$$',
     'hours': [{

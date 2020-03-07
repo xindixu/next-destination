@@ -9,7 +9,7 @@ const Restaurant = props => {
   const { id } = useParams();
 
   useEffect(() => {
-    apiFetch(`/restaurant/${id}`, {})
+    apiFetch(`/restaurants/${id}`, {})
       .then(resp => resp.json())
       .then(data => setRestaurant(data.restaurant));
   }, []);
