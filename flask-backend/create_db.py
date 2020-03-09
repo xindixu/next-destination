@@ -1,5 +1,5 @@
 import psycopg2
-from models import app, db, Airbnb, Cities
+from models import app, db, Cities
 
 
 def create_cities():
