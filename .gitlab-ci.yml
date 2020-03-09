@@ -26,6 +26,7 @@ stages:
 test:
   stage: Tests
   script:
+  - cd flask-backend
   - python tests.py
   only:
   - merge_requests
