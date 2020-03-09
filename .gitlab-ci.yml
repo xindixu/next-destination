@@ -16,6 +16,7 @@ variables:
 before_script:
     - date
     - uname -a
+    - cd flask-backend
     - pip install --upgrade pip
     - pip install -r requirements.txt
     - printenv | sort
@@ -26,7 +27,6 @@ stages:
 test:
   stage: Tests
   script:
-  - cd flask-backend
   - python tests.py
   only:
   - merge_requests
