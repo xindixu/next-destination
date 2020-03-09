@@ -12,7 +12,7 @@ variables:
   POSTGRES_PORT: 5433
   POSTGRES_PASSWORD: supersecret
   POSTGRES_HOST_AUTH_METHOD: trust
-  DB_STRING: "postgres://$POSTGRES_USER@postgres:POSTGRES_PORT/$POSTGRES_DB"
+  DB_STRING: "postgres://$POSTGRES_USER@postgres:$POSTGRES_PORT/$POSTGRES_DB"
 
 before_script:
     - date
