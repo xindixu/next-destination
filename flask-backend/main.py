@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS, cross_origin
 import requests
 
-from data import cities_data, business_data, about_data, event_data, venues_data, artists_data, member_contribs
+from data import cities_data, about_data, member_contribs
 from api import songkick_api_key, yelp_api_header
 
 app = Flask(__name__)
