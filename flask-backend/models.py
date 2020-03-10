@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 # TODO: replace with real password
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    "DB_STRING", 'postgres://postgres:supersecret@localhost:5433/cityhuntdb')
+    "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
