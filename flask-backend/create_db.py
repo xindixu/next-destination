@@ -27,4 +27,4 @@ def create_cities():
 
 
 create_cities()
-create_airbnb_listings()
+# create_airbnb_listings()

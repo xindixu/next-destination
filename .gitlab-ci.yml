@@ -32,4 +32,3 @@ test:
   - merge_requests
   - master
   - dev
-  - yuls_dev
