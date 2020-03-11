@@ -12,15 +12,6 @@ CORS(app, resources=r'/*')
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
 
-
-def get_artist_by_id(id):
-    return [artist for artist in artists_data if artist["id"] == id][0]
-
-
-def get_venue_by_id(id):
-    return [venue for venue in venues_data if venue["id"] == id][0]
-
-# TODO: get location id from name
 def get_city_id_by_name(name):
     return "26330"
 
@@ -88,11 +79,6 @@ def event(id):
     response = requests.get(url, headers=yelp_api_header).json()
     return jsonify(response=response)
 
-#! need to make a distinction about if we want to categorize as restaurants or as busineses
-@app.route('/api/restaurants')
-def businesses():
-    return jsonify(restaurants=restaurant_data)
-
 
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
@@ -126,6 +112,7 @@ def city(id):
 @app.route('/')
 def index():
     return render_template("index.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
