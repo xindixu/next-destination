@@ -17,7 +17,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 MarkupSafe==1.1.1
 pipenv==2018.11.26
-psycopg2==2.7.7
+psycopg2-binary==2.8.4
 pycodestyle==2.5.0
 requests==2.22.0
 six==1.14.0
@@ -26,4 +26,3 @@ urllib3==1.25.8
 virtualenv==20.0.9
 virtualenv-clone==0.5.1
 Werkzeug==0.16.1
-zipp==3.1.0
