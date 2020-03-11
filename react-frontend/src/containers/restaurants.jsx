@@ -16,8 +16,17 @@ const Restaurants = ({ data }) => {
     },
     name: {
       title: "Restaurants",
-      getBodyFormat: (_, { alias, name }) => (
-        <Link to={`/restaurant/${alias}`}>{name}</Link>
+      getBodyFormat: (_, object) => (
+        <Link
+          to={{
+            pathname: `/restaurant/${object.alias}`,
+            state: {
+              restaurant: object
+            }
+          }}
+        >
+          {object.name}
+        </Link>
       ),
       isKey: true,
       dataSort: true

@@ -21,8 +21,6 @@ def get_venue_by_id(id):
     return [venue for venue in venues_data if venue["id"] == id][0]
 
 # TODO: get location id from name
-
-
 def get_city_id_by_name(name):
     return "26330"
 
@@ -128,31 +126,6 @@ def city(id):
 @app.route('/')
 def index():
     return render_template("index.html")
-
-
-@app.route('/api/artists')
-def artists():
-    return jsonify(artists=artists_data)
-
-
-@app.route('/api/artist/<string:id>')
-def artist(id):
-    data = get_artist_by_id(id)
-    print(data)
-    return jsonify(artist=get_artist_by_id(id))
-
-
-@app.route('/api/venues')
-def venues():
-    return jsonify(venues=venues_data)
-
-
-@app.route('/api/venue/<string:id>')
-def venue(id):
-    data = get_venue_by_id(id)
-    print(data)
-    return jsonify(venue=get_venue_by_id(id))
-
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -7,13 +7,9 @@ import Home from "../page/home";
 import About from "../page/about";
 import Cities from "../page/cities";
 import City from "../page/city";
-import Artists from "../page/artists";
 import Restaurants from "../page/restaurants";
 import Restaurant from "../page/restaurant";
-import Venue from "../page/venue";
 import Event from "../page/event";
-import Artist from "../page/artist";
-import Venues from "../page/venues";
 
 const Navigation = () => (
   <Router>
@@ -28,14 +24,11 @@ const Navigation = () => (
         <Nav.Link eventKey="/cities" as={Link} to="/cities">
           Cities
         </Nav.Link>
-        <Nav.Link eventKey="/venues" as={Link} to="/venues">
-          Venues
-        </Nav.Link>
-        <Nav.Link eventKey="/artists" as={Link} to="/artists">
-          Artists
-        </Nav.Link>
         <Nav.Link eventKey="/restaurants" as={Link} to="/restaurants">
           Restaurants
+        </Nav.Link>
+        <Nav.Link eventKey="/events" as={Link} to="/events">
+          Events
         </Nav.Link>
       </Nav>
     </Navbar>
@@ -50,23 +43,11 @@ const Navigation = () => (
       <Route path="/city/:id">
         <City />
       </Route>
-      <Route path="/artists">
-        <Artists />
-      </Route>
-      <Route path="/artist/:id">
-        <Artist />
-      </Route>
       <Route path="/restaurant/:id">
         <Restaurant />
       </Route>
       <Route path="/restaurants/">
         <Restaurants />
-      </Route>
-      <Route path="/venues">
-        <Venues />
-      </Route>
-      <Route path="/venue/:id">
-        <Venue />
       </Route>
       <Route path="/event">
         <Event />
