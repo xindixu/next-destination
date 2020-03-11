@@ -50,3 +50,43 @@ about_data = [
     {'name': 'Quinton Pham', 'photo': 'a', 'stats': member_contribs["quinton"], 'description': 'Junior Biochemistry; loves long walks on the beach',
      'responsibilities':"API Integration", 'id':'quinton'}
 ]
+restaurants_data = [{
+    'name': 'Barbeque Resstaurant',
+    'category': 'Barbeque',
+    'description': 'as;dfalsdf;',
+    'address': '1234 Rockefeller Street',
+    'city': 'Austin',
+    'coordinates': {'x': '1234', 'y': '1234'},
+    'price': '$$$',
+    'hours': [{
+        'day': 'M',
+        'start': '8:00',
+        'end': '9:00'}]
+},
+    {
+    'name': 'Marshalls Restaurant',
+    'category': 'Seafood',
+    'description': 'as;dfalsdf;',
+    'address': '1234 Rockefeller Street',
+    'city': 'Austin',
+    'coordinates': {'x': '1234', 'y': '1234'},
+    'price': '$$$',
+    'hours': [{
+        'day': 'M',
+        'start': '8:00',
+        'end': '9:00'}
+    ]
+}]
+events_data = [{
+    'name': 'V day',
+    'category': 'Holiday',
+    'location':{'austin', 'austin'},
+    'description': 'asdsf',
+    'address': 'sdasf',
+    'coordinates': {'x': 'asdfdsa', 'y': 'adfadsf'},
+    'price': 'asdfas',
+    'hours': [{
+        'day': 'afsdf',
+        'start': 'gfhfh',
+        'end': 'nxcv,cxzbv'}]
+}]

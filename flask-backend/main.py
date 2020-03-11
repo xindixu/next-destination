@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_cors import CORS, cross_origin
 import requests
 
-from data import cities_data, about_data, member_contribs
+from data import cities_data, about_data, member_contribs, restaurants_data, events_data
 from api import songkick_api_key, yelp_api_header
 
 app = Flask(__name__)
@@ -60,7 +60,16 @@ def about():
             member_contribs["quinton"]["issues"] += 1
 
     return jsonify(about=about_data)
-
+# ! Need to find a way to make this take info about the location of the local machine so that local events will be listed
+# ! Alternatively we could have a search bar that would allow users to search by event or city
+@app.route('/api/events')
+def events_page():
+    url = "https://api.yelp.com/v3/events"
+    params = {
+        "location": "austin"
+    }
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return jsonify(response=response)
 
 @app.route('/api/events/<string:city>')
 def events(city):
@@ -97,6 +106,9 @@ def restaurant(id):
     response = requests.get(url, headers=yelp_api_header).json()
     return jsonify(response=response)
 
+@app.route('/api/restaurants')
+def restaurants_page():
+    return jsonify(restaurants=restaurants_data)
 
 @app.route('/api/cities')
 def cities():

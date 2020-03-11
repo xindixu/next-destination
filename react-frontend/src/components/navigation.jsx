@@ -9,6 +9,7 @@ import City from "../page/city";
 import Restaurants from "../page/restaurants";
 import Restaurant from "../page/restaurant";
 import Event from "../page/event";
+// import Events from "../page/events"
 
 const Navigation = () => (
   <Router>
@@ -48,6 +49,9 @@ const Navigation = () => (
       <Route path="/restaurants/">
         <Restaurants />
       </Route>
+      {/* <Route path="/events/">
+        <Events />
+      </Route> */}
       <Route path="/event/:id">
         <Event />
       </Route>
