@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useParams, Link } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 import apiFetch from "../lib/api-fetch";
 
-const Restaurant = ({ restaurant }) => {
+const Restaurant = () => {
+  const { id } = useParams();
+  const [restaurant, setRestaurant] = useState(null);
+
+  useEffect(() => {
+    apiFetch(`/restaurant/${id}`, {})
+      .then(resp => resp.json())
+      .then(data => {
+        setRestaurant(data.response);
+      });
+  }, []);
+
+  if (!restaurant) {
+    return <></>;
+  }
+
   const {
     name,
     categories,
@@ -28,6 +41,5 @@ const Restaurant = ({ restaurant }) => {
     </>
   );
 };
-Restaurant.propTypes = {};
 
 export default Restaurant;

@@ -8,37 +8,31 @@ const Events = ({ data }) => {
   const settings = {
     name: {
       title: "Events",
-      getBodyFormat: (_, { alias, name }) => (
-        <Link to={`/event/${alias}`}>{name}</Link>
+      getBodyFormat: (_, { id, name }) => (
+        <Link to={`/event/${id}`}>{name}</Link>
       ),
       isKey: true,
       dataSort: true
     },
-    // distance: {
-    //   title: "Distance",
-    //   getBodyFormat: (_, { distance }) => <span>{distance}</span>,
-    //   isKey: false,
-    //   dataSort: true
-    // },
     location: {
       title: "Address",
-      getBodyFormat: (_, { location: { display_address } }) => (
-        <span>{display_address}</span>
+      getBodyFormat: (_, { location: { display_address: address } }) => (
+        <span>{address}</span>
       ),
       isKey: false,
       dataSort: false
     },
     interested_count: {
       title: "Interested Count",
-      getBodyFormat: (_, { interested_count }) => (
-        <span>{interested_count}</span>
-      ),
+      getBodyFormat: (_, { interested_count: count }) => <span>{count}</span>,
       isKey: false,
       dataSort: true
     },
     is_free: {
       title: "Free",
-      getBodyFormat: (_, { is_free }) => <span>{is_free ? "Yes" : "No"}</span>,
+      getBodyFormat: (_, { is_free: isFree }) => (
+        <span>{isFree ? "Yes" : "No"}</span>
+      ),
       isKey: false,
       dataSort: true
     },
@@ -57,14 +51,17 @@ const Events = ({ data }) => {
     time: {
       title: "Rating",
       getBodyFormat: (_, { time_start: start, time_end: end }) => (
-        <span>{new Date(start).toLocaleDateString()}</span>
+        <span>
+          {new Date(start).toLocaleDateString()} -{" "}
+          {new Date(end).toLocaleDateString()}
+        </span>
       ),
       isKey: false,
       dataSort: true
     },
     url: {
       title: "URL",
-      getBodyFormat: (_, { url }) => (
+      getBodyFormat: (_, { event_site_url: url }) => (
         <a href={url} target="_blank" rel="noopener noreferrer">
           Yelp
         </a>
@@ -80,15 +77,14 @@ Events.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
-      distance: PropTypes.number.isRequired,
+      category: PropTypes.string.isRequired,
       location: PropTypes.shape({
-        address1: PropTypes.string.isRequired,
-        address2: PropTypes.string.isRequired,
-        city: PropTypes.string.isRequired
+        display_address: PropTypes.arrayOf(PropTypes.string).isRequired
       }).isRequired,
-      price: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      url: PropTypes.string.isRequired
+      is_free: PropTypes.bool.isRequired,
+      time_start: PropTypes.string.isRequired,
+      time_end: PropTypes.string.isRequired,
+      event_site_url: PropTypes.string.isRequired
     }).isRequired
   ).isRequired
 };

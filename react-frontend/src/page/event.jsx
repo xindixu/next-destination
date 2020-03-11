@@ -1,55 +1,59 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
 import apiFetch from "../lib/api-fetch";
-const Events = props => {
-  const [event, setEvent] = useState([]);
+
+const Event = () => {
+  const { id } = useParams();
+  const [event, setEvent] = useState(null);
+
   useEffect(() => {
-    apiFetch("/event", {})
+    apiFetch(`/event/${id}`, {})
       .then(resp => resp.json())
       .then(data => {
-        setEvent(data.event);
-        console.log(data);
+        setEvent(data.response);
       });
   }, []);
 
+  if (!event) {
+    return <></>;
+  }
+
+  const {
+    name,
+    category,
+    location: { display_address: address },
+    image_url: image,
+    latitude,
+    longitude,
+    cost,
+    is_free: isFree,
+    event_site_url: url,
+    time_start: start,
+    time_end: end,
+    description
+  } = event;
+
   return (
-    <div>
-      {event.length &&
-        event.map(
-          ({
-            name,
-            category,
-            description,
-            address,
-            coordinates,
-            price,
-            hours
-          }) => (
-            <p key={name}>
-              name: {name}
-              <br />
-              category: {category}
-              <br />
-              address: {address}
-              <br />
-              description: {description}
-              <br />
-              coordinates: {coordinates.x}, {coordinates.y}
-              <br />
-              price: {price}
-              <br />
-              {hours.map(({ day, start, end }) => (
-                <p key={name}>
-                  {day}: {start}-{end}
-                </p>
-              ))}
-            </p>
-          )
-        )}
-    </div>
+    <>
+      <h1>{name}</h1>
+      <img src={image} alt={name} />
+      <span>#{category}</span>
+      <p>
+        Event time: {new Date(start).toLocaleDateString()} -
+        {new Date(end).toLocaleDateString()}
+      </p>
+      <p>
+        ({latitude}, {longitude}){" "}
+      </p>
+      <p>
+        <a href={url}>Official Website</a>
+      </p>
+      <p>{address}</p>
+      <p>{cost}</p>
+      <p>{description}</p>
+    </>
   );
 };
-Events.propTypes = {};
 
-export default Events;
+export default Event;

@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
-import PropTypes from "prop-types";
 
 import Home from "../page/home";
 import About from "../page/about";
@@ -49,7 +48,7 @@ const Navigation = () => (
       <Route path="/restaurants/">
         <Restaurants />
       </Route>
-      <Route path="/event">
+      <Route path="/event/:id">
         <Event />
       </Route>
       <Route path="/">
@@ -58,7 +57,5 @@ const Navigation = () => (
     </Switch>
   </Router>
 );
-
-Navigation.propTypes = {};
 
 export default Navigation;

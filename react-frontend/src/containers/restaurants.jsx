@@ -16,17 +16,8 @@ const Restaurants = ({ data }) => {
     },
     name: {
       title: "Restaurants",
-      getBodyFormat: (_, object) => (
-        <Link
-          to={{
-            pathname: `/restaurant/${object.alias}`,
-            state: {
-              restaurant: object
-            }
-          }}
-        >
-          {object.name}
-        </Link>
+      getBodyFormat: (_, { alias, name }) => (
+        <Link to={`/restaurant/${alias}`}>{name}</Link>
       ),
       isKey: true,
       dataSort: true
@@ -39,10 +30,8 @@ const Restaurants = ({ data }) => {
     },
     location: {
       title: "Address",
-      getBodyFormat: (_, { location: { address1, address2 } }) => (
-        <span>
-          {address1}, {address2}
-        </span>
+      getBodyFormat: (_, { location: { display_address: address } }) => (
+        <span>{address.join(", ")}</span>
       ),
       isKey: false,
       dataSort: false
@@ -79,9 +68,7 @@ Restaurants.propTypes = {
       name: PropTypes.string.isRequired,
       distance: PropTypes.number.isRequired,
       location: PropTypes.shape({
-        address1: PropTypes.string.isRequired,
-        address2: PropTypes.string.isRequired,
-        city: PropTypes.string.isRequired
+        display_address: PropTypes.arrayOf(PropTypes.string).isRequired
       }).isRequired,
       price: PropTypes.string.isRequired,
       rating: PropTypes.number.isRequired,
