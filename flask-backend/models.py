@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
-from main import app
-# app = Flask(__name__)
+from sqlalchemy import create_engine
+# from main import app
+
+app = Flask(__name__)
 # TODO: replace with real password
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
     "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
@@ -21,6 +23,8 @@ class Cities(db.Model):
     description = db.Column(db.String(5000), nullable=False)
 
     listings = db.relationship('Airbnb', backref='cities')
+    def  __repr__(self):
+        return f"Cities('{self.name}')"
 
 
 class Airbnb(db.Model):
@@ -48,6 +52,9 @@ class Airbnb(db.Model):
     review_scores_rating = db.Column(db.Float, nullable=False)
     city_name = db.Column(db.String(40), db.ForeignKey(
         'cities.name'), nullable=False)
+    def  __repr__(self):
+        return f"Airbnb('{self.id}')"
 
+# engine = create_engine('postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
 
 db.create_all()
