@@ -114,9 +114,10 @@ def restaurant(id):
 def restaurants_page():
     return jsonify(restaurants=restaurants_data)
 
-@app.route('/api/cities')
-def cities():
-    return jsonify(cities=cities_data)
+#! Hard coded data set to be removed. 
+# @app.route('/api/cities_db')
+# def cities_db():
+#     return jsonify(cities=cities_data)
 
 
 @app.route('/api/city/<string:id>')
@@ -154,13 +155,14 @@ def airbnb():
         session.rollback()
         return 'ERROR SOMEWHERE'
 
-@app.route('/api/cities_db', methods = ["GET"])
-def cities_db():
+@app.route('/api/cities', methods = ["GET"])
+def cities():
     try:
         # ! limiting the query to five so it doesn't blow up your computer
         cities_data = session.query(Cities).limit(5).all()
         cities_dict = convert_to_dict(cities_data)
-        return jsonify(cities_dict)
+        # return jsonify(cities_dict)
+        return jsonify(cities=cities_dict)
     except:
         session.rollback()
         return 'ERROR SOMEWHERE'

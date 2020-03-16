@@ -4,12 +4,12 @@ import "./cities.css";
 import { Link } from "react-router-dom";
 import SortableTable from "../components/sortable-table";
 import apiFetch from "../lib/api-fetch";
-// import { filterArtists, filterVenuesByCities } from "../lib/util";
+import { filterArtists, filterVenuesByCities } from "../lib/util";
 
 const Cities = props => {
   const [cities, setCities] = useState([]);
-  // const [venues, setVenues] = useState([]);
-  // const [artists, setArtists] = useState([]);
+  const [venues, setVenues] = useState([]);
+  const [artists, setArtists] = useState([]);
   useEffect(() => {
     apiFetch("/cities", {})
       .then(resp => resp.json())
@@ -21,9 +21,7 @@ const Cities = props => {
   const settings = {
     image: {
       title: "Picture",
-      getBodyFormat: (_, { image, name }) => (
-        <img src={image} alt={`city of ${name}`} />
-      ),
+      getBodyFormat: (_, {}) => <span>{'INSERT PICTURE HERE'}</span>,
       isKey: false,
       dataSort: false
     },
@@ -46,17 +44,6 @@ const Cities = props => {
       getBodyFormat: (_, { description }) => <span>{description}</span>,
       isKey: false,
       dataSort: false
-    },
-    airbnb: {
-      title: "Avg Airbnb Price",
-      getBodyFormat: (_, { airbnb }) => <span>{airbnb}</span>,
-      isKey: false,
-      dataSort: true,
-      sortFunc: (a, b, order) => {
-        const valueA = parseInt(a.airbnb);
-        const valueB = parseInt(b.airbnb);
-        return order === "desc" ? valueA - valueB : valueB - valueA;
-      }
     }
   };
 
