@@ -148,6 +148,7 @@ def airbnb():
         airbnb_data = session.query(Airbnb).limit(5).all()
         airbnb_dict = convert_to_dict(airbnb_data)
         return jsonify(airbnb_dict)
+        #TODO look into how to only import the latt, long, accomodates, and name / title
     except:
         session.rollback()
         return 'ERROR SOMEWHERE'

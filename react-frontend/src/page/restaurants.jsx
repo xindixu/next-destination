@@ -24,13 +24,13 @@ const Restaurants = props => {
       });
   }, []);
 
-  useEffect(() => {
-    apiFetch("/artists", {})
-      .then(resp => resp.json())
-      .then(data => {
-        setArtists(data.artists);
-      });
-  }, []);
+  // useEffect(() => {
+  //   apiFetch("/artists", {})
+  //     .then(resp => resp.json())
+  //     .then(data => {
+  //       setArtists(data.artists);
+  //     });
+  // }, []);
 
   const restaurantCitiesComponent = ({ city }) => {
     const venueCities = filterCities(city, cities);

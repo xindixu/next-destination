@@ -30,6 +30,7 @@ const Navigation = () => (
         <Nav.Link eventKey="/events" as={Link} to="/events">
           Events
         </Nav.Link>
+        
       </Nav>
     </Navbar>
 

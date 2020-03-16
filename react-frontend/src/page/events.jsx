@@ -9,7 +9,7 @@ import { filterCities, filterArtists } from "../lib/util";
 const Events = props => {
   const [events, setEvents] = useState([]);
   const [cities, setCities] = useState([]);
-  const [artists, setArtists] = useState([]);
+  // const [artists, setArtists] = useState([]);
   useEffect(() => {
     apiFetch("/events", {})
       .then(resp => resp.json())
@@ -24,13 +24,13 @@ const Events = props => {
       });
   }, []);
 
-  useEffect(() => {
-    apiFetch("/artists", {})
-      .then(resp => resp.json())
-      .then(data => {
-        setArtists(data.artists);
-      });
-  }, []);
+  // useEffect(() => {
+  //   apiFetch("/artists", {})
+  //     .then(resp => resp.json())
+  //     .then(data => {
+  //       setArtists(data.artists);
+  //     });
+  // }, []);
 
   const eventCitiesComponent = ({ city }) => {
     const venueCities = filterCities(city, cities);

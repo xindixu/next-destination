@@ -4,14 +4,14 @@ import "./cities.css";
 import { Link } from "react-router-dom";
 import SortableTable from "../components/sortable-table";
 import apiFetch from "../lib/api-fetch";
-import { filterArtists, filterVenuesByCities } from "../lib/util";
+// import { filterArtists, filterVenuesByCities } from "../lib/util";
 
 const Cities = props => {
   const [cities, setCities] = useState([]);
-  const [venues, setVenues] = useState([]);
-  const [artists, setArtists] = useState([]);
+  // const [venues, setVenues] = useState([]);
+  // const [artists, setArtists] = useState([]);
   useEffect(() => {
-    apiFetch("/cities", {})
+    apiFetch("/cities_db", {})
       .then(resp => resp.json())
       .then(data => {
         setCities(data.cities);
