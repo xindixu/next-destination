@@ -11,7 +11,7 @@ const Cities = props => {
   // const [venues, setVenues] = useState([]);
   // const [artists, setArtists] = useState([]);
   useEffect(() => {
-    apiFetch("/cities_db", {})
+    apiFetch("/cities", {})
       .then(resp => resp.json())
       .then(data => {
         setCities(data.cities);
