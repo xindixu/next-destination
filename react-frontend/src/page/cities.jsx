@@ -17,7 +17,7 @@ const Cities = props => {
         setCities(data.cities);
       });
   }, []);
-
+//! need to figure out how to paginate the data when imporing the ~50 datapoints that we have
   const settings = {
     image: {
       title: "Picture",

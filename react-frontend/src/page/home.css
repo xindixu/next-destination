@@ -1,5 +1,8 @@
 .body {
-  color: #00caff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 .header {
@@ -60,64 +63,30 @@
   margin: 0px;
 }
 
-a {
-  text-decoration: none;
-  color: #27c8d2;
-}
-
 .banner {
-  position: absolute;
+  display: flex;
   width: 100%;
   border-radius: 0;
 }
 
-.descr {
-  position: absolute;
-  top: 450px;
-  width: 100%;
-  margin: auto;
-  text-align: center;
-}
-
-.randCity1 {
-  position: relative;
-  width: 1000px;
-  height: 400px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.randCity1 img {
-  position: absolute;
-  left: 75px;
-  top: 70px;
-  height: 275px;
-  width: 400px;
-  border-radius: 15px;
-}
-
-.randCity1 div {
-  position: absolute;
-  right: 100px;
-  top: 80px;
-  width: 300px;
-  text-align: left;
-  background-color: #d4ffe7;
-  border-radius: 15px;
-  padding: 30px;
-}
-
-.randCity1 p {
-  width: 300px;
-  text-align: left;
-}
-
 .Row {
-  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex;
 }
 
 .Container {
-  position: relative;
-  top: 450px;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.Container .text {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  background-color: #d4ffe7;
+  border-radius: 15px;
+  padding: 15px;
 }
