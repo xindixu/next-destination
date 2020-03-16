@@ -39,6 +39,12 @@ const Cities = props => {
       isKey: false,
       dataSort: true
     },
+    population: {
+      title: "Population",
+      getBodyFormat: (_, { population }) => <span>{population}</span>,
+      isKey: false,
+      dataSort: true
+    },
     description: {
       title: "Description",
       getBodyFormat: (_, { description }) => <span>{description}</span>,
