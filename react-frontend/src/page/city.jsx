@@ -32,8 +32,8 @@ const City = () => {
 
   const [
     {
-      records: restaurants,
       recordsCount: totalRestaurants,
+      pageRecords: restaurantsPageRecords,
       fetching: restaurantsFetching
     },
     { fetchNextPage: restaurantsFetchNextPage, fetchPage: restaurantFetchPage }
@@ -71,7 +71,7 @@ const City = () => {
   }, [id]);
 
   useEffect(() => {
-    restaurantsFetchNextPage();
+    restaurantFetchPage(1);
     eventsFetchNextPage();
   }, []);
 
@@ -96,12 +96,9 @@ const City = () => {
             <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
               <Pagination
                 totalPages={Math.floor(totalRestaurants / 20)}
-                goToPage={p => {
-                  console.log(p);
-                  restaurantFetchPage(p);
-                }}
+                loadPage={p => restaurantFetchPage(p)}
               />
-              <Restaurants data={restaurants} />
+              <Restaurants data={restaurantsPageRecords} />
             </Tab>
           )}
           {restaurantsFetching ? (

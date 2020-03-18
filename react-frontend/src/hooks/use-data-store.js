@@ -13,6 +13,7 @@ const getUrl = (url, params) => {
 const useDataStore = init => {
   const { url, params, name } = init();
   const [records, setRecords] = useState([]);
+  const [recordsByPage, setRecordsByPage] = useState([]);
   const [recordsCount, setRecordsCount] = useState(-1);
   const [currentPage, setCurrentPage] = useState(-1);
   const [nextUrl, setNextUrl] = useState(() => getUrl(url, params));
@@ -31,11 +32,12 @@ const useDataStore = init => {
   const onFetchSuccess = useCallback(
     ({ response }) => {
       setRecords([...records, ...response[name]]);
+      setRecordsByPage({ ...recordsByPage, [currentPage]: response[name] });
       setRecordsCount(response.total);
       setFetching(false);
       setError(false);
     },
-    [name, records]
+    [currentPage, name, records, recordsByPage]
   );
 
   const onFetchFail = useCallback(err => {
@@ -66,6 +68,7 @@ const useDataStore = init => {
         .then(resp => resp.json())
         .then(resp => {
           onFetchSuccess(resp);
+          setCurrentPage(page);
           return resp;
         })
         .catch(err => {
@@ -135,6 +138,7 @@ const useDataStore = init => {
     {
       records,
       recordsCount,
+      pageRecords: recordsByPage[currentPage],
       fetching,
       complete
     },

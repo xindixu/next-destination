@@ -31,7 +31,7 @@ const getNextPages = (currentPage, totalPages) => {
   return [currentPage + 1, currentPage + 2, currentPage + 3];
 };
 
-const Pagination = ({ totalPages, goToPage }) => {
+const Pagination = ({ totalPages, loadPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const paginationButtons = [
@@ -39,6 +39,12 @@ const Pagination = ({ totalPages, goToPage }) => {
     currentPage,
     ...getNextPages(currentPage, totalPages)
   ];
+
+  const goToPage = num => {
+    setCurrentPage(num);
+    loadPage(num);
+  };
+
   return (
     <>
       <ButtonToolbar
@@ -60,6 +66,7 @@ const Pagination = ({ totalPages, goToPage }) => {
               onClick={() => goToPage(num)}
               key={num}
               type="button"
+              className={num === currentPage ? "active" : ""}
               aria-label={`go to page ${num}`}
             >
               {num}
