@@ -37,8 +37,10 @@ const Event = () => {
   return (
     <>
       <h1>{name}</h1>
-      <img src={image} alt={name} />
-      <span>#{category}</span>
+      <img src={image} alt={name} className="md center" />
+      <p>
+        <span>#{category}</span>
+      </p>
       <p>
         Event time: {new Date(start).toLocaleDateString()} -
         {new Date(end).toLocaleDateString()}

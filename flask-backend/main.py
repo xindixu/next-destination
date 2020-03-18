@@ -6,12 +6,17 @@ import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
 import json
-
 from models import Airbnb, Cities, app, db
-
 
 from data import cities_data, about_data, member_contribs, restaurants_data, events_data
 from api import songkick_api_key, yelp_api_header
+
+# ! for some reason this code does not work when it is put into the __name__ if statment
+CORS(app, resources=r'/*')
+engine = create_engine('postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
+Session = sessionmaker(bind=engine)
+session = Session()
+# ! end of code that doesn't work
 
 def get_city_by_id(id):
     return [city for city in cities_data if city["id"] == id][0]
@@ -114,12 +119,6 @@ def restaurant(id):
 def restaurants_page():
     return jsonify(restaurants=restaurants_data)
 
-#! Hard coded data set to be removed. 
-# @app.route('/api/cities_db')
-# def cities_db():
-#     return jsonify(cities=cities_data)
-
-
 @app.route('/api/city/<string:id>')
 def city(id):
     data = get_city_by_id(id)
@@ -136,12 +135,6 @@ def convert_to_dict(instances):
         l.append(result_dict)
     return l
 
-# ! for some reason this code does not work when it is put into the __name__ if statment
-CORS(app, resources=r'/*')
-engine = create_engine('postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
-Session = sessionmaker(bind=engine)
-session = Session()
-# ! end of code that doesn't work
 
 @app.route('/api/airbnb', methods = ["GET"])
 def airbnb():
