@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+import useDataStore from "../hooks/use-data-store";
 
 import apiFetch from "../lib/api-fetch";
-
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
+import Pagination from "../components/pagination";
+
 import "./city.css";
 
 const TABS = {
@@ -28,10 +30,34 @@ const TABS = {
 const City = () => {
   const { id } = useParams();
 
+  const [
+    {
+      records: restaurants,
+      recordsCount: totalRestaurants,
+      fetching: restaurantsFetching
+    },
+    { fetchNextPage: restaurantsFetchNextPage, fetchPage: restaurantFetchPage }
+  ] = useDataStore(() => ({
+    url: `/restaurants/${id}`,
+    params: {
+      page: 1
+    },
+    name: "businesses"
+  }));
+
+  const [
+    { records: events, recordsCount: totalEvents, fetching: eventsFetching },
+    { fetchNextPage: eventsFetchNextPage }
+  ] = useDataStore(() => ({
+    url: `/restaurants/${id}`,
+    params: {
+      page: 1
+    },
+    name: "businesses"
+  }));
+
   const [city, setCity] = useState(null);
-  const [restaurants, setRestaurants] = useState([]);
-  const [events, setEvents] = useState([]);
-  const [isFetchingData, setIsFetchingData] = useState(false);
+  // const [isFetchingData, setIsFetchingData] = useState(false);
   const [isError, setIsError] = useState(false);
   const [activeTab, setactiveTab] = useState(TABS.restaurants.key);
 
@@ -45,32 +71,9 @@ const City = () => {
   }, [id]);
 
   useEffect(() => {
-    setIsFetchingData(true);
-    apiFetch(`/restaurants/${id}`, {})
-      .then(resp => resp.json())
-      .then(data => {
-        setRestaurants(data.response.businesses);
-        setIsFetchingData(false);
-      })
-      .catch(() => {
-        setIsFetchingData(false);
-        isError(true);
-      });
-  }, [id]);
-
-  useEffect(() => {
-    setIsFetchingData(true);
-    apiFetch(`/events/${id}`, {})
-      .then(resp => resp.json())
-      .then(data => {
-        setEvents(data.response.events);
-        setIsFetchingData(false);
-      })
-      .catch(() => {
-        setIsFetchingData(false);
-        isError(true);
-      });
-  }, [id]);
+    restaurantsFetchNextPage();
+    eventsFetchNextPage();
+  }, []);
 
   if (city) {
     const { name, description, image, airbnb } = city;
@@ -87,14 +90,21 @@ const City = () => {
         </div>
 
         <Tabs defaultActiveKey={activeTab}>
-          {isFetchingData ? (
+          {restaurantsFetching ? (
             <></>
           ) : (
             <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
+              <Pagination
+                totalPages={Math.floor(totalRestaurants / 20)}
+                goToPage={p => {
+                  console.log(p);
+                  restaurantFetchPage(p);
+                }}
+              />
               <Restaurants data={restaurants} />
             </Tab>
           )}
-          {isFetchingData ? (
+          {restaurantsFetching ? (
             <></>
           ) : (
             <Tab eventKey={TABS.events.key} title={TABS.events.title}>
