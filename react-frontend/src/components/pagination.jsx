@@ -16,6 +16,10 @@ const getPreviousPages = currentPage => {
     return [1];
   }
 
+  if (currentPage === 3) {
+    return [1, 2];
+  }
+
   return [currentPage - 3, currentPage - 2, currentPage - 1];
 };
 
@@ -83,12 +87,12 @@ const Pagination = ({ totalPages, loadPage }) => {
         </ButtonGroup>
         <InputGroup>
           <InputGroup.Prepend>
-            <InputGroup.Text id="btnGroupAddon2">@</InputGroup.Text>
+            <InputGroup.Text>@</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             type="text"
-            placeholder="Input group example"
-            aria-label="Input group example"
+            placeholder="Search"
+            aria-label="search"
             aria-describedby="btnGroupAddon2"
           />
         </InputGroup>
@@ -97,6 +101,9 @@ const Pagination = ({ totalPages, loadPage }) => {
   );
 };
 
-Pagination.propTypes = {};
+Pagination.propTypes = {
+  totalPages: PropTypes.number.isRequired,
+  loadPage: PropTypes.func.isRequired
+};
 
 export default Pagination;

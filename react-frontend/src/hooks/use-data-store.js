@@ -58,12 +58,16 @@ const useDataStore = init => {
 
   const fetchPage = useCallback(
     page => {
+      if (recordsByPage[page]) {
+        setCurrentPage(page);
+        return;
+      }
       const newParams = {
         ...params,
         page
       };
       const newURL = getUrl(url, newParams);
-      console.log(newURL);
+
       return fetchWithUrl(newURL)
         .then(resp => resp.json())
         .then(resp => {
@@ -76,7 +80,7 @@ const useDataStore = init => {
           return err;
         });
     },
-    [fetchWithUrl, onFetchFail, onFetchSuccess, params, url]
+    [fetchWithUrl, onFetchFail, onFetchSuccess, params, recordsByPage, url]
   );
 
   const fetchNextPage = useCallback(() => {
@@ -142,7 +146,15 @@ const useDataStore = init => {
       fetching,
       complete
     },
-    { fetchNextPage, fetchPage, sort }
+    {
+      fetchNextPage,
+      fetchPage,
+      sort,
+      getCurrentRecords: useCallback(() => recordsByPage[currentPage], [
+        currentPage,
+        recordsByPage
+      ])
+    }
   ];
 };
 

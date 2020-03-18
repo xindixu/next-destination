@@ -36,7 +36,10 @@ const City = () => {
       pageRecords: restaurantsPageRecords,
       fetching: restaurantsFetching
     },
-    { fetchNextPage: restaurantsFetchNextPage, fetchPage: restaurantFetchPage }
+    {
+      getCurrentRecords: restaurantsGetCurrentRecords,
+      fetchPage: restaurantFetchPage
+    }
   ] = useDataStore(() => ({
     url: `/restaurants/${id}`,
     params: {
@@ -98,7 +101,7 @@ const City = () => {
                 totalPages={Math.floor(totalRestaurants / 20)}
                 loadPage={p => restaurantFetchPage(p)}
               />
-              <Restaurants data={restaurantsPageRecords} />
+              <Restaurants data={restaurantsGetCurrentRecords()} />
             </Tab>
           )}
           {restaurantsFetching ? (
