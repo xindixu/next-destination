@@ -33,13 +33,10 @@ const City = () => {
   const [
     {
       recordsCount: totalRestaurants,
-      pageRecords: restaurantsPageRecords,
-      fetching: restaurantsFetching
+      fetching: restaurantsFetching,
+      pageRecords: restaurantsPageRecords
     },
-    {
-      getCurrentRecords: restaurantsGetCurrentRecords,
-      fetchPage: restaurantFetchPage
-    }
+    { fetchPage: restaurantsFetchPage }
   ] = useDataStore(() => ({
     url: `/restaurants/${id}`,
     params: {
@@ -49,8 +46,8 @@ const City = () => {
   }));
 
   const [
-    { records: events, recordsCount: totalEvents, fetching: eventsFetching },
-    { fetchNextPage: eventsFetchNextPage }
+    { recordsCount: totalEvents, fetching: eventsFetching },
+    { getCurrentRecords: eventsGetCurrentRecords, fetchPage: eventsFetchPage }
   ] = useDataStore(() => ({
     url: `/restaurants/${id}`,
     params: {
@@ -62,7 +59,7 @@ const City = () => {
   const [city, setCity] = useState(null);
   // const [isFetchingData, setIsFetchingData] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [activeTab, setactiveTab] = useState(TABS.restaurants.key);
+  const [activeTab, setActiveTab] = useState(TABS.restaurants.key);
 
   // TODO: data should be passed down from parent
   useEffect(() => {
@@ -74,8 +71,8 @@ const City = () => {
   }, [id]);
 
   useEffect(() => {
-    restaurantFetchPage(1);
-    eventsFetchNextPage();
+    restaurantsFetchPage(1);
+    eventsFetchPage(1);
   }, []);
 
   if (city) {
@@ -99,16 +96,20 @@ const City = () => {
             <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
               <Pagination
                 totalPages={Math.floor(totalRestaurants / 20)}
-                loadPage={p => restaurantFetchPage(p)}
+                loadPage={restaurantsFetchPage}
               />
-              <Restaurants data={restaurantsGetCurrentRecords()} />
+              <Restaurants data={restaurantsPageRecords} />
             </Tab>
           )}
-          {restaurantsFetching ? (
+          {eventsFetching ? (
             <></>
           ) : (
             <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-              <Events data={events} />
+              <Pagination
+                totalPages={Math.floor(totalEvents / 20)}
+                loadPage={eventsFetchPage}
+              />
+              <Events data={eventsGetCurrentRecords()} />
             </Tab>
           )}
         </Tabs>

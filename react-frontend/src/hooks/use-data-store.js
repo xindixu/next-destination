@@ -14,8 +14,8 @@ const useDataStore = init => {
   const { url, params, name } = init();
   const [records, setRecords] = useState([]);
   const [recordsByPage, setRecordsByPage] = useState([]);
-  const [recordsCount, setRecordsCount] = useState(-1);
-  const [currentPage, setCurrentPage] = useState(-1);
+  const [recordsCount, setRecordsCount] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [nextUrl, setNextUrl] = useState(() => getUrl(url, params));
 
   const [fetching, setFetching] = useState(false);
@@ -24,7 +24,7 @@ const useDataStore = init => {
 
   const reset = () => {
     setRecords([]);
-    setRecordsCount(-1);
+    setRecordsCount(1);
     setNextUrl("");
     setComplete(false);
   };
@@ -58,10 +58,11 @@ const useDataStore = init => {
 
   const fetchPage = useCallback(
     page => {
+      console.log("page", page);
       if (recordsByPage[page]) {
-        setCurrentPage(page);
-        return;
+        return setCurrentPage(page);
       }
+
       const newParams = {
         ...params,
         page
