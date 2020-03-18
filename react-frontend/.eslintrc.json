@@ -3,7 +3,8 @@
     "react",
     "import",
     "jsx-a11y",
-    "prettier"
+    "prettier",
+    "react-hooks"
   ],
   "extends": [
     "eslint:recommended",
@@ -21,7 +22,9 @@
     "react/jsx-one-expression-per-line": "off",
     "react/destructuring-assignment": "off",
     "space-infix-ops": "error",
-    "prettier/prettier": ["error"]
+    "prettier/prettier": ["error"],
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn" 
   },
   "parser": "babel-eslint"
 }
