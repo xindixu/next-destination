@@ -17,3 +17,12 @@ export const getSortableAttributes = schema =>
     }
     return dict;
   }, {});
+
+export const getLocation = () => {
+  if (navigator.geolocation) {
+    return navigator.geolocation.getCurrentPosition(position => {
+      console.log(position);
+    });
+  }
+  return "Geolocation is not supported by this browser.";
+};
