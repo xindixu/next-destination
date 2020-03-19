@@ -1,4 +1,34 @@
 img {
-  width: 200px;
   height: auto;
+  border-radius: 15px;
+  width: 200px;
+}
+
+img.lg{
+  width: 1000px;
+  margin: 2rem auto;
+}
+
+img.md{
+  width: 800px;
+  margin: 1.5rem auto;
+
+}
+
+img.base{
+  width: 400px;
+}
+
+img.sm{
+  width: 200px;
+}
+
+
+
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
 }

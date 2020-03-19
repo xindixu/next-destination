@@ -15,53 +15,13 @@ const Cities = props => {
       .then(resp => resp.json())
       .then(data => {
         setCities(data.cities);
-        console.log(data);
       });
   }, []);
-
-  useEffect(() => {
-    apiFetch("/venues", {})
-      .then(resp => resp.json())
-      .then(data => {
-        setVenues(data.venues);
-      });
-  }, []);
-
-  useEffect(() => {
-    apiFetch("/artists", {})
-      .then(resp => resp.json())
-      .then(data => setArtists(data.artists));
-  }, []);
-
-  const cityVenuesComponent = ({ name }) => {
-    const cityVenues = filterVenuesByCities(name, venues);
-    return (
-      <span>
-        {cityVenues.map(({ id, name }) => (
-          <Link to={`/venue/${id}`}>{name}</Link>
-        ))}
-      </span>
-    );
-  };
-
-  const cityArtistsComponent = ({ artist }) => {
-    const cityArtists = filterArtists(artist, artists);
-
-    return (
-      <span>
-        {cityArtists.map(({ id, name }) => (
-          <Link to={`/artist/${id}`}>{name}</Link>
-        ))}
-      </span>
-    );
-  };
-
+//! need to figure out how to paginate the data when imporing the ~50 datapoints that we have
   const settings = {
     image: {
       title: "Picture",
-      getBodyFormat: (_, { image, name }) => (
-        <img src={image} alt={`Picture for city ${name}`} />
-      ),
+      getBodyFormat: (_, {}) => <span>{'INSERT PICTURE HERE'}</span>,
       isKey: false,
       dataSort: false
     },
@@ -79,34 +39,17 @@ const Cities = props => {
       isKey: false,
       dataSort: true
     },
+    population: {
+      title: "Population",
+      getBodyFormat: (_, { population }) => <span>{population}</span>,
+      isKey: false,
+      dataSort: true
+    },
     description: {
       title: "Description",
       getBodyFormat: (_, { description }) => <span>{description}</span>,
       isKey: false,
       dataSort: false
-    },
-    venues: {
-      title: "Music venues",
-      getBodyFormat: (_, object) => cityVenuesComponent(object),
-      isKey: false,
-      dataSort: true
-    },
-    artist: {
-      title: "Upcoming Artists",
-      getBodyFormat: (_, object) => cityArtistsComponent(object),
-      isKey: false,
-      dataSort: true
-    },
-    airbnb: {
-      title: "Avg Airbnb Price",
-      getBodyFormat: (_, { airbnb }) => <span>{airbnb}</span>,
-      isKey: false,
-      dataSort: true,
-      sortFunc: (a, b, order) => {
-        const valueA = parseInt(a.airbnb);
-        const valueB = parseInt(b.airbnb);
-        return order === "desc" ? valueA - valueB : valueB - valueA;
-      }
     }
   };
 
