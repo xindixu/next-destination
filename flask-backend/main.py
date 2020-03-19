@@ -69,16 +69,17 @@ def about():
     return jsonify(about=about_data)
 # ! Need to find a way to make this take info about the location of the local machine so that local events will be listed
 # ! Alternatively we could have a search bar that would allow users to search by event or city
-# @app.route('/api/events')
-# def events_page():
-#     url = "https://api.yelp.com/v3/events"
-#     params = {
-#         "location": "austin"
-#     }
-#     response = requests.get(url, params=params, headers=yelp_api_header).json()
-#     return jsonify(response=response)
+# * still encountering 404 when trying to reach this page from the backend
+@app.route('/api/events')
+def events_page():
+    url = "https://api.yelp.com/v3/events"
+    params = {
+        "location": "austin"
+    }
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return jsonify(response=response)
 
-@app.route('/api/events/', defaults={"city":"austin"}) # change needed here
+# @app.route('/api/events/', defaults={"city":"austin"}) # change needed here
 @app.route('/api/events/<string:city>')
 def events(city):
     # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
