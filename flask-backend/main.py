@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 import json
 from models import Airbnb, Cities, app, db
 
-from data import cities_data, about_data, member_contribs, restaurants_data, events_data
+from data import about_data, member_contribs
 from api import songkick_api_key, yelp_api_header
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
@@ -17,14 +17,6 @@ engine = create_engine(
 Session = sessionmaker(bind=engine)
 session = Session()
 # ! end of code that doesn't work
-
-
-def get_city_by_id(id):
-    return [city for city in cities_data if city["id"] == id][0]
-
-
-def get_city_id_by_name(name):
-    return "26330"
 
 
 def get_gitlab_data(url):
@@ -149,12 +141,6 @@ def restaurants_page():
     return jsonify(restaurants=restaurants_data)
 
 
-@app.route('/api/city/<string:id>')
-def city(id):
-    data = get_city_by_id(id)
-    return jsonify(city=get_city_by_id(id))
-
-
 def convert_to_dict(instances):
     l = []
     for instance in instances:
@@ -180,13 +166,19 @@ def airbnb():
         return 'ERROR SOMEWHERE'
 
 
+@app.route('/api/city/<string:name>')
+def city(name):
+    city_data = session.query(Cities).filter(Cities.name == name).all()
+    city_dict = convert_to_dict(city_data)
+    return jsonify(city=city_dict)
+
+
 @app.route('/api/cities', methods=["GET"])
 def cities():
     try:
         # ! limiting the query to five so it doesn't blow up your computer
         cities_data = session.query(Cities).limit(5).all()
         cities_dict = convert_to_dict(cities_data)
-        # return jsonify(cities_dict)
         return jsonify(cities=cities_dict)
     except:
         session.rollback()
