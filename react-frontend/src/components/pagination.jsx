@@ -35,6 +35,9 @@ const Pagination = ({ totalRecords, loadPage }) => {
   const paginationButtons = getButtons(currentPage, totalPages);
 
   const goToPage = num => {
+    if (num === currentPage) {
+      return;
+    }
     setCurrentPage(num);
     loadPage(num);
   };

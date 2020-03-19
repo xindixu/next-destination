@@ -11,7 +11,13 @@ import {
 import Pagination from "../components/pagination";
 import SortOn from "../components/sort-on";
 
-const TableActions = ({ totalRecords, loadPage, sortOn, setSortOn, schema }) => {
+const TableActions = ({
+  totalRecords,
+  loadPage,
+  sortOn,
+  updateSortOn,
+  schema
+}) => {
   return (
     <ButtonToolbar
       className="justify-content-between"
@@ -31,7 +37,7 @@ const TableActions = ({ totalRecords, loadPage, sortOn, setSortOn, schema }) => 
         />
       </InputGroup>
 
-      <SortOn sortOn={sortOn} setSortOn={setSortOn} schema={schema}/>
+      <SortOn sortOn={sortOn} updateSortOn={updateSortOn} schema={schema} />
     </ButtonToolbar>
   );
 };
@@ -39,7 +45,9 @@ const TableActions = ({ totalRecords, loadPage, sortOn, setSortOn, schema }) => 
 TableActions.propTypes = {
   totalRecords: PropTypes.number.isRequired,
   loadPage: PropTypes.func.isRequired,
-  sortOn: PropTypes.string.isRequired
+  schema: PropTypes.object.isRequired,
+  sortOn: PropTypes.string.isRequired,
+  updateSortOn: PropTypes.func.isRequired
 };
 
 export default TableActions;

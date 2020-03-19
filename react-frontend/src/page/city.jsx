@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import useDataStore from "../hooks/use-data-store";
 
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import TableActions from "../containers/table-actions";
-import { RESTAURANT_SCHEMA , EVENT_SCHEMA} from "../lib/constants";
 import "./city.css";
 
 const TABS = {
@@ -30,36 +28,6 @@ const TABS = {
 const City = () => {
   const { id } = useParams();
 
-  const [
-    {
-      recordsCount: totalRestaurants,
-      fetching: restaurantsFetching,
-      pageRecords: restaurantsPageRecords
-    },
-    { fetchPage: restaurantsFetchPage }
-  ] = useDataStore(() => ({
-    url: `/restaurants/${id}`,
-    params: {
-      page: 1
-    },
-    name: "businesses"
-  }));
-
-  const [
-    {
-      recordsCount: totalEvents,
-      fetching: eventsFetching,
-      pageRecords: eventsPageRecords
-    },
-    { fetchPage: eventsFetchPage }
-  ] = useDataStore(() => ({
-    url: `/events/${id}`,
-    params: {
-      page: 1
-    },
-    name: "events"
-  }));
-
   const [city, setCity] = useState(null);
   const [isError, setIsError] = useState(false);
 
@@ -74,13 +42,6 @@ const City = () => {
         setIsError(true);
       });
   }, [id]);
-
-  useEffect(() => {
-    restaurantsFetchPage(1).catch(setIsError(true));
-    eventsFetchPage(1).catch(setIsError(true));
-    // only fetch once when mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   if (city) {
     const { name, description, image, airbnb } = city;
@@ -97,30 +58,13 @@ const City = () => {
         </div>
 
         <Tabs defaultActiveKey={TABS.restaurants.key}>
-          {restaurantsFetching ? (
-            <></>
-          ) : (
-            <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-              <TableActions
-                totalRecords={totalRestaurants}
-                loadPage={restaurantsFetchPage}
-                schema={RESTAURANT_SCHEMA}
-              />
-              <Restaurants data={restaurantsPageRecords} />
-            </Tab>
-          )}
-          {eventsFetching ? (
-            <></>
-          ) : (
-            <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-              <TableActions
-                totalRecords={totalEvents}
-                loadPage={eventsFetchPage}
-                schema={EVENT_SCHEMA}
-              />
-              <Events data={eventsPageRecords} />
-            </Tab>
-          )}
+          <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
+            <Restaurants city={id} />
+          </Tab>
+
+          <Tab eventKey={TABS.events.key} title={TABS.events.title}>
+            <Events city={id} />
+          </Tab>
         </Tabs>
       </>
     );

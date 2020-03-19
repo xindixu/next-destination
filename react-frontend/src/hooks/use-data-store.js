@@ -11,12 +11,12 @@ const getUrl = (url, params) => {
 };
 
 const useDataStore = init => {
-  const { url, params, name } = init();
+  const { url, params: initialParams, name } = init();
   const [records, setRecords] = useState([]);
   const [recordsByPage, setRecordsByPage] = useState([]);
   const [recordsCount, setRecordsCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [nextUrl, setNextUrl] = useState(() => getUrl(url, params));
+  const [params, setParams] = useState(initialParams);
 
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
@@ -24,8 +24,10 @@ const useDataStore = init => {
 
   const reset = () => {
     setRecords([]);
+    setRecordsByPage([]);
     setRecordsCount(1);
-    setNextUrl("");
+    setCurrentPage(1);
+    setParams(initialParams);
     setComplete(false);
   };
 
@@ -43,7 +45,7 @@ const useDataStore = init => {
   const onFetchFail = useCallback(err => {
     setFetching(false);
     setError(true);
-    console.error(err);
+    throw err;
   }, []);
 
   const fetchWithUrl = useCallback(
@@ -58,7 +60,6 @@ const useDataStore = init => {
 
   const fetchPage = useCallback(
     page => {
-      console.log("page", page);
       if (recordsByPage[page]) {
         return setCurrentPage(page);
       }
@@ -68,7 +69,7 @@ const useDataStore = init => {
         page
       };
       const newURL = getUrl(url, newParams);
-
+      setParams(newParams);
       return fetchWithUrl(newURL)
         .then(resp => resp.json())
         .then(resp => {
@@ -84,59 +85,26 @@ const useDataStore = init => {
     [fetchWithUrl, onFetchFail, onFetchSuccess, params, recordsByPage, url]
   );
 
-  const fetchNextPage = useCallback(() => {
-    setFetching(true);
-    return fetchWithUrl(nextUrl)
+  const sort = sortOn => {
+    reset();
+    console.log(sortOn);
+    const newParams = {
+      ...params,
+      sort: sortOn
+    };
+    const newURL = getUrl(url, newParams);
+    setParams(newParams);
+    fetchWithUrl(newURL)
       .then(resp => resp.json())
       .then(resp => {
         onFetchSuccess(resp);
+        setCurrentPage(1);
         return resp;
       })
       .catch(err => {
         onFetchFail(err);
         return err;
       });
-  }, [fetchWithUrl, nextUrl, onFetchFail, onFetchSuccess]);
-
-  const localSort = sortOrder =>
-    new Promise(resolve => {
-      const sorted = records.sort((a, b) => {
-        let order;
-
-        sortOrder.some(sortBy => {
-          if (a[sortBy] < b[sortBy]) {
-            order = -1;
-            return true;
-          }
-          if (a[sortBy] > b[sortBy]) {
-            order = 1;
-            return true;
-          }
-          order = 0;
-          return false;
-        });
-
-        return order;
-      });
-      setRecords(sorted);
-      resolve();
-    });
-
-  const remoteSort = sortOrder => {
-    const newParams = {
-      ...params,
-      sort: sortOrder.join(",")
-    };
-    const newURL = getUrl(url, newParams);
-    setNextUrl(newURL);
-  };
-
-  const sort = sortOrder => {
-    if (complete) {
-      return localSort(sortOrder);
-    }
-    reset();
-    return remoteSort(sortOrder);
   };
 
   return [
@@ -148,7 +116,6 @@ const useDataStore = init => {
       complete
     },
     {
-      fetchNextPage,
       fetchPage,
       sort,
       getCurrentRecords: useCallback(() => recordsByPage[currentPage], [

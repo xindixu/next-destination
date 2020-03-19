@@ -4,6 +4,20 @@ import { Link } from "react-router-dom";
 export const MAX_PAGE_NUM = 50;
 export const LIMIT = 20;
 
+// schema for apiSorting
+export const RESTAURANT_SORTABLE_SCHEMA = {
+  best_match: { title: "Best Match", dataSort: true },
+  rating: { title: "Rating", dataSort: true },
+  review_count: { title: "Review Count", dataSort: true },
+  distance: { title: "Distance", dataSort: true }
+};
+
+export const EVENT_SORTABLE_SCHEMA = {
+  popularity: { title: "Popularity", dataSort: true },
+  time_start: { title: "Time Start", dataSort: true }
+};
+
+// schema for sortableTable
 export const RESTAURANT_SCHEMA = {
   image: {
     title: "",
@@ -44,6 +58,12 @@ export const RESTAURANT_SCHEMA = {
   rating: {
     title: "Rating",
     getBodyFormat: (_, { rating }) => <span>{rating}</span>,
+    isKey: false,
+    dataSort: true
+  },
+  review_count: {
+    title: "Review Count",
+    getBodyFormat: (_, { review_count }) => <span>{review_count}</span>,
     isKey: false,
     dataSort: true
   },
@@ -101,8 +121,10 @@ export const EVENT_SCHEMA = {
     dataSort: true
   },
   time: {
-    title: "Rating",
+    title: "Time",
     getBodyFormat: (_, { time_start: start, time_end: end }) => (
+      // TODO: format year if no year presents in end
+      // TODO: format as May 24, 2020
       <span>
         {new Date(start).toLocaleDateString()} -{" "}
         {new Date(end).toLocaleDateString()}

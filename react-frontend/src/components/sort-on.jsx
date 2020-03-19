@@ -3,19 +3,21 @@ import PropTypes from "prop-types";
 import { ButtonGroup, DropdownButton, Dropdown } from "react-bootstrap";
 import { getSortableAttributes } from "../lib/util";
 
-const SortOn = ({ sortOn, setSortOn, schema }) => {
+const SortOn = ({ sortOn, updateSortOn, schema }) => {
   const sortableAttributes = getSortableAttributes(schema);
   return (
     <DropdownButton
       as={ButtonGroup}
-      title={`Sort on ${sortOn || ""}`}
+      title={`Sort on ${
+        sortableAttributes[sortOn] ? sortableAttributes[sortOn].title : ""
+      }`}
       alignRight
     >
       {Object.keys(sortableAttributes).map(key => (
         <Dropdown.Item
           eventKey={key}
           onClick={() => {
-            console.log(key);
+            updateSortOn(key);
           }}
         >
           {sortableAttributes[key].title}

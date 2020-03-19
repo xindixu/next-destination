@@ -92,11 +92,14 @@ def events(city):
     if page > MAX_PAGE_NUM:
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
+    sort = request.args.get('sort', default="time_start", type=str)
+
     url = "https://api.yelp.com/v3/events"
     params = {
         "location": city,
         "limit": LIMIT,
-        "offset": (page - 1) * LIMIT
+        "offset": (page - 1) * LIMIT,
+        "sort_on": sort
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
@@ -120,11 +123,14 @@ def restaurants(city):
     if page > MAX_PAGE_NUM:
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
+    sort = request.args.get('sort', default="best_match", type=str)
+
     url = "https://api.yelp.com/v3/businesses/search"
     params = {
         "location": city,
         "limit": LIMIT,
-        "offset": (page - 1) * LIMIT
+        "offset": (page - 1) * LIMIT,
+        "sort_by": sort
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)

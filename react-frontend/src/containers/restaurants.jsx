@@ -1,25 +1,65 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { RESTAURANT_SCHEMA } from "../lib/constants";
+import {
+  RESTAURANT_SCHEMA,
+  RESTAURANT_SORTABLE_SCHEMA
+} from "../lib/constants";
 import SortableTable from "../components/sortable-table";
+import TableActions from "./table-actions";
+import useDataStore from "../hooks/use-data-store";
 
-const Restaurants = ({ data }) => (
-  <SortableTable settings={RESTAURANT_SCHEMA} data={data} />
-);
+const Restaurants = ({ city }) => {
+  const [isError, setIsError] = useState(false);
+  const [sortOn, setSortOn] = useState("best_match");
 
+  const [
+    { recordsCount, fetching, pageRecords },
+    { fetchPage, sort }
+  ] = useDataStore(() => ({
+    url: `/restaurants/${city}`,
+    params: {
+      page: 1,
+      sort: sortOn
+    },
+    name: "businesses"
+  }));
+
+  useEffect(() => {
+    fetchPage(1).catch(() => setIsError(true));
+    // only fetch once when mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateSortOn = useCallback(
+    newSortOn => {
+      setSortOn(newSortOn);
+      sort(newSortOn);
+    },
+    [sort]
+  );
+
+  if (fetching) {
+    return <></>;
+  }
+  if (isError) {
+    // TODO: error component
+    return <>Error</>;
+  }
+  return (
+    <>
+      <TableActions
+        totalRecords={recordsCount}
+        loadPage={fetchPage}
+        schema={RESTAURANT_SORTABLE_SCHEMA}
+        sortOn={sortOn}
+        updateSortOn={updateSortOn}
+      />
+      <SortableTable settings={RESTAURANT_SCHEMA} data={pageRecords} />
+    </>
+  );
+};
 Restaurants.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      distance: PropTypes.number.isRequired,
-      location: PropTypes.shape({
-        display_address: PropTypes.arrayOf(PropTypes.string).isRequired
-      }).isRequired,
-      price: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      url: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired
+  city: PropTypes.string.isRequired
 };
 
 export default Restaurants;
