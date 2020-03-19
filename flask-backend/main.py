@@ -8,7 +8,7 @@ import json
 from models import Airbnb, Cities, app, db
 
 from data import about_data, member_contribs
-from api import songkick_api_key, yelp_api_header
+from api import yelp_api_header
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
 CORS(app, resources=r'/*')
@@ -168,10 +168,14 @@ def airbnb():
 
 @app.route('/api/city/<string:name>')
 def city(name):
-    city_data = session.query(Cities).filter(Cities.name == name).all()
-    city_dict = convert_to_dict(city_data)
-    return jsonify(city=city_dict)
-
+    try:
+        # TODO: need to parse whitespace from url to a real city name
+        city_data = session.query(Cities).filter(Cities.name == name).all()
+        city_dict = convert_to_dict(city_data)
+        return jsonify(city=city_dict)
+    except:
+        session.rollback()
+        return 'ERROR SOMEWHERE'
 
 @app.route('/api/cities', methods=["GET"])
 def cities():
