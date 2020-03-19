@@ -40,60 +40,42 @@ const Pagination = ({ totalRecords, loadPage }) => {
   };
 
   return (
-    <>
-      <ButtonToolbar
-        className="justify-content-between"
-        aria-label="Toolbar with Button groups"
+    <ButtonGroup aria-label="Pages">
+      <Button
+        variant="outline-primary"
+        onClick={() => goToPage(1)}
+        type="button"
+        aria-label="go to first page"
       >
-        <ButtonGroup aria-label="Pages">
-          <Button
-            variant="outline-primary"
-            onClick={() => goToPage(1)}
-            type="button"
-            aria-label="go to first page"
-          >
-            First
-          </Button>
-          {paginationButtons[0] !== 1 && (
-            <span className="btn btn-outline-primary disabled">...</span>
-          )}
-          {paginationButtons.map(num => (
-            <Button
-              variant="outline-primary"
-              onClick={() => goToPage(num)}
-              key={num}
-              type="button"
-              className={num === currentPage ? "active" : ""}
-              aria-label={`go to page ${num}`}
-            >
-              {num}
-            </Button>
-          ))}
-          {paginationButtons[paginationButtons.length - 1] !== totalPages && (
-            <span className="btn btn-outline-primary disabled">...</span>
-          )}
-          <Button
-            variant="outline-primary"
-            onClick={() => goToPage(totalPages)}
-            type="button"
-            aria-label="go to last page"
-          >
-            Last
-          </Button>
-        </ButtonGroup>
-        <InputGroup>
-          <InputGroup.Prepend>
-            <InputGroup.Text>@</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl
-            type="text"
-            placeholder="Search"
-            aria-label="search"
-            aria-describedby="btnGroupAddon2"
-          />
-        </InputGroup>
-      </ButtonToolbar>
-    </>
+        First
+      </Button>
+      {paginationButtons[0] !== 1 && (
+        <span className="btn btn-outline-primary disabled">...</span>
+      )}
+      {paginationButtons.map(num => (
+        <Button
+          variant="outline-primary"
+          onClick={() => goToPage(num)}
+          key={num}
+          type="button"
+          className={num === currentPage ? "active" : ""}
+          aria-label={`go to page ${num}`}
+        >
+          {num}
+        </Button>
+      ))}
+      {paginationButtons[paginationButtons.length - 1] !== totalPages && (
+        <span className="btn btn-outline-primary disabled">...</span>
+      )}
+      <Button
+        variant="outline-primary"
+        onClick={() => goToPage(totalPages)}
+        type="button"
+        aria-label="go to last page"
+      >
+        Last
+      </Button>
+    </ButtonGroup>
   );
 };
 

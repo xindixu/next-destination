@@ -8,8 +8,8 @@ import useDataStore from "../hooks/use-data-store";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
-import Pagination from "../components/pagination";
-
+import TableActions from "../containers/table-actions";
+import { RESTAURANT_SCHEMA , EVENT_SCHEMA} from "../lib/constants";
 import "./city.css";
 
 const TABS = {
@@ -46,8 +46,12 @@ const City = () => {
   }));
 
   const [
-    { recordsCount: totalEvents, fetching: eventsFetching },
-    { getCurrentRecords: eventsGetCurrentRecords, fetchPage: eventsFetchPage }
+    {
+      recordsCount: totalEvents,
+      fetching: eventsFetching,
+      pageRecords: eventsPageRecords
+    },
+    { fetchPage: eventsFetchPage }
   ] = useDataStore(() => ({
     url: `/events/${id}`,
     params: {
@@ -57,9 +61,7 @@ const City = () => {
   }));
 
   const [city, setCity] = useState(null);
-  // const [isFetchingData, setIsFetchingData] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [activeTab, setActiveTab] = useState(TABS.restaurants.key);
 
   // TODO: data should be passed down from parent
   useEffect(() => {
@@ -67,12 +69,17 @@ const City = () => {
       .then(resp => resp.json())
       .then(data => {
         setCity(data.city);
+      })
+      .catch(() => {
+        setIsError(true);
       });
   }, [id]);
 
   useEffect(() => {
-    restaurantsFetchPage(1);
-    eventsFetchPage(1);
+    restaurantsFetchPage(1).catch(setIsError(true));
+    eventsFetchPage(1).catch(setIsError(true));
+    // only fetch once when mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (city) {
@@ -89,14 +96,15 @@ const City = () => {
           </div>
         </div>
 
-        <Tabs defaultActiveKey={activeTab}>
+        <Tabs defaultActiveKey={TABS.restaurants.key}>
           {restaurantsFetching ? (
             <></>
           ) : (
             <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-              <Pagination
+              <TableActions
                 totalRecords={totalRestaurants}
                 loadPage={restaurantsFetchPage}
+                schema={RESTAURANT_SCHEMA}
               />
               <Restaurants data={restaurantsPageRecords} />
             </Tab>
@@ -105,11 +113,12 @@ const City = () => {
             <></>
           ) : (
             <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-              <Pagination
+              <TableActions
                 totalRecords={totalEvents}
                 loadPage={eventsFetchPage}
+                schema={EVENT_SCHEMA}
               />
-              <Events data={eventsGetCurrentRecords()} />
+              <Events data={eventsPageRecords} />
             </Tab>
           )}
         </Tabs>

@@ -9,3 +9,11 @@ export const filterVenues = (artistVenue, venues) =>
 
 export const filterVenuesByCities = (city, venues) =>
   venues.filter(venue => venue.city === city);
+
+export const getSortableAttributes = schema =>
+  Object.keys(schema).reduce((dict, key) => {
+    if (schema[key].dataSort) {
+      dict[key] = schema[key];
+    }
+    return dict;
+  }, {});
