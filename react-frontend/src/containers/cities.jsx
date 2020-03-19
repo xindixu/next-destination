@@ -10,7 +10,7 @@ const Cities = () => {
   const [sortOn, setSortOn] = useState("");
 
   const [
-    { recordsCount, fetching, pageRecords },
+    { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => ({
     url: `/cities`,
@@ -50,6 +50,7 @@ const Cities = () => {
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
+        currentPage={currentPage}
         schema={CITY_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}

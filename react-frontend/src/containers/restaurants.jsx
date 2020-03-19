@@ -13,7 +13,7 @@ const Restaurants = ({ city }) => {
   const [sortOn, setSortOn] = useState("best_match");
 
   const [
-    { recordsCount, fetching, pageRecords },
+    { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => ({
     url: `/restaurants/${city}`,
@@ -50,6 +50,7 @@ const Restaurants = ({ city }) => {
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
+        currentPage={currentPage}
         schema={RESTAURANT_SORTABLE_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}

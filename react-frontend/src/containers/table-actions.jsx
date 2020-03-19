@@ -14,6 +14,7 @@ import SortOn from "../components/sort-on";
 const TableActions = ({
   totalRecords,
   loadPage,
+  currentPage,
   sortOn,
   updateSortOn,
   schema
@@ -23,7 +24,11 @@ const TableActions = ({
       className="justify-content-between"
       aria-label="Table actions, includes pagination, sort options, and a search bar"
     >
-      <Pagination totalRecords={totalRecords} loadPage={loadPage} />
+      <Pagination
+        totalRecords={totalRecords}
+        loadPage={loadPage}
+        currentPage={currentPage}
+      />
 
       <InputGroup>
         <InputGroup.Prepend>

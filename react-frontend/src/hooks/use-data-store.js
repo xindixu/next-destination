@@ -12,7 +12,6 @@ const getUrl = (url, params) => {
 
 const useDataStore = init => {
   const { url, params: initialParams, name, option = {} } = init();
-  const [records, setRecords] = useState([]);
   const [recordsByPage, setRecordsByPage] = useState([]);
   const [recordsCount, setRecordsCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,7 +22,6 @@ const useDataStore = init => {
   const [complete, setComplete] = useState(false);
 
   const reset = () => {
-    setRecords([]);
     setRecordsByPage([]);
     setRecordsCount(1);
     setCurrentPage(1);
@@ -32,14 +30,14 @@ const useDataStore = init => {
   };
 
   const onFetchSuccess = useCallback(
-    ({ response }) => {
-      setRecords([...records, ...response[name]]);
-      setRecordsByPage({ ...recordsByPage, [currentPage]: response[name] });
+    ({ response }, page) => {
+      setRecordsByPage({ ...recordsByPage, [page]: response[name] });
+      setCurrentPage(page);
       setRecordsCount(response.total);
       setFetching(false);
       setError(false);
     },
-    [currentPage, name, records, recordsByPage]
+    [name, recordsByPage]
   );
 
   const onFetchFail = useCallback(err => {
@@ -67,8 +65,7 @@ const useDataStore = init => {
       setParams(newParams);
       return fetchWithUrl(newURL)
         .then(resp => {
-          onFetchSuccess(resp);
-          setCurrentPage(page);
+          onFetchSuccess(resp, page);
           return resp;
         })
         .catch(err => {
@@ -80,17 +77,21 @@ const useDataStore = init => {
   );
 
   const sort = sortOn => {
+    if (sortOn === params.sort) {
+      return;
+    }
     reset();
     const newParams = {
       ...params,
+      page: 1,
       sort: sortOn
     };
     const newURL = getUrl(url, newParams);
+
     setParams(newParams);
     fetchWithUrl(newURL)
       .then(resp => {
-        onFetchSuccess(resp);
-        setCurrentPage(1);
+        onFetchSuccess(resp, 1);
         return resp;
       })
       .catch(err => {
@@ -101,11 +102,11 @@ const useDataStore = init => {
 
   return [
     {
-      records,
       recordsCount,
       pageRecords: recordsByPage[currentPage],
       fetching,
-      complete
+      complete,
+      currentPage
     },
     {
       fetchPage,

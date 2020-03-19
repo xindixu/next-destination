@@ -10,7 +10,7 @@ const Events = ({ city }) => {
   const [sortOn, setSortOn] = useState("time_start");
 
   const [
-    { recordsCount, fetching, pageRecords },
+    { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => ({
     url: `/events/${city}`,
@@ -47,6 +47,7 @@ const Events = ({ city }) => {
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
+        currentPage={currentPage}
         schema={EVENT_SORTABLE_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}
