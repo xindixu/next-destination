@@ -41,7 +41,7 @@ const Navigation = () => (
       <Route path="/cities">
         <Cities />
       </Route>
-      <Route path="/city/:id">
+      <Route path="/city/:name">
         <City />
       </Route>
       <Route path="/restaurant/:id">

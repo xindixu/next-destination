@@ -26,14 +26,14 @@ const TABS = {
 };
 
 const City = () => {
-  const { id } = useParams();
+  const { name } = useParams();
 
   const [city, setCity] = useState(null);
   const [isError, setIsError] = useState(false);
 
   // TODO: data should be passed down from parent
   useEffect(() => {
-    apiFetch(`/city/${id}`, {})
+    apiFetch(`/city/${name}`, {})
       .then(resp => resp.json())
       .then(data => {
         setCity(data.city);
@@ -41,29 +41,32 @@ const City = () => {
       .catch(() => {
         setIsError(true);
       });
-  }, [id]);
+  }, [name]);
 
   if (city) {
-    const { name, description, image, airbnb } = city;
+    const { name, state, latitude, longitude, population,  description } = city;
     return (
       <>
         <div className="city1">
           <h1> {name} </h1>
           <p> {description} </p>
           {/* TODO: extract this component */}
-          <img id="randCity1" src={`${image}`} alt="pic of city" />
+          <img id="randCity1" alt="pic of city" />
           <div>
-            <p> Average Airbnb Price: {airbnb}</p>
+            <p> state: {state} </p>
+            <p> latitude: {latitude} </p>
+            <p> longitude: {longitude} </p>
+            <p> population: {population}</p>
           </div>
         </div>
 
         <Tabs defaultActiveKey={TABS.restaurants.key}>
           <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-            <Restaurants city={id} />
+            <Restaurants city={name} />
           </Tab>
 
           <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-            <Events city={id} />
+            <Events city={name} />
           </Tab>
         </Tabs>
       </>

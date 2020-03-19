@@ -28,7 +28,7 @@ const Cities = props => {
     name: {
       title: "City",
       getBodyFormat: (_, { id, name }) => (
-        <Link to={`/city/${id}`}>{name}</Link>
+        <Link to={`/city/${name}`}>{name}</Link>
       ),
       isKey: true,
       dataSort: true

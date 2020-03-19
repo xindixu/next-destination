@@ -166,13 +166,13 @@ def airbnb():
         return 'ERROR SOMEWHERE'
 
 
-@app.route('/api/city/<string:name>')
+@app.route('/api/city/<string:name>', methods=['GET'])
 def city(name):
     try:
         # TODO: need to parse whitespace from url to a real city name
-        city_data = session.query(Cities).filter(Cities.name == name).all()
+        city_data = session.query(Cities).filter_by(name=name)
         city_dict = convert_to_dict(city_data)
-        return jsonify(city=city_dict)
+        return jsonify(city=city_dict[0])
     except:
         session.rollback()
         return 'ERROR SOMEWHERE'
