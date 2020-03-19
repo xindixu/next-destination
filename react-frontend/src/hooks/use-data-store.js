@@ -11,7 +11,7 @@ const getUrl = (url, params) => {
 };
 
 const useDataStore = init => {
-  const { url, params: initialParams, name } = init();
+  const { url, params: initialParams, name, option = {} } = init();
   const [records, setRecords] = useState([]);
   const [recordsByPage, setRecordsByPage] = useState([]);
   const [recordsCount, setRecordsCount] = useState(1);
@@ -49,12 +49,7 @@ const useDataStore = init => {
   }, []);
 
   const fetchWithUrl = useCallback(
-    urlToFetch =>
-      apiFetch(urlToFetch, {
-        json: true,
-        useApi: false,
-        method: "GET"
-      }),
+    urlToFetch => apiFetch(urlToFetch, option),
     []
   );
 
@@ -71,7 +66,6 @@ const useDataStore = init => {
       const newURL = getUrl(url, newParams);
       setParams(newParams);
       return fetchWithUrl(newURL)
-        .then(resp => resp.json())
         .then(resp => {
           onFetchSuccess(resp);
           setCurrentPage(page);
@@ -87,7 +81,6 @@ const useDataStore = init => {
 
   const sort = sortOn => {
     reset();
-    console.log(sortOn);
     const newParams = {
       ...params,
       sort: sortOn
@@ -95,7 +88,6 @@ const useDataStore = init => {
     const newURL = getUrl(url, newParams);
     setParams(newParams);
     fetchWithUrl(newURL)
-      .then(resp => resp.json())
       .then(resp => {
         onFetchSuccess(resp);
         setCurrentPage(1);

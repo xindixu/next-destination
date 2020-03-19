@@ -11,26 +11,14 @@ const Restaurants = props => {
   const [cities, setCities] = useState([]);
   const [artists, setArtists] = useState([]);
   useEffect(() => {
-    apiFetch("/restaurants", {})
-      .then(resp => resp.json())
-      .then(data => setRestaurants(data.restaurants));
+    apiFetch("/restaurants", {}).then(data => setRestaurants(data.restaurants));
   }, []);
 
   useEffect(() => {
-    apiFetch("/cities", {})
-      .then(resp => resp.json())
-      .then(data => {
-        setCities(data.cities);
-      });
+    apiFetch("/cities", {}).then(data => {
+      setCities(data.cities);
+    });
   }, []);
-
-  // useEffect(() => {
-  //   apiFetch("/artists", {})
-  //     .then(resp => resp.json())
-  //     .then(data => {
-  //       setArtists(data.artists);
-  //     });
-  // }, []);
 
   const restaurantCitiesComponent = ({ city }) => {
     const venueCities = filterCities(city, cities);
@@ -80,10 +68,10 @@ const Restaurants = props => {
       getBodyFormat: (_, { price }) => price,
       isKey: false,
       dataSort: true
-    },
+    }
   };
 
-  if (restaurants.length){//} && cities.length) {
+  if (restaurants.length) {
     return (
       <>
         <h1>Restaurants</h1>

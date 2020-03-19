@@ -8,11 +8,9 @@ const Event = () => {
   const [event, setEvent] = useState(null);
 
   useEffect(() => {
-    apiFetch(`/event/${id}`, {})
-      .then(resp => resp.json())
-      .then(data => {
-        setEvent(data.response);
-      });
+    apiFetch(`/event/${id}`, { useApi: true, json: true }).then(data => {
+      setEvent(data.response);
+    });
   }, []);
 
   if (!event) {

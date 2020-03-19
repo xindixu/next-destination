@@ -29,9 +29,9 @@ const photos = {
 const People = props => {
   const [people, setPeople] = useState([]);
   useEffect(() => {
-    apiFetch("/about", {})
-      .then(resp => resp.json())
-      .then(data => setPeople(data.about));
+    apiFetch("/about", { json: true, useApi: true }).then(data =>
+      setPeople(data.about)
+    );
   }, []);
 
   return (
