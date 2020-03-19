@@ -8,41 +8,31 @@ import {
   FormControl
 } from "react-bootstrap";
 
-const getPreviousPages = currentPage => {
-  if (currentPage === 1) {
-    return [];
-  }
-  if (currentPage === 2) {
-    return [1];
+import { MAX_PAGE_NUM, LIMIT } from "../lib/constants";
+
+const MAX_NUM_BUTTONS = 5;
+
+const getButtons = (currentPage, totalPages) => {
+  if (totalPages > MAX_NUM_BUTTONS) {
+    let startsAt = currentPage - 2;
+    if (startsAt < 1) {
+      startsAt = 1;
+    }
+    if (currentPage + 2 >= totalPages) {
+      startsAt = totalPages - MAX_NUM_BUTTONS + 1;
+    }
+
+    return [...Array(MAX_NUM_BUTTONS).keys()].map(key => key + startsAt);
   }
 
-  if (currentPage === 3) {
-    return [1, 2];
-  }
-
-  return [currentPage - 3, currentPage - 2, currentPage - 1];
+  return [...Array(totalPages).keys()].map(key => key + 1);
 };
 
-const getNextPages = (currentPage, totalPages) => {
-  if (currentPage + 1 === totalPages) {
-    return [currentPage + 1];
-  }
-
-  if (currentPage + 2 === totalPages) {
-    return [currentPage + 1, currentPage + 2];
-  }
-
-  return [currentPage + 1, currentPage + 2, currentPage + 3];
-};
-
-const Pagination = ({ totalPages, loadPage }) => {
+const Pagination = ({ totalRecords, loadPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.min(Math.floor(totalRecords / LIMIT), MAX_PAGE_NUM);
 
-  const paginationButtons = [
-    ...getPreviousPages(currentPage),
-    currentPage,
-    ...getNextPages(currentPage, totalPages)
-  ];
+  const paginationButtons = getButtons(currentPage, totalPages);
 
   const goToPage = num => {
     setCurrentPage(num);
@@ -64,6 +54,9 @@ const Pagination = ({ totalPages, loadPage }) => {
           >
             First
           </Button>
+          {paginationButtons[0] !== 1 && (
+            <span className="btn btn-outline-primary disabled">...</span>
+          )}
           {paginationButtons.map(num => (
             <Button
               variant="outline-primary"
@@ -76,6 +69,9 @@ const Pagination = ({ totalPages, loadPage }) => {
               {num}
             </Button>
           ))}
+          {paginationButtons[paginationButtons.length - 1] !== totalPages && (
+            <span className="btn btn-outline-primary disabled">...</span>
+          )}
           <Button
             variant="outline-primary"
             onClick={() => goToPage(totalPages)}
@@ -102,7 +98,7 @@ const Pagination = ({ totalPages, loadPage }) => {
 };
 
 Pagination.propTypes = {
-  totalPages: PropTypes.number.isRequired,
+  totalRecords: PropTypes.number.isRequired,
   loadPage: PropTypes.func.isRequired
 };
 

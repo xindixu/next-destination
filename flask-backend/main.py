@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
-from flask import Response
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, Response
 from flask_cors import CORS, cross_origin
 from sqlalchemy import create_engine, or_, func, desc
 import requests
@@ -83,11 +82,21 @@ def events_page():
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
 
+
 @app.route('/api/events/<string:city>')
 def events(city):
+    # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
+    MAX_PAGE_NUM = 50
+    LIMIT = 20
+    page = request.args.get('page', default=1, type=int)
+    if page > MAX_PAGE_NUM:
+        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
+
     url = "https://api.yelp.com/v3/events"
     params = {
-        "location": city
+        "location": city,
+        "limit": LIMIT,
+        "offset": (page - 1) * LIMIT
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
@@ -103,13 +112,19 @@ def event(id):
 
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
+    # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
+    MAX_PAGE_NUM = 50
+    LIMIT = 20
+
     page = request.args.get('page', default=1, type=int)
-    limit = 20
+    if page > MAX_PAGE_NUM:
+        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
+
     url = "https://api.yelp.com/v3/businesses/search"
     params = {
         "location": city,
-        "limit": limit,
-        "offset": (page - 1) * limit
+        "limit": LIMIT,
+        "offset": (page - 1) * LIMIT
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)

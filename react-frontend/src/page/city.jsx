@@ -49,11 +49,11 @@ const City = () => {
     { recordsCount: totalEvents, fetching: eventsFetching },
     { getCurrentRecords: eventsGetCurrentRecords, fetchPage: eventsFetchPage }
   ] = useDataStore(() => ({
-    url: `/restaurants/${id}`,
+    url: `/events/${id}`,
     params: {
       page: 1
     },
-    name: "businesses"
+    name: "events"
   }));
 
   const [city, setCity] = useState(null);
@@ -95,7 +95,7 @@ const City = () => {
           ) : (
             <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
               <Pagination
-                totalPages={Math.floor(totalRestaurants / 20)}
+                totalRecords={totalRestaurants}
                 loadPage={restaurantsFetchPage}
               />
               <Restaurants data={restaurantsPageRecords} />
@@ -106,7 +106,7 @@ const City = () => {
           ) : (
             <Tab eventKey={TABS.events.key} title={TABS.events.title}>
               <Pagination
-                totalPages={Math.floor(totalEvents / 20)}
+                totalRecords={totalEvents}
                 loadPage={eventsFetchPage}
               />
               <Events data={eventsGetCurrentRecords()} />
