@@ -34,8 +34,8 @@ const City = () => {
   // TODO: data should be passed down from parent
   useEffect(() => {
     apiFetch(`/city/${name}`, {})
-      .then(resp => resp.json())
       .then(data => {
+        console.log(data);
         setCity(data.city);
       })
       .catch(() => {
@@ -44,7 +44,7 @@ const City = () => {
   }, [name]);
 
   if (city) {
-    const { name, state, latitude, longitude, population,  description } = city;
+    const { name, state, latitude, longitude, population, description } = city;
     return (
       <>
         <div className="city1">

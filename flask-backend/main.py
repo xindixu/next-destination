@@ -19,6 +19,10 @@ session = Session()
 # ! end of code that doesn't work
 
 
+def get_offset(page, page_size):
+    return (page-1)*page_size
+
+
 def get_gitlab_data(url):
     data = []
     page = 1
@@ -90,7 +94,7 @@ def events(city):
     params = {
         "location": city,
         "limit": LIMIT,
-        "offset": (page - 1) * LIMIT,
+        "offset": get_offset(page, LIMIT),
         "sort_on": sort
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
@@ -116,12 +120,11 @@ def restaurants(city):
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
     sort = request.args.get('sort', default="best_match", type=str)
-
     url = "https://api.yelp.com/v3/businesses/search"
     params = {
         "location": city,
         "limit": LIMIT,
-        "offset": (page - 1) * LIMIT,
+        "offset": get_offset(page, LIMIT),
         "sort_by": sort
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
@@ -138,19 +141,20 @@ def restaurant(id):
 
 @app.route('/api/restaurants')
 def restaurants_page():
-    return jsonify(restaurants=restaurants_data)
+    return jsonify(restaurants={})
 
 
-def convert_to_dict(instances):
-    l = []
-    for instance in instances:
-        result_dict = {}
-        instance_dict = instance.__dict__
-        instance_dict.pop('_sa_instance_state', None)
-        for key, value in instance_dict.items():
-            result_dict[key] = value
-        l.append(result_dict)
-    return l
+def convert_to_array_of_dict(instances):
+    return [convert_to_dict(i) for i in instances]
+
+
+def convert_to_dict(instance):
+    result_dict = {}
+    instance_dict = instance.__dict__
+    instance_dict.pop('_sa_instance_state', None)
+    for key, value in instance_dict.items():
+        result_dict[key] = value
+    return result_dict
 
 
 @app.route('/api/airbnb', methods=["GET"])
@@ -158,7 +162,7 @@ def airbnb():
     try:
         # ! limiting the query to five so it doesn't blow up your computer
         airbnb_data = session.query(Airbnb).limit(5).all()
-        airbnb_dict = convert_to_dict(airbnb_data)
+        airbnb_dict = convert_to_array_of_dict(airbnb_data)
         return jsonify(airbnb_dict)
         # TODO look into how to only import the latt, long, accomodates, and name / title
     except:
@@ -169,24 +173,43 @@ def airbnb():
 @app.route('/api/city/<string:name>', methods=['GET'])
 def city(name):
     try:
-        # TODO: need to parse whitespace from url to a real city name
-        city_data = session.query(Cities).filter_by(name=name)
+        city_data = session.query(Cities).filter_by(name=name).one_or_none()
+        print(city_data)
         city_dict = convert_to_dict(city_data)
-        return jsonify(city=city_dict[0])
+        print(city_dict)
+
+        return jsonify(city=city_dict)
     except:
         session.rollback()
         return 'ERROR SOMEWHERE'
 
+
 @app.route('/api/cities', methods=["GET"])
 def cities():
-    try:
-        # ! limiting the query to five so it doesn't blow up your computer
-        cities_data = session.query(Cities).limit(5).all()
-        cities_dict = convert_to_dict(cities_data)
-        return jsonify(cities=cities_dict)
-    except:
+    LIMIT = 20
+    page = request.args.get('page', default=1, type=int)
+
+    total = session.query(Cities).count()
+    if page * LIMIT > total:
         session.rollback()
-        return 'ERROR SOMEWHERE'
+        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
+
+    sort = request.args.get('sort', default="", type=str)
+
+    if sort:
+        cities_data = session.query(Cities).order_by(getattr(Cities, sort).asc()).limit(
+            LIMIT).offset(get_offset(page, LIMIT)).all()
+    else:
+        cities_data = session.query(Cities).limit(
+            LIMIT).offset(get_offset(page, LIMIT)).all()
+
+    cities_dict = convert_to_array_of_dict(cities_data)
+    response = {
+        "cities": cities_dict,
+        "total": total
+    }
+
+    return jsonify(response=response)
 
 
 @app.route('/')

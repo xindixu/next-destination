@@ -144,3 +144,36 @@ export const EVENT_SCHEMA = {
     dataSort: false
   }
 };
+
+export const CITY_SCHEMA = {
+  image: {
+    title: "Picture",
+    getBodyFormat: (_, {}) => <span>INSERT PICTURE HERE</span>,
+    isKey: false,
+    dataSort: false
+  },
+  name: {
+    title: "City",
+    getBodyFormat: (_, { name }) => <Link to={`/city/${name}`}>{name}</Link>,
+    isKey: true,
+    dataSort: true
+  },
+  state: {
+    title: "State",
+    getBodyFormat: (_, { state }) => <span>{state}</span>,
+    isKey: false,
+    dataSort: true
+  },
+  population: {
+    title: "Population",
+    getBodyFormat: (_, { population }) => <span>{population}</span>,
+    isKey: false,
+    dataSort: true
+  },
+  description: {
+    title: "Description",
+    getBodyFormat: (_, { description }) => <span>{description}</span>,
+    isKey: false,
+    dataSort: false
+  }
+};
