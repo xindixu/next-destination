@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import apiFetch from "../lib/api-fetch";
 import "./cities.css";
 import SortableTable from "../components/sortable-table";
 import { filterCities, filterArtists } from "../lib/util";
 
-const Restaurants = props => {
+const Restaurants = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [cities, setCities] = useState([]);
   const [artists, setArtists] = useState([]);
@@ -82,6 +81,5 @@ const Restaurants = props => {
 
   return <></>;
 };
-Restaurants.propTypes = {};
 
 export default Restaurants;

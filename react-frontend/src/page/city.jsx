@@ -7,7 +7,6 @@ import Tab from "react-bootstrap/Tab";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
-import TableActions from "../containers/table-actions";
 import "./city.css";
 
 const TABS = {
@@ -35,7 +34,6 @@ const City = () => {
   useEffect(() => {
     apiFetch(`/city/${name}`, {})
       .then(data => {
-        console.log(data);
         setCity(data.city);
       })
       .catch(() => {
@@ -44,7 +42,7 @@ const City = () => {
   }, [name]);
 
   if (city) {
-    const { name, state, latitude, longitude, population, description } = city;
+    const { state, latitude, longitude, population, description } = city;
     return (
       <>
         <div className="city1">
@@ -53,10 +51,10 @@ const City = () => {
           {/* TODO: extract this component */}
           <img id="randCity1" alt="pic of city" />
           <div>
-            <p> state: {state} </p>
-            <p> latitude: {latitude} </p>
-            <p> longitude: {longitude} </p>
-            <p> population: {population}</p>
+            <p>state: {state}</p>
+            <p>latitude: {latitude}</p>
+            <p>longitude: {longitude}</p>
+            <p>population: {population}</p>
           </div>
         </div>
 

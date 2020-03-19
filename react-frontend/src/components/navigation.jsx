@@ -9,7 +9,7 @@ import City from "../page/city";
 import Restaurants from "../page/restaurants";
 import Restaurant from "../page/restaurant";
 import Event from "../page/event";
-// import Events from "../page/events"
+import Events from "../page/events";
 
 const Navigation = () => (
   <Router>
@@ -30,7 +30,6 @@ const Navigation = () => (
         <Nav.Link eventKey="/events" as={Link} to="/events">
           Events
         </Nav.Link>
-        
       </Nav>
     </Navbar>
 
@@ -50,9 +49,9 @@ const Navigation = () => (
       <Route path="/restaurants/">
         <Restaurants />
       </Route>
-      {/* <Route path="/events/">
+      <Route path="/events/">
         <Events />
-      </Route> */}
+      </Route>
       <Route path="/event/:id">
         <Event />
       </Route>

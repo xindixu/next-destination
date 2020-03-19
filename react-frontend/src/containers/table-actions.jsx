@@ -50,6 +50,7 @@ const TableActions = ({
 TableActions.propTypes = {
   totalRecords: PropTypes.number.isRequired,
   loadPage: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
   schema: PropTypes.object.isRequired,
   sortOn: PropTypes.string.isRequired,
   updateSortOn: PropTypes.func.isRequired

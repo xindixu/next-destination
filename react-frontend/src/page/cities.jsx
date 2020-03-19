@@ -1,9 +1,8 @@
 import React from "react";
-
 import "./cities.css";
 import Cities from "../containers/cities";
 
-const CitiesPage = props => (
+const CitiesPage = () => (
   <>
     <h1>Cities</h1>
     <Cities />
