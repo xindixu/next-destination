@@ -3,9 +3,15 @@ from faker import Faker
 from flask_sqlalchemy import SQLAlchemy
 import unittest
 import random as r
+from main import about, get_gitlab_data
+from data import about_data, member_contribs
+import requests
 
 fake = Faker()
 
+url = "https://gitlab.com/api/v4/projects/16729459"
+commits = get_gitlab_data(f"{url}/repository/commits")
+issues = get_gitlab_data(f"{url}/issues")
 
 class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_1(self):
@@ -485,6 +491,22 @@ class DatabaseTestsAirbnb(unittest.TestCase):
 
         db.session.query(Cities).filter_by(name='Jasper').delete()
         db.session.commit()
+
+
+class AboutPageTests(unittest.TestCase):
+    
+    def test_connect_gitlab(self):
+        response = requests.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_commit_about_1(self):
+        about_data = about()
+        self.assertTrue(about_data)
+        
+    def test_commit_get_gitlab(self):
+        gitlab_data = get_gitlab_data(url)
+        self.assertTrue(gitlab_data)
+
 
 
 if __name__ == '__main__':
