@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Events from "../containers/events";
-import { setLocation } from "../lib/util";
+import { CityHuntContext } from "../App";
 
 const EventsPage = () => {
-  const [coordinates, setCoordinates] = useState(null);
-  useEffect(() => {
-    setLocation(setCoordinates);
-  }, []);
-
+  const { coordinates } = useContext(CityHuntContext);
   return (
     <>
       <h1>Events</h1>
