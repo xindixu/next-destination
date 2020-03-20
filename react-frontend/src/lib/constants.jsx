@@ -17,7 +17,30 @@ export const EVENT_SORTABLE_SCHEMA = {
   time_start: { title: "Time Start", dataSort: true }
 };
 
+export const AIRBNB_SORTABLE_SCHEMA = {
+  price: { title: "Price", dataSort: true },
+  accomodates: { title: "Accomodates", dataSort: true }
+};
+
 // schema for sortableTable
+export const AIRBNB_SCHEMA = {
+  // image:{
+  //   title: '',
+  //   getBodyFormat: (_, { picture_url: img, name }) => (
+  //     <img src={img} alt={name} />
+  //   ),
+  //   isKey: false,
+  //   dataSort: false
+  // },
+  name: {
+    title: "Name",
+    getBodyFormat: (_, { listing_url, name }) => (
+      <Link to={{listing_url}}>{name}</Link>
+    ),
+    isKey: true,
+    dataSort: true
+  }
+}
 export const RESTAURANT_SCHEMA = {
   image: {
     title: "",

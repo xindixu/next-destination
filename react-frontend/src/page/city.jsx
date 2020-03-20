@@ -7,6 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
+import Airbnbs from "../containers/airbnbs";
 import "./city.css";
 
 const TABS = {
@@ -14,9 +15,9 @@ const TABS = {
     key: "restaurants",
     title: "Restaurants"
   },
-  airbnb: {
-    key: "airbnb",
-    title: "AirBnb"
+  Airbnbs: {
+    key: "Airbnbs",
+    title: "Airbnbs"
   },
   events: {
     key: "events",
@@ -65,6 +66,10 @@ const City = () => {
 
           <Tab eventKey={TABS.events.key} title={TABS.events.title}>
             <Events city={name} />
+          </Tab>
+
+          <Tab eventKey={TABS.Airbnbs.key} title={TABS.Airbnbs.title}>
+            <Airbnbs city={name} />
           </Tab>
         </Tabs>
       </>

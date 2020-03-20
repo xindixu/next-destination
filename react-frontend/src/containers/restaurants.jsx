@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import {
-  RESTAURANT_SCHEMA,
-  RESTAURANT_SORTABLE_SCHEMA
-} from "../lib/constants";
+import {RESTAURANT_SCHEMA, RESTAURANT_SORTABLE_SCHEMA} from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";

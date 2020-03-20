@@ -37,19 +37,28 @@ def convert_to_dict(instance):
         result_dict[key] = value
     return result_dict
 
-def get_data_from_database(model, name,  page, sort):
+def get_data_from_database(model, name,  page, sort, *city):
     LIMIT = 20
     total = session.query(model).count()
+
     if page * LIMIT > total:
         session.rollback()
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
-
-    if sort:
-        data = session.query(model).order_by(getattr(model, sort).asc()).limit(
-            LIMIT).offset(get_offset(page, LIMIT)).all()
+    if city:
+        total = session.query(model).filter_by(city_name = city).count()
+        if sort:
+            data = session.query(model).filter_by(city_name = city).order_by(getattr(model, sort).asc()).limit(
+                LIMIT).offset(get_offset(page, LIMIT)).all()
+        else:
+            data = session.query(model).filter_by(city_name = city).limit(
+                LIMIT).offset(get_offset(page, LIMIT)).all()
     else:
-        data = session.query(model).limit(
-            LIMIT).offset(get_offset(page, LIMIT)).all()
+        if sort:
+            data = session.query(model).order_by(getattr(model, sort).asc()).limit(
+                LIMIT).offset(get_offset(page, LIMIT)).all()
+        else:
+            data = session.query(model).limit(
+                LIMIT).offset(get_offset(page, LIMIT)).all()
 
     dictionary = convert_to_array_of_dict(data)
     response = {
@@ -104,6 +113,7 @@ def about():
 
     return jsonify(about=about_data)
 
+# ! the user needs to allow the location prompt or else the page and backend will show blank
 # Event routes
 @app.route('/api/events')
 def events_page():
@@ -128,7 +138,6 @@ def events_page():
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
-
 
 @app.route('/api/events/<string:city>')
 def events(city):
@@ -160,6 +169,32 @@ def event(id):
     return jsonify(response=response)
 
 # Restaurants routes
+@app.route('/api/restaurants')
+def restaurants_page():
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
+    
+    MAX_PAGE_NUM = 50
+    LIMIT = 20
+
+    page = request.args.get('page', default=1, type=int)
+    if page > MAX_PAGE_NUM:
+        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
+
+    sort = request.args.get('sort', default="best_match", type=str)
+    url = "https://api.yelp.com/v3/businesses/search"
+    params = {
+        "longitude": longitude,
+        "latitude": latitude,
+        "location": city,
+        "limit": LIMIT,
+        "offset": get_offset(page, LIMIT),
+        "sort_by": sort
+    }
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return jsonify(response=response)
+    
+
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
     # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
@@ -190,16 +225,18 @@ def restaurant(id):
     return jsonify(response=response)
 
 
-@app.route('/api/restaurants')
-def restaurants_page():
-    return jsonify(restaurants={})
-
 # Airbnb routes
 @app.route('/api/airbnbs', methods=["GET"])
 def airbnbs_page():
     page = request.args.get('page', default=1, type=int)
     sort = request.args.get('sort', default="", type=str)
     return get_data_from_database(Airbnb, 'airbnbs',  page, sort)
+
+@app.route('/api/airbnbs/<string:city>', methods=["GET"])
+def airbnbs_page1(city):
+    page = request.args.get('page', default=1, type=int)
+    sort = request.args.get('sort', default="", type=str)
+    return get_data_from_database(Airbnb, 'airbnbs',  page, sort, city)
 
 # City routes
 @app.route('/api/cities', methods=["GET"])
