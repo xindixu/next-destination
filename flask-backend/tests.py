@@ -6,6 +6,9 @@ import random as r
 from main import about, get_gitlab_data
 from data import about_data, member_contribs
 import requests
+from models import app
+import json
+from flask import request
 
 fake = Faker()
 
@@ -503,7 +506,7 @@ class AboutPageTests(unittest.TestCase):
         about_data = about()
         self.assertTrue(about_data)
         
-    def test_commit_get_gitlab(self):
+    def test_get_gitlab(self):
         gitlab_data = get_gitlab_data(url)
         self.assertTrue(gitlab_data)
 
