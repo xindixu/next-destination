@@ -11,17 +11,53 @@ from data import about_data, member_contribs
 from api import yelp_api_header
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
-CORS(app, resources=r'/*')  
+CORS(app, resources=r'/*')
 engine = create_engine(
     'postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
 Session = sessionmaker(bind=engine)
 session = Session()
 # ! end of code that doesn't work
 
+# Helper functions
+
 
 def get_offset(page, page_size):
     return (page-1)*page_size
 
+
+def convert_to_array_of_dict(instances):
+    return [convert_to_dict(i) for i in instances]
+
+
+def convert_to_dict(instance):
+    result_dict = {}
+    instance_dict = instance.__dict__
+    instance_dict.pop('_sa_instance_state', None)
+    for key, value in instance_dict.items():
+        result_dict[key] = value
+    return result_dict
+
+def get_data_from_database(model, name,  page, sort):
+    LIMIT = 20
+    total = session.query(model).count()
+    if page * LIMIT > total:
+        session.rollback()
+        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
+
+    if sort:
+        data = session.query(model).order_by(getattr(model, sort).asc()).limit(
+            LIMIT).offset(get_offset(page, LIMIT)).all()
+    else:
+        data = session.query(model).limit(
+            LIMIT).offset(get_offset(page, LIMIT)).all()
+
+    dictionary = convert_to_array_of_dict(data)
+    response = {
+        name: dictionary,
+        "total": total
+    }
+
+    return jsonify(response=response)
 
 def get_gitlab_data(url):
     data = []
@@ -35,7 +71,7 @@ def get_gitlab_data(url):
         request = requests.get(url, params=params)
     return data
 
-
+# Routes
 @app.route('/api/about')
 def about():
     url = "https://gitlab.com/api/v4/projects/16729459"
@@ -68,11 +104,12 @@ def about():
 
     return jsonify(about=about_data)
 
+# Event routes
 @app.route('/api/events')
 def events_page():
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
-    
+
     MAX_PAGE_NUM = 50
     LIMIT = 20
     page = request.args.get('page', default=1, type=int)
@@ -84,13 +121,14 @@ def events_page():
     url = "https://api.yelp.com/v3/events"
     params = {
         "longitude": longitude,
-        "latitude":latitude,
+        "latitude": latitude,
         "limit": LIMIT,
         "offset": get_offset(page, LIMIT),
         "sort_on": sort
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
+
 
 @app.route('/api/events/<string:city>')
 def events(city):
@@ -121,7 +159,7 @@ def event(id):
     response = requests.get(url, headers=yelp_api_header).json()
     return jsonify(response=response)
 
-
+# Restaurants routes
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
     # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
@@ -156,73 +194,30 @@ def restaurant(id):
 def restaurants_page():
     return jsonify(restaurants={})
 
+# Airbnb routes
+@app.route('/api/airbnbs', methods=["GET"])
+def airbnbs_page():
+    page = request.args.get('page', default=1, type=int)
+    sort = request.args.get('sort', default="", type=str)
+    return get_data_from_database(Airbnb, 'airbnbs',  page, sort)
 
-def convert_to_array_of_dict(instances):
-    return [convert_to_dict(i) for i in instances]
-
-
-def convert_to_dict(instance):
-    result_dict = {}
-    instance_dict = instance.__dict__
-    instance_dict.pop('_sa_instance_state', None)
-    for key, value in instance_dict.items():
-        result_dict[key] = value
-    return result_dict
-
-
-@app.route('/api/airbnb', methods=["GET"])
-def airbnb():
-    try:
-        # ! limiting the query to five so it doesn't blow up your computer
-        airbnb_data = session.query(Airbnb).limit(5).all()
-        airbnb_dict = convert_to_array_of_dict(airbnb_data)
-        return jsonify(airbnb_dict)
-        # TODO look into how to only import the latt, long, accomodates, and name / title
-    except:
-        session.rollback()
-        return 'ERROR SOMEWHERE'
+# City routes
+@app.route('/api/cities', methods=["GET"])
+def cities_page():
+    page = request.args.get('page', default=1, type=int)
+    sort = request.args.get('sort', default="", type=str)
+    return get_data_from_database(Cities, 'cities',  page, sort)
 
 
 @app.route('/api/city/<string:name>', methods=['GET'])
 def city(name):
     try:
         city_data = session.query(Cities).filter_by(name=name).one_or_none()
-        print(city_data)
         city_dict = convert_to_dict(city_data)
-        print(city_dict)
-
         return jsonify(city=city_dict)
     except:
         session.rollback()
         return 'ERROR SOMEWHERE'
-
-
-@app.route('/api/cities', methods=["GET"])
-def cities():
-    LIMIT = 20
-    page = request.args.get('page', default=1, type=int)
-
-    total = session.query(Cities).count()
-    if page * LIMIT > total:
-        session.rollback()
-        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
-
-    sort = request.args.get('sort', default="", type=str)
-
-    if sort:
-        cities_data = session.query(Cities).order_by(getattr(Cities, sort).asc()).limit(
-            LIMIT).offset(get_offset(page, LIMIT)).all()
-    else:
-        cities_data = session.query(Cities).limit(
-            LIMIT).offset(get_offset(page, LIMIT)).all()
-
-    cities_dict = convert_to_array_of_dict(cities_data)
-    response = {
-        "cities": cities_dict,
-        "total": total
-    }
-
-    return jsonify(response=response)
 
 
 @app.route('/')
