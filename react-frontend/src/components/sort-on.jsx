@@ -15,6 +15,7 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
     >
       {Object.keys(sortableAttributes).map(key => (
         <Dropdown.Item
+          key={key}
           eventKey={key}
           onClick={() => {
             updateSortOn(key);

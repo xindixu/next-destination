@@ -1,24 +1,27 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import {RESTAURANT_SCHEMA, RESTAURANT_SORTABLE_SCHEMA} from "../lib/constants";
+import { CITY_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
-const Restaurants = ({ city }) => {
+const Cities = () => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("best_match");
+  const [sortOn, setSortOn] = useState("");
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => ({
-    url: `/restaurants/${city}`,
+    url: `/cities`,
     params: {
       page: 1,
       sort: sortOn
     },
-    name: "businesses"
+    name: "cities",
+    option: {
+      json: true
+    }
   }));
 
   useEffect(() => {
@@ -48,16 +51,15 @@ const Restaurants = ({ city }) => {
         totalRecords={recordsCount}
         loadPage={fetchPage}
         currentPage={currentPage}
-        schema={RESTAURANT_SORTABLE_SCHEMA}
+        schema={CITY_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}
       />
-      <SortableTable settings={RESTAURANT_SCHEMA} data={pageRecords} />
+      <SortableTable settings={CITY_SCHEMA} data={pageRecords} />
     </>
   );
 };
-Restaurants.propTypes = {
-  city: PropTypes.string.isRequired
-};
 
-export default Restaurants;
+Cities.propTypes = {};
+
+export default Cities;

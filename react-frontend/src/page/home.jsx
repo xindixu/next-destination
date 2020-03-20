@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import { Row, Col, Container } from "react-bootstrap";
 import "./home.css";
 import Austin from "../assets/austin.jpg";
@@ -34,6 +32,5 @@ const Home = () => {
     </div>
   );
 };
-Home.propTypes = {};
 
 export default Home;

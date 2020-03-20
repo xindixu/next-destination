@@ -7,7 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
-import TableActions from "../containers/table-actions";
+import Airbnbs from "../containers/airbnbs";
 import "./city.css";
 
 const TABS = {
@@ -15,9 +15,9 @@ const TABS = {
     key: "restaurants",
     title: "Restaurants"
   },
-  airbnb: {
-    key: "airbnb",
-    title: "AirBnb"
+  Airbnbs: {
+    key: "Airbnbs",
+    title: "Airbnbs"
   },
   events: {
     key: "events",
@@ -34,7 +34,6 @@ const City = () => {
   // TODO: data should be passed down from parent
   useEffect(() => {
     apiFetch(`/city/${name}`, {})
-      .then(resp => resp.json())
       .then(data => {
         setCity(data.city);
       })
@@ -44,7 +43,7 @@ const City = () => {
   }, [name]);
 
   if (city) {
-    const { name, state, latitude, longitude, population,  description } = city;
+    const { state, latitude, longitude, population, description } = city;
     return (
       <>
         <div className="city1">
@@ -53,10 +52,10 @@ const City = () => {
           {/* TODO: extract this component */}
           <img id="randCity1" alt="pic of city" />
           <div>
-            <p> state: {state} </p>
-            <p> latitude: {latitude} </p>
-            <p> longitude: {longitude} </p>
-            <p> population: {population}</p>
+            <p>state: {state}</p>
+            <p>latitude: {latitude}</p>
+            <p>longitude: {longitude}</p>
+            <p>population: {population}</p>
           </div>
         </div>
 
@@ -67,6 +66,10 @@ const City = () => {
 
           <Tab eventKey={TABS.events.key} title={TABS.events.title}>
             <Events city={name} />
+          </Tab>
+
+          <Tab eventKey={TABS.Airbnbs.key} title={TABS.Airbnbs.title}>
+            <Airbnbs city={name} />
           </Tab>
         </Tabs>
       </>

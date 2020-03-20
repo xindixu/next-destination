@@ -28,8 +28,7 @@ const getButtons = (currentPage, totalPages) => {
   return [...Array(totalPages).keys()].map(key => key + 1);
 };
 
-const Pagination = ({ totalRecords, loadPage }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+const Pagination = ({ totalRecords, loadPage, currentPage }) => {
   const totalPages = Math.min(Math.floor(totalRecords / LIMIT), MAX_PAGE_NUM);
 
   const paginationButtons = getButtons(currentPage, totalPages);
@@ -38,7 +37,7 @@ const Pagination = ({ totalRecords, loadPage }) => {
     if (num === currentPage) {
       return;
     }
-    setCurrentPage(num);
+
     loadPage(num);
   };
 
@@ -84,7 +83,8 @@ const Pagination = ({ totalRecords, loadPage }) => {
 
 Pagination.propTypes = {
   totalRecords: PropTypes.number.isRequired,
-  loadPage: PropTypes.func.isRequired
+  loadPage: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired
 };
 
 export default Pagination;

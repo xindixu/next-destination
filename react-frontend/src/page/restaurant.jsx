@@ -7,11 +7,9 @@ const Restaurant = () => {
   const [restaurant, setRestaurant] = useState(null);
 
   useEffect(() => {
-    apiFetch(`/restaurant/${id}`, {})
-      .then(resp => resp.json())
-      .then(data => {
-        setRestaurant(data.response);
-      });
+    apiFetch(`/restaurant/${id}`, {}).then(data => {
+      setRestaurant(data.response);
+    });
   }, []);
 
   if (!restaurant) {

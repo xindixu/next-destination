@@ -17,7 +17,30 @@ export const EVENT_SORTABLE_SCHEMA = {
   time_start: { title: "Time Start", dataSort: true }
 };
 
+export const AIRBNB_SORTABLE_SCHEMA = {
+  price: { title: "Price", dataSort: true },
+  accomodates: { title: "Accomodates", dataSort: true }
+};
+
 // schema for sortableTable
+export const AIRBNB_SCHEMA = {
+  // image:{
+  //   title: '',
+  //   getBodyFormat: (_, { picture_url: img, name }) => (
+  //     <img src={img} alt={name} />
+  //   ),
+  //   isKey: false,
+  //   dataSort: false
+  // },
+  name: {
+    title: "Name",
+    getBodyFormat: (_, { listing_url, name }) => (
+      <Link to={{listing_url}}>{name}</Link>
+    ),
+    isKey: true,
+    dataSort: true
+  }
+}
 export const RESTAURANT_SCHEMA = {
   image: {
     title: "",
@@ -140,6 +163,39 @@ export const EVENT_SCHEMA = {
         Yelp
       </a>
     ),
+    isKey: false,
+    dataSort: false
+  }
+};
+
+export const CITY_SCHEMA = {
+  image: {
+    title: "Picture",
+    getBodyFormat: (_, {}) => <span>INSERT PICTURE HERE</span>,
+    isKey: false,
+    dataSort: false
+  },
+  name: {
+    title: "City",
+    getBodyFormat: (_, { name }) => <Link to={`/city/${name}`}>{name}</Link>,
+    isKey: true,
+    dataSort: true
+  },
+  state: {
+    title: "State",
+    getBodyFormat: (_, { state }) => <span>{state}</span>,
+    isKey: false,
+    dataSort: true
+  },
+  population: {
+    title: "Population",
+    getBodyFormat: (_, { population }) => <span>{population}</span>,
+    isKey: false,
+    dataSort: true
+  },
+  description: {
+    title: "Description",
+    getBodyFormat: (_, { description }) => <span>{description}</span>,
     isKey: false,
     dataSort: false
   }
