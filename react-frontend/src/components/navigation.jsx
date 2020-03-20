@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useLocation
+} from "react-router-dom";
 import { Navbar, Nav } from "react-bootstrap";
 
 import Home from "../page/home";
@@ -11,10 +17,12 @@ import Restaurant from "../page/restaurant";
 import Event from "../page/event";
 import Events from "../page/events";
 
-const Navigation = () => (
-  <Router>
+const AppNavBar = () => {
+  const location = useLocation();
+
+  return (
     <Navbar bg="dark" variant="dark">
-      <Nav className="mr-auto" defaultActiveKey="/">
+      <Nav className="mr-auto" defaultActiveKey={location.pathname}>
         <Nav.Link eventKey="/" as={Link} to="/">
           Home
         </Nav.Link>
@@ -32,7 +40,12 @@ const Navigation = () => (
         </Nav.Link>
       </Nav>
     </Navbar>
+  );
+};
 
+const Navigation = () => (
+  <Router>
+    <AppNavBar />
     <Switch>
       <Route path="/about">
         <About />
@@ -55,7 +68,7 @@ const Navigation = () => (
       <Route path="/event/:id">
         <Event />
       </Route>
-      <Route path="/">
+      <Route exact path="/">
         <Home />
       </Route>
     </Switch>
