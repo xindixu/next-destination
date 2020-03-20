@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import apiFetch from "../lib/api-fetch";
-
 import Events from "../containers/events";
-import { getLocation } from "../lib/util";
+import { setLocation } from "../lib/util";
 
-// getLocation();
-const EventsPage = props => {
+const EventsPage = () => {
+  const [coordinates, setCoordinates] = useState(null);
+  useEffect(() => {
+    setLocation(setCoordinates);
+  }, []);
+
   return (
     <>
       <h1>Events</h1>
-      <Events city="austin" />
+      {coordinates ? <Events coordinates={coordinates} /> : <></>}
     </>
   );
 };

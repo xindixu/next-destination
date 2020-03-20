@@ -11,7 +11,7 @@ from data import about_data, member_contribs
 from api import yelp_api_header
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
-CORS(app, resources=r'/*')
+CORS(app, resources=r'/*')  
 engine = create_engine(
     'postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
 Session = sessionmaker(bind=engine)
@@ -67,19 +67,31 @@ def about():
             member_contribs["quinton"]["issues"] += 1
 
     return jsonify(about=about_data)
-# ! Need to find a way to make this take info about the location of the local machine so that local events will be listed
-# ! Alternatively we could have a search bar that would allow users to search by event or city
-# * still encountering 404 when trying to reach this page from the backend
+
 @app.route('/api/events')
 def events_page():
+    longitude = request.args.get('longitude', type=float)
+    latitude = request.args.get('latitude', type=float)
+    
+    MAX_PAGE_NUM = 50
+    LIMIT = 20
+    page = request.args.get('page', default=1, type=int)
+    if page > MAX_PAGE_NUM:
+        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
+
+    sort = request.args.get('sort', default="time_start", type=str)
+
     url = "https://api.yelp.com/v3/events"
     params = {
-        "location": "austin"
+        "longitude": longitude,
+        "latitude":latitude,
+        "limit": LIMIT,
+        "offset": get_offset(page, LIMIT),
+        "sort_on": sort
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
 
-# @app.route('/api/events/', defaults={"city":"austin"}) # change needed here
 @app.route('/api/events/<string:city>')
 def events(city):
     # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used

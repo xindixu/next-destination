@@ -18,11 +18,15 @@ export const getSortableAttributes = schema =>
     return dict;
   }, {});
 
-export const getLocation = () => {
+export const setLocation = callback => {
   if (navigator.geolocation) {
-    return navigator.geolocation.getCurrentPosition(position => {
-      console.log(position);
-    });
+    return navigator.geolocation.getCurrentPosition(
+      ({ coords }) => callback(coords),
+      () => {
+        callback(null);
+        console.error("unable to get current location");
+      }
+    );
   }
   return "Geolocation is not supported by this browser.";
 };

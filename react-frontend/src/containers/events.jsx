@@ -5,21 +5,36 @@ import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
-const Events = ({ city }) => {
+const Events = ({ city, coordinates }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState("time_start");
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
-  ] = useDataStore(() => ({
-    url: `/events/${city}`,
-    params: {
-      page: 1,
-      sort: sortOn
-    },
-    name: "events"
-  }));
+  ] = useDataStore(() => {
+    if (city) {
+      return {
+        url: `/events/${city}`,
+        params: {
+          page: 1,
+          sort: sortOn
+        },
+        name: "events"
+      };
+    }
+    const { longitude, latitude } = coordinates;
+    return {
+      url: `/events`,
+      params: {
+        page: 1,
+        sort: sortOn,
+        longitude,
+        latitude
+      },
+      name: "events"
+    };
+  });
 
   useEffect(() => {
     fetchPage(1).catch(() => setIsError(true));
@@ -56,9 +71,16 @@ const Events = ({ city }) => {
     </>
   );
 };
-
+Events.defaultProps = {
+  city: "",
+  coordinates: {}
+};
 Events.propTypes = {
-  city: PropTypes.string.isRequired
+  city: PropTypes.string,
+  coordinates: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired
+  })
 };
 
 export default Events;
