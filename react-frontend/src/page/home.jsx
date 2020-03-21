@@ -7,28 +7,24 @@ import Banner from "../assets/banner.jpg";
 const Home = () => {
   return (
     <div className="body">
-      <img className="banner" src={Banner} alt="City hunt banner - Austin" />
-      <h1>Home</h1>
-      <p className="descr">
-        The following are randomized cities and their main attractions.{" "}
+    <div className="title">
+       <h1>Project Name</h1>
+       <p className="descr">
+        Discover something new!{" "}
       </p>
+    </div>
+    <div className="bottom-text-container">
       <Container className="Container">
-        <Row className="Row">
-          <Col>
-            <h3> Austin, TX</h3>
-          </Col>
-        </Row>
         <Row>
-          <Col>
-            <img src={Austin} alt="Austin" className="base" />
-          </Col>
           <Col className="text">
+            <p className="city-name">Austin, TX</p>
             <p> Average Airbnb Price: 80</p>
             <p> # of restaurants in the area</p>
             <p> # of upcoming events in the area: 90 </p>
           </Col>
         </Row>
       </Container>
+    </div>
     </div>
   );
 };

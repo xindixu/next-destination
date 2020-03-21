@@ -1,31 +1,35 @@
+body {
+ height: 100%;
+ background-image: url("../assets/austin.jpg");
+ background-size: cover;
+}
 .body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
 
 }
-
-.header {
-  position: absolute;
-  width: 100%;
-  top: 10px;
-}
-
-.logo {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 50px;
-  height: 50px;
-}
-
 .title {
-  position: absolute;
-  top: -30px;
-  left: 70px;
-  font-size: 250%;
+  color: White;
+  background-color: rgba(0,0,0,0.8);
+  padding-left: 10rem;
+  padding-right: 10rem;
+  margin: auto;
+  margin-bottom: 5rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
 }
 
+.bottom-text-container {
+  color: White;
+  background-color: rgba(0,0,0,0.8);
+  border-radius: 8px;
+}
+.city-name {
+    font-size: 1.5rem;
+}
 .navBar {
   position: absolute;
   right: 5%;
@@ -63,30 +67,3 @@
   margin: 0px;
 }
 
-.banner {
-  display: flex;
-  width: 100%;
-  border-radius: 0;
-}
-
-.Row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex;
-}
-
-.Container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.Container .text {
-  display: flex;
-  align-items: start;
-  flex-direction: column;
-  background-color: #d4ffe7;
-  border-radius: 15px;
-  padding: 15px;
-}
