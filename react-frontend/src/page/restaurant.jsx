@@ -1,6 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import Table from "react-bootstrap/Table";
 import apiFetch from "../lib/api-fetch";
+import Restaurants from "../containers/restaurants";
+import Events from "../containers/events";
+import Airbnbs from "../containers/airbnbs";
+import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
+
+const TABS = {
+  restaurants: {
+    key: "restaurants",
+    title: "Nearby Restaurants"
+  },
+  airbnbs: {
+    key: "airbnbs",
+    title: "Nearby Airbnbs"
+  },
+  events: {
+    key: "events",
+    title: "Nearby Events"
+  }
+};
 
 const Restaurant = () => {
   const { id } = useParams();
@@ -19,7 +41,7 @@ const Restaurant = () => {
   const {
     name,
     categories,
-    location: { display_address: address },
+    location: { display_address: address, city },
     image_url: image,
     coordinates: { latitude, longitude },
     price
@@ -40,6 +62,25 @@ const Restaurant = () => {
       </p>
       <p>{address}</p>
       <p>{price}</p>
+
+      <Tabs defaultActiveKey={TABS.restaurants.key}>
+        <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
+          <Restaurants
+            coordinates={{ longitude, latitude }}
+            tableSchema={RESTAURANT_SCHEMA}
+          />
+        </Tab>
+
+        <Tab eventKey={TABS.events.key} title={TABS.events.title}>
+          <Events
+            coordinates={{ longitude, latitude }}
+            tableSchema={EVENT_SCHEMA}
+          />
+        </Tab>
+        <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
+          <Airbnbs city={city} />
+        </Tab>
+      </Tabs>
     </>
   );
 };
