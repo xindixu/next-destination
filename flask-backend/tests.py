@@ -1,14 +1,22 @@
-from models import db, Cities, Airbnb
+from models import db, Cities, Airbnb, app
 from faker import Faker
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS, cross_origin
+from sqlalchemy import create_engine, or_, func, desc
+from sqlalchemy.orm import sessionmaker
 import unittest
 import random as r
 from main import about, get_gitlab_data
 from data import about_data, member_contribs
 import requests
-from models import app
 import json
 from flask import request
+
+CORS(app, resources=r'/*')
+engine = create_engine(
+    'postgres+psycopg2://postgres:Nmc!2342@localhost:5432/cityhuntdb')
+Session = sessionmaker(bind=engine)
+session = Session()
 
 fake = Faker()
 
@@ -503,8 +511,9 @@ class AboutPageTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_commit_about_1(self):
-        about_data = about()
-        self.assertTrue(about_data)
+        with app.app_context():
+            about_data = about()
+            self.assertTrue(about_data)
         
     def test_get_gitlab(self):
         gitlab_data = get_gitlab_data(url)
