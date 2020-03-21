@@ -1,4 +1,4 @@
-from models import db, Cities, Airbnb, app
+from models import db, Cities, Airbnb
 from faker import Faker
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
@@ -6,25 +6,10 @@ from sqlalchemy import create_engine, or_, func, desc
 from sqlalchemy.orm import sessionmaker
 import unittest
 import random as r
-from main import about, get_gitlab_data
-from data import about_data, member_contribs
-import requests
-import json
-from flask import request, jsonify
 
-'''
-CORS(app, resources=r'/*')
-engine = create_engine(
-    'postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
-Session = sessionmaker(bind=engine)
-session = Session()
-'''
 
 fake = Faker()
 
-url = "https://gitlab.com/api/v4/projects/16729459"
-commits = get_gitlab_data(f"{url}/repository/commits")
-issues = get_gitlab_data(f"{url}/issues")
 
 class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_1(self):
@@ -504,44 +489,6 @@ class DatabaseTestsAirbnb(unittest.TestCase):
 
         db.session.query(Cities).filter_by(name='Jasper').delete()
         db.session.commit()
-
-
-class AboutPageTests(unittest.TestCase):
-    
-    def test_connect_gitlab(self):
-        response = requests.get(url)
-        self.assertEqual(response.status_code, 200)
-
-    def test_commit_about_1(self):
-        with app.app_context():
-            about_data = about()
-            self.assertTrue(about_data)
-    
-    def test_commit_about_2(self):
-        with app.app_context():
-            about_data = about()
-            about_data = about_data.json()
-            self.assertEqual(about_data['about'][0]['name'], 'Yulissa Montes')
-
-    def test_commit_about_3(self):
-        with app.app_context():
-            about_data = about()
-            about_data = jsonify(about_data.json.get('about'))
-            self.assertTrue(about_data[0]['stats']['commits']>0)
-
-    def test_commit_about_4(self):
-        with app.app_context():
-            about_data = about()
-            about_data = jsonify(about_data)
-            self.assertTrue(about_data['about'][0]['stats']['issues']>0)
-    
-    def test_get_gitlab_1(self):
-        gitlab_data = get_gitlab_data(f"{url}/repository/commits")
-        self.assertTrue(gitlab_data)
-    
-    def test_get_gitlab_2(self):
-        gitlab_data = get_gitlab_data(f"{url}/issues")
-        self.assertTrue(gitlab_data)
 
 
 
