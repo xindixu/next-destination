@@ -16,7 +16,8 @@ def create_cities():
 
 def create_airbnb_listings():
     db_connection = psycopg2.connect(
-        "host=localhost dbname=cityhuntdb user=postgres password=supersecret port=5432")
+        "host=localhost dbname=cityhuntdb user=postgres password=supersecret"
+        " port=5432")
     cur = db_connection.cursor()
 
     with open('cleaned_us_airbnb_data.csv', 'r') as listing:
