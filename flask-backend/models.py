@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 app = Flask(__name__)
 # TODO: replace with real password
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
+    "DB_STRING", 'postgres://postgres:bone_ranger!1@localhost:5432/cityhuntdb')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
@@ -21,6 +21,7 @@ class Cities(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     population = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(5000), nullable=False)
+    id = db.Column(db.String(80), nullable=False)
 
     listings = db.relationship('Airbnb', backref='cities')
     def  __repr__(self):
