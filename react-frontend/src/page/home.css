@@ -1,13 +1,13 @@
 body {
  height: 100%;
- background-image: url("../assets/austin.jpg");
- background-size: cover;
 }
 .body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: 100vh;
+  background-image: url("../assets/austin.jpg");
+  background-size: cover;
 
 }
 .title {
@@ -16,6 +16,7 @@ body {
   padding-left: 10rem;
   padding-right: 10rem;
   margin: auto;
+  margin-top: 0;
   margin-bottom: 5rem;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
