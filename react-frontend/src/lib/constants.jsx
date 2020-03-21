@@ -25,22 +25,68 @@ export const AIRBNB_SORTABLE_SCHEMA = {
 
 // schema for sortableTable
 export const AIRBNB_SCHEMA = {
-  // image:{
-  //   title: '',
-  //   getBodyFormat: (_, { picture_url: img, name }) => (
-  //     <img src={img} alt={name} />
-  //   ),
-  //   isKey: false,
-  //   dataSort: false
-  // },
+  image:{
+    title: '',
+    getBodyFormat: (_, { picture_url: img, name }) => (
+      <img src={img} alt={name} />
+    ),
+    isKey: false,
+    dataSort: false
+  },
   name: {
     title: "Name",
     getBodyFormat: (_, { listing_url, name }) => (
-      <Link to={{ listing_url }}>{name}</Link>
+      <a href={listing_url} target="_blank" rel="noopener noreferrer">
+        {name}
+      </a>
     ),
     isKey: true,
     dataSort: true
-  }
+  },
+  price: {
+    title: "Price per night",
+    getBodyFormat: (_, { price }) => (<span>{price}</span>),
+    isKey: false,
+    dataSort: true
+  },
+  accomodates: {
+    title: "Accomodates",
+    getBodyFormat: (_, { accomodates }) => (<span>{accomodates}</span>),
+    isKey: false,
+    dataSort: true
+  },
+  review_score: {
+    title: "Rating out of 100",
+    getBodyFormat: (_, { review_scores_rating }) => (<span>{review_scores_rating}</span>),
+    isKey: false,
+    dataSort: true
+  },
+  number_of_reviews: {
+    title: "# of Reviews",
+    getBodyFormat: (_, { number_of_reviews }) => (<span>{number_of_reviews}</span>),
+    isKey: false,
+    dataSort: true
+  },
+  zipcode: {
+    title: "Zipcode",
+    getBodyFormat: (_, { zipcode }) => (<span>{zipcode}</span>),
+    isKey: false,
+    dataSort: true
+  },
+  description: {
+    title: "Description",
+    getBodyFormat: (_, { neighborhood_overview, listing_url}) => (
+      <span>{neighborhood_overview.substring(0,200)+' ...'}
+      <a href={listing_url} target="_blank" rel="noopener noreferrer">
+        READ MORE
+      </a>
+      </span>
+      
+    ),
+    isKey: false,
+    dataSort: true
+  },
+  
 };
 
 export const RESTAURANT_SCHEMA = {

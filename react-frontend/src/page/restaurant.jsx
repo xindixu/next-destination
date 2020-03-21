@@ -30,7 +30,7 @@ const Restaurant = () => {
       <img src={image} alt={name} className="md center" />
       <p>
         {categories.map(({ title }) => (
-          <span key={title}>#{title}</span>
+          <span key={title}>#{title} </span>
         ))}
       </p>
       <p>
