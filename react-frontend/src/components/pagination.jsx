@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {
-  ButtonToolbar,
-  ButtonGroup,
-  Button,
-  InputGroup,
-  FormControl
-} from "react-bootstrap";
+import { Pagination as BSPagination } from "react-bootstrap";
+import "./pagination.css";
 
 import { MAX_PAGE_NUM, LIMIT } from "../lib/constants";
 
@@ -42,42 +37,37 @@ const Pagination = ({ totalRecords, loadPage, currentPage }) => {
   };
 
   return (
-    <ButtonGroup aria-label="Pages">
-      <Button
-        variant="outline-primary"
+    <BSPagination>
+      <BSPagination.First
         onClick={() => goToPage(1)}
-        type="button"
-        aria-label="go to first page"
-      >
-        First
-      </Button>
-      {paginationButtons[0] !== 1 && (
-        <span className="btn btn-outline-primary disabled">...</span>
-      )}
+        disabled={currentPage === 1}
+      />
+      <BSPagination.Prev
+        onClick={() => goToPage(currentPage - 1)}
+        disabled={currentPage - 1 < 1}
+      />
+      {paginationButtons[0] !== 1 && <BSPagination.Ellipsis />}
       {paginationButtons.map(num => (
-        <Button
-          variant="outline-primary"
+        <BSPagination.Item
           onClick={() => goToPage(num)}
           key={num}
-          type="button"
-          className={num === currentPage ? "active" : ""}
-          aria-label={`go to page ${num}`}
+          active={num === currentPage}
         >
           {num}
-        </Button>
+        </BSPagination.Item>
       ))}
       {paginationButtons[paginationButtons.length - 1] !== totalPages && (
-        <span className="btn btn-outline-primary disabled">...</span>
+        <BSPagination.Ellipsis />
       )}
-      <Button
-        variant="outline-primary"
+      <BSPagination.Next
+        onClick={() => goToPage(currentPage + 1)}
+        disabled={currentPage + 1 > totalPages}
+      />
+      <BSPagination.Last
         onClick={() => goToPage(totalPages)}
-        type="button"
-        aria-label="go to last page"
-      >
-        Last
-      </Button>
-    </ButtonGroup>
+        disabled={currentPage === totalPages}
+      />
+    </BSPagination>
   );
 };
 

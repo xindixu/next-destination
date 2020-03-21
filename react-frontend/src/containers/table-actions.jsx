@@ -1,15 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ButtonToolbar,
-  ButtonGroup,
-  InputGroup,
-  DropdownButton,
-  Dropdown,
-  FormControl
-} from "react-bootstrap";
+import { ButtonToolbar, InputGroup, FormControl } from "react-bootstrap";
 import Pagination from "../components/pagination";
 import SortOn from "../components/sort-on";
+import "./table-actions.css";
 
 const TableActions = ({
   totalRecords,

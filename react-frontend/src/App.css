@@ -31,7 +31,6 @@ img.sm {
   width: 80%;
 }
 
-
 des-sec-container {
   display: flex;
   flex-direction: column;
@@ -63,7 +62,7 @@ h6 {
   font-family: "Playfair Display", serif;
 }
 
-h1{
+h1 {
   padding: 3rem 0;
   text-align: center;
 }
