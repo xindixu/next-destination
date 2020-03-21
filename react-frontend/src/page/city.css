@@ -1,37 +1,35 @@
-/* .city1 {
-  position: relative;
-  width: 1000px;
-  height: 400px;
-  margin: 0 auto;
-  text-align: center;
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
+.city-image-container {
+    display: flex;
+    margin: auto;
+}
+.city-image-container img {
+    margin: auto;
+    width: 100%;
+    height: auto;
+}
+h1 {
+   font-family: 'Playfair Display', serif;
 }
 
-.city1 p {
-  width: 100%;
-  text-align: center;
+des-sec-container {
+   display: flex;
+   flex-direction: column;
+   margin: 2rem;
 }
-
-.city1 img {
-  position: absolute;
-  left: 75px;
-  top: 170px;
-  height: 275px;
-  width: 400px;
-  border-radius: 15px;
+.des-sec-container h2{
+  font-family: 'Playfair Display', serif;
+  padding-bottom: 1rem;
 }
-
-.city1 div {
-  position: absolute;
-  right: 100px;
-  top: 170px;
-  width: 330px;
+.des-sec-container p {
   text-align: left;
-  background-color: #d4ffe7;
-  border-radius: 15px;
-  padding: 30px;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
-
-.city1 div p {
-  width: 300px;
-  text-align: left;
-} */
+.stat-container h2 {
+   font-family: 'Playfair Display', serif;
+}
+.stat-table {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
