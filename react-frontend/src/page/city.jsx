@@ -4,13 +4,11 @@ import { useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import Airbnbs from "../containers/airbnbs";
-import "./city.css";
+import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
 
 const TABS = {
   restaurants: {
@@ -62,19 +60,17 @@ const City = () => {
     const { state, latitude, longitude, population, description, name } = city;
     return (
       <>
-        <div className="city1">
-          <div className="city-image-container">
-            <img src={image} alt="pic of city" />
-          </div>
-          <h1>
-            {name}, {state}{" "}
-          </h1>
+        <div className="header-image-container">
+          <img src={image} alt={name} />
+        </div>
+        <h1>
+          {name}, {state}{" "}
+        </h1>
 
-          {/* TODO: extract this component */}
-          <div className="des-sec-container">
-            <h2>Description</h2>
-            <p> {description} </p>
-          </div>
+        {/* TODO: extract this component */}
+        <div className="des-sec-container">
+          <h2>Description</h2>
+          <p> {description} </p>
         </div>
 
         <div className="stat-container">
@@ -97,11 +93,11 @@ const City = () => {
 
         <Tabs defaultActiveKey={TABS.restaurants.key}>
           <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-            <Restaurants city={id} />
+            <Restaurants city={id} tableSchema={RESTAURANT_SCHEMA} />
           </Tab>
 
           <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-            <Events city={id} />
+            <Events city={id} tableSchema={EVENT_SCHEMA} />
           </Tab>
 
           <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>

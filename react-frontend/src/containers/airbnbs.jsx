@@ -7,7 +7,7 @@ import useDataStore from "../hooks/use-data-store";
 
 const Airbnbs = ({ city, coordinates }) => {
   const [isError, setIsError] = useState(false);
-  // const [sortOn, setSortOn] = useState("price");
+  const [sortOn, setSortOn] = useState("price");
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
@@ -18,7 +18,7 @@ const Airbnbs = ({ city, coordinates }) => {
         url: `/airbnbs/${city}`,
         params: {
           page: 1,
-          // sort: sortOn
+          sort: sortOn
         },
         name: "airbnbs"
       };
@@ -28,7 +28,7 @@ const Airbnbs = ({ city, coordinates }) => {
       url: `/airbnbs/${city}`,
       params: {
         page: 1,
-        // sort: sortOn,
+        sort: sortOn,
         longitude,
         latitude
       },
@@ -44,7 +44,7 @@ const Airbnbs = ({ city, coordinates }) => {
 
   const updateSortOn = useCallback(
     newSortOn => {
-      // setSortOn(newSortOn);
+      setSortOn(newSortOn);
       sort(newSortOn);
     },
     [sort]
@@ -64,8 +64,8 @@ const Airbnbs = ({ city, coordinates }) => {
         loadPage={fetchPage}
         currentPage={currentPage}
         schema={AIRBNB_SORTABLE_SCHEMA}
-        // sortOn={sortOn}
-        // updateSortOn={updateSortOn}
+        sortOn={sortOn}
+        updateSortOn={updateSortOn}
       />
       <SortableTable settings={AIRBNB_SCHEMA} data={pageRecords} />
     </>

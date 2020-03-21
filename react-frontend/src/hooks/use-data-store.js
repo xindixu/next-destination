@@ -103,18 +103,14 @@ const useDataStore = init => {
   return [
     {
       recordsCount,
-      pageRecords: recordsByPage[currentPage],
+      pageRecords: recordsByPage[currentPage] || [],
       fetching,
       complete,
       currentPage
     },
     {
       fetchPage,
-      sort,
-      getCurrentRecords: useCallback(() => recordsByPage[currentPage], [
-        currentPage,
-        recordsByPage
-      ])
+      sort
     }
   ];
 };

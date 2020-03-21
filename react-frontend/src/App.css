@@ -31,11 +31,6 @@ img.sm {
   width: 80%;
 }
 
-des-sec-container {
-  display: flex;
-  flex-direction: column;
-  margin: 2rem;
-}
 .des-sec-container h2 {
   font-family: "Playfair Display", serif;
   padding-bottom: 1rem;
@@ -65,4 +60,18 @@ h6 {
 h1 {
   padding: 3rem 0;
   text-align: center;
+}
+
+.header-image-container {
+  display: flex;
+  margin: auto;
+}
+
+.header-image-container img {
+  margin: auto;
+  width: 100%;
+  height: auto;
+  max-height: 30vh;
+  object-fit: cover;
+  border-radius: 0;
 }
