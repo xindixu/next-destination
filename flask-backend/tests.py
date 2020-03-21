@@ -516,10 +516,28 @@ class AboutPageTests(unittest.TestCase):
         with app.app_context():
             about_data = about()
             self.assertTrue(about_data)
-        
-    def test_get_gitlab(self):
+    
+    def test_commit_about_2(self):
+        with app.app_context():
+            about_data = about()
+            self.assertEqual(about_data[0]['name'], 'Yulissa Montes')
+
+    def test_commit_about_3(self):
+        with app.app_context():
+            about_data = about()
+            self.assertTrue(about_data[0]['stats']['commits']>0)
+
+    def test_commit_about_4(self):
+        with app.app_context():
+            about_data = about()
+            self.assertTrue(about_data[0]['stats']['issues']>0)
+
+    def test_get_gitlab_1(self):
         gitlab_data = get_gitlab_data(f"{url}/repository/commits")
-        #self.assertTrue(1)
+        self.assertTrue(gitlab_data)
+    
+    def test_get_gitlab_2(self):
+        gitlab_data = get_gitlab_data(f"{url}/issues")
         self.assertTrue(gitlab_data)
 
 
