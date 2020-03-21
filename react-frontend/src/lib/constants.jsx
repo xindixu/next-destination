@@ -35,12 +35,12 @@ export const AIRBNB_SCHEMA = {
   name: {
     title: "Name",
     getBodyFormat: (_, { listing_url, name }) => (
-      <Link to={{listing_url}}>{name}</Link>
+      <Link to={{ listing_url }}>{name}</Link>
     ),
     isKey: true,
     dataSort: true
   }
-}
+};
 export const RESTAURANT_SCHEMA = {
   image: {
     title: "",
@@ -112,7 +112,7 @@ export const EVENT_SCHEMA = {
   location: {
     title: "Address",
     getBodyFormat: (_, { location: { display_address: address } }) => (
-      <span>{address}</span>
+      <span>{address.join(", ")}</span>
     ),
     isKey: false,
     dataSort: false

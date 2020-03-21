@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import Table from "react-bootstrap/Table"
-import Col from "react-bootstrap/Col"
-import Row from "react-bootstrap/Row"
+import Table from "react-bootstrap/Table";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
@@ -17,8 +17,8 @@ const TABS = {
     key: "restaurants",
     title: "Restaurants"
   },
-  Airbnbs: {
-    key: "Airbnbs",
+  airbnbs: {
+    key: "airbnbs",
     title: "Airbnbs"
   },
   events: {
@@ -31,7 +31,7 @@ const City = () => {
   const { name } = useParams();
 
   const [city, setCity] = useState(null);
-  const [images, setImages] = useState([]);
+  const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
 
   // TODO: data should be passed down from parent
@@ -46,48 +46,56 @@ const City = () => {
   }, [name]);
 
   useEffect(() => {
-    fetch(`https://api.teleport.org/api/urban_areas/slug:${name.toLowerCase()}/images/`)
+    // TODO: fix getting image when slug has a space
+    fetch(
+      `https://api.teleport.org/api/urban_areas/slug:${name.toLowerCase()}/images/`
+    )
       .then(resp => resp.json())
       .then(data => {
-        setImages(data['photos'][0]['image']['web'])
-        console.log(data['photos'][0]['image']['web'])
-        });
+        console.log(data.photos);
+        try {
+          setImage(data.photos[0].image.web);
+        } catch (error) {
+          console.error("No image available");
+        }
+      });
   }, []);
 
   if (city) {
-    const { state, latitude, longitude, population, description, image } = city;
+    const { state, latitude, longitude, population, description } = city;
     return (
       <>
         <div className="city1">
           <div className="city-image-container">
-            <img id="img_city" src={`${images}`} alt='pic of city'/>
+            <img src={image} alt="pic of city" />
           </div>
-          <h1> {name}, {state} </h1>
+          <h1>
+            {name}, {state}{" "}
+          </h1>
 
           {/* TODO: extract this component */}
-         <div className="des-sec-container">
+          <div className="des-sec-container">
             <h2>Description</h2>
             <p> {description} </p>
           </div>
         </div>
 
         <div className="stat-container">
-            <h2>Statistics</h2>
-            <div className='stat-table'>
-                <Table>
-                    <tr>
-                        <th>Population</th>
-                        <th>Longitude</th>
-                        <th>Latitude</th>
-                    </tr>
-                    <tr>
-                        <td>{population}</td>
-                        <td>{longitude}</td>
-                        <td>{latitude}</td>
-                    </tr>
-                </Table>
-            </div>
-
+          <h2>Statistics</h2>
+          <div className="stat-table">
+            <Table>
+              <tr>
+                <th>Population</th>
+                <th>Longitude</th>
+                <th>Latitude</th>
+              </tr>
+              <tr>
+                <td>{population}</td>
+                <td>{longitude}</td>
+                <td>{latitude}</td>
+              </tr>
+            </Table>
+          </div>
         </div>
 
         <Tabs defaultActiveKey={TABS.restaurants.key}>
@@ -99,7 +107,7 @@ const City = () => {
             <Events city={name} />
           </Tab>
 
-          <Tab eventKey={TABS.Airbnbs.key} title={TABS.Airbnbs.title}>
+          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
             <Airbnbs city={name} />
           </Tab>
         </Tabs>

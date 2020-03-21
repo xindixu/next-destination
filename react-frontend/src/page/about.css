@@ -1,28 +1,6 @@
-.body {
-  color: black;
-}
-h1 {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-}
-p {
-  display: flex;
-  justify-content: center;
-}
-h2 {
-  display: flex;
-  justify-content: center;
-  padding: 10px;
-}
 .flex-links {
   list-style-type: none;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
-
-Card {
-  padding: 2px;
-}
-

@@ -43,10 +43,9 @@ const People = () => {
             This project connects music-focused travellers to artists, venues,
             and cities.
           </p>
+
+          <h3>Links about our project</h3>
           <ul>
-            <p>
-              <b>Links about our project</b>
-            </p>
             <li>
               <a
                 href="https://gitlab.com/nmcraig/cs-331e/issues"
@@ -83,9 +82,10 @@ const People = () => {
                 The overall technical report
               </a>
             </li>
-            <p>
-              <b>Links about Data</b>
-            </p>
+          </ul>
+
+          <h3>Links about Data</h3>
+          <ul>
             <li>
               <a
                 target="_blank"
@@ -122,9 +122,10 @@ const People = () => {
                 Airbnb Data for Different Cities
               </a>
             </li>
-            <p>
-              <b>Links about Tools</b>
-            </p>
+          </ul>
+
+          <h3>Links about Tools</h3>
+          <ul>
             <li>
               <a
                 target="_blank"
@@ -181,6 +182,7 @@ const People = () => {
             </li>
           </ul>
         </div>
+
         <h2>The Team</h2>
         <Row>
           {people.length ? (
