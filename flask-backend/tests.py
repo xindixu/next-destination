@@ -10,7 +10,7 @@ from main import about, get_gitlab_data
 from data import about_data, member_contribs
 import requests
 import json
-from flask import request
+from flask import request, jsonify
 
 '''
 CORS(app, resources=r'/*')
@@ -525,8 +525,8 @@ class AboutPageTests(unittest.TestCase):
     def test_commit_about_3(self):
         with app.app_context():
             about_data = about()
-            about_data = about_data.json()
-            self.assertTrue(about_data['about'][0]['stats']['commits']>0)
+            jsonify(about_data.json['about'])
+            self.assertTrue(about_data[0]['stats']['commits']>0)
 
     def test_commit_about_4(self):
         with app.app_context():
