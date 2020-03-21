@@ -525,6 +525,7 @@ class AboutPageTests(unittest.TestCase):
     def test_commit_about_3(self):
         with app.app_context():
             about_data = about()
+            about_data = about_data.json()
             self.assertTrue(about_data['about'][0]['stats']['commits']>0)
 
     def test_commit_about_4(self):
