@@ -8,7 +8,6 @@ import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import Airbnbs from "../containers/airbnbs";
-import "./city.css";
 import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
 
 const TABS = {
@@ -61,19 +60,17 @@ const City = () => {
     const { state, latitude, longitude, population, description, name } = city;
     return (
       <>
-        <div className="city1">
-          <div className="city-image-container">
-            <img src={image} alt="pic of city" />
-          </div>
-          <h1>
-            {name}, {state}{" "}
-          </h1>
+        <div className="header-image-container">
+          <img src={image} alt={name} />
+        </div>
+        <h1>
+          {name}, {state}{" "}
+        </h1>
 
-          {/* TODO: extract this component */}
-          <div className="des-sec-container">
-            <h2>Description</h2>
-            <p> {description} </p>
-          </div>
+        {/* TODO: extract this component */}
+        <div className="des-sec-container">
+          <h2>Description</h2>
+          <p> {description} </p>
         </div>
 
         <div className="stat-container">

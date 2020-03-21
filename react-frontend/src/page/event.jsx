@@ -34,8 +34,10 @@ const Event = () => {
 
   return (
     <>
+      <div className="header-image-container">
+        <img src={image} alt={name} />
+      </div>
       <h1>{name}</h1>
-      <img src={image} alt={name} className="md center" />
       <p>
         <span>#{category}</span>
       </p>
