@@ -15,7 +15,7 @@ from flask import request, jsonify
 '''
 CORS(app, resources=r'/*')
 engine = create_engine(
-    'postgres+psycopg2://postgres:Nmc!2342@localhost:5432/cityhuntdb')
+    'postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
 Session = sessionmaker(bind=engine)
 session = Session()
 '''
@@ -520,6 +520,7 @@ class AboutPageTests(unittest.TestCase):
     def test_commit_about_2(self):
         with app.app_context():
             about_data = about()
+            about_data = about_data.json()
             self.assertEqual(about_data['about'][0]['name'], 'Yulissa Montes')
 
     def test_commit_about_3(self):
@@ -531,8 +532,9 @@ class AboutPageTests(unittest.TestCase):
     def test_commit_about_4(self):
         with app.app_context():
             about_data = about()
+            about_data = jsonify(about_data)
             self.assertTrue(about_data['about'][0]['stats']['issues']>0)
-
+    
     def test_get_gitlab_1(self):
         gitlab_data = get_gitlab_data(f"{url}/repository/commits")
         self.assertTrue(gitlab_data)
