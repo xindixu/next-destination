@@ -233,7 +233,7 @@ def airbnbs_page():
     return get_data_from_database(Airbnb, 'airbnbs',  page, sort)
 
 @app.route('/api/airbnbs/<string:city>', methods=["GET"])
-def airbnbs_page1(city):
+def airbnbs_per_city(city):
     page = request.args.get('page', default=1, type=int)
     sort = request.args.get('sort', default="", type=str)
     return get_data_from_database(Airbnb, 'airbnbs',  page, sort, city)
