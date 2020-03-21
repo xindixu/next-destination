@@ -30,3 +30,6 @@ export const setLocation = callback => {
   }
   return "Geolocation is not supported by this browser.";
 };
+
+export const getCityIdByName = cityName =>
+  cityName.toLowerCase().replace(" ", "-");

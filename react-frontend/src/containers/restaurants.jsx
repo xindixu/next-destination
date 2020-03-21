@@ -1,25 +1,40 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import {RESTAURANT_SCHEMA, RESTAURANT_SORTABLE_SCHEMA} from "../lib/constants";
+import { RESTAURANT_SORTABLE_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
-const Restaurants = ({ city }) => {
+const Restaurants = ({ city, coordinates, tableSchema }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState("best_match");
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
-  ] = useDataStore(() => ({
-    url: `/restaurants/${city}`,
-    params: {
-      page: 1,
-      sort: sortOn
-    },
-    name: "businesses"
-  }));
+  ] = useDataStore(() => {
+    if (city) {
+      return {
+        url: `/restaurants/${city}`,
+        params: {
+          page: 1,
+          sort: sortOn
+        },
+        name: "businesses"
+      };
+    }
+    const { longitude, latitude } = coordinates;
+    return {
+      url: `/restaurants`,
+      params: {
+        page: 1,
+        sort: sortOn,
+        longitude,
+        latitude
+      },
+      name: "businesses"
+    };
+  });
 
   useEffect(() => {
     fetchPage(1).catch(() => setIsError(true));
@@ -52,12 +67,29 @@ const Restaurants = ({ city }) => {
         sortOn={sortOn}
         updateSortOn={updateSortOn}
       />
-      <SortableTable settings={RESTAURANT_SCHEMA} data={pageRecords} />
+      <SortableTable settings={tableSchema} data={pageRecords} />
     </>
   );
 };
+
+Restaurants.defaultProps = {
+  city: "",
+  coordinates: {}
+};
 Restaurants.propTypes = {
-  city: PropTypes.string.isRequired
+  city: PropTypes.string,
+  coordinates: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired
+  }),
+  tableSchema: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    getBodyFormat: PropTypes.func.isRequired,
+    isKey: PropTypes.bool.isRequired,
+    dataSort: PropTypes.bool.isRequired,
+    sortFunc: PropTypes.func,
+    width: PropTypes.number
+  }).isRequired
 };
 
 export default Restaurants;

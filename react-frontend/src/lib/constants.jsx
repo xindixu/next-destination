@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { getCityIdByName } from "./util";
 
 export const MAX_PAGE_NUM = 50;
 export const LIMIT = 20;
@@ -41,6 +42,7 @@ export const AIRBNB_SCHEMA = {
     dataSort: true
   }
 };
+
 export const RESTAURANT_SCHEMA = {
   image: {
     title: "",
@@ -86,7 +88,7 @@ export const RESTAURANT_SCHEMA = {
   },
   review_count: {
     title: "Review Count",
-    getBodyFormat: (_, { review_count }) => <span>{review_count}</span>,
+    getBodyFormat: (_, { review_count: reviews }) => <span>{reviews}</span>,
     isKey: false,
     dataSort: true
   },
@@ -99,6 +101,16 @@ export const RESTAURANT_SCHEMA = {
     ),
     isKey: false,
     dataSort: false
+  }
+};
+
+export const RESTAURANTS_PAGE_SCHEMA = {
+  ...RESTAURANT_SCHEMA,
+  city: {
+    title: "City",
+    getBodyFormat: (_, { location: { city } }) => (
+      <Link to={`/city/${getCityIdByName(city)}`}>{city}</Link>
+    )
   }
 };
 
@@ -168,10 +180,20 @@ export const EVENT_SCHEMA = {
   }
 };
 
+export const EVENTS_PAGE_SCHEMA = {
+  ...EVENT_SCHEMA,
+  city: {
+    title: "City",
+    getBodyFormat: (_, { location: { city } }) => (
+      <Link to={`/city/${getCityIdByName(city)}`}>{city}</Link>
+    )
+  }
+};
+
 export const CITY_SCHEMA = {
   image: {
     title: "Picture",
-    getBodyFormat: (_, {}) => <span>INSERT PICTURE HERE</span>,
+    getBodyFormat: _ => <span>INSERT PICTURE HERE</span>,
     isKey: false,
     dataSort: false
   },
