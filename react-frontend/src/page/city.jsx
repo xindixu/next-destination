@@ -28,7 +28,7 @@ const TABS = {
 };
 
 const City = () => {
-  const { name } = useParams();
+  const { id } = useParams();
 
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
@@ -36,23 +36,20 @@ const City = () => {
 
   // TODO: data should be passed down from parent
   useEffect(() => {
-    apiFetch(`/city/${name}`, {})
+    apiFetch(`/city/${id}`, {})
       .then(data => {
         setCity(data.city);
       })
       .catch(() => {
         setIsError(true);
       });
-  }, [name]);
+  }, [id]);
 
   useEffect(() => {
     // TODO: fix getting image when slug has a space
-    fetch(
-      `https://api.teleport.org/api/urban_areas/slug:${name.toLowerCase()}/images/`
-    )
+    fetch(`https://api.teleport.org/api/urban_areas/slug:${id}/images/`)
       .then(resp => resp.json())
       .then(data => {
-        console.log(data.photos);
         try {
           setImage(data.photos[0].image.web);
         } catch (error) {
@@ -62,7 +59,7 @@ const City = () => {
   }, []);
 
   if (city) {
-    const { state, latitude, longitude, population, description } = city;
+    const { state, latitude, longitude, population, description, name } = city;
     return (
       <>
         <div className="city1">
@@ -100,15 +97,15 @@ const City = () => {
 
         <Tabs defaultActiveKey={TABS.restaurants.key}>
           <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-            <Restaurants city={name} />
+            <Restaurants city={id} />
           </Tab>
 
           <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-            <Events city={name} />
+            <Events city={id} />
           </Tab>
 
           <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-            <Airbnbs city={name} />
+            <Airbnbs city={id} />
           </Tab>
         </Tabs>
       </>

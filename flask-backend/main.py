@@ -246,10 +246,10 @@ def cities_page():
     return get_data_from_database(Cities, 'cities',  page, sort)
 
 
-@app.route('/api/city/<string:name>', methods=['GET'])
-def city(name):
+@app.route('/api/city/<string:id>', methods=['GET'])
+def city(id):
     try:
-        city_data = session.query(Cities).filter_by(name=name).one_or_none()
+        city_data = session.query(Cities).filter_by(id=id).one_or_none()
         city_dict = convert_to_dict(city_data)
         return jsonify(city=city_dict)
     except:

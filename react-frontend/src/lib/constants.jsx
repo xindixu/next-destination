@@ -177,7 +177,7 @@ export const CITY_SCHEMA = {
   },
   name: {
     title: "City",
-    getBodyFormat: (_, { name }) => <Link to={`/city/${name}`}>{name}</Link>,
+    getBodyFormat: (_, { id, name }) => <Link to={`/city/${id}`}>{name}</Link>,
     isKey: true,
     dataSort: true
   },
