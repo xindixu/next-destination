@@ -518,9 +518,9 @@ class AboutPageTests(unittest.TestCase):
             self.assertTrue(about_data)
         
     def test_get_gitlab(self):
-        gitlab_data = get_gitlab_data(url)
-        self.assertTrue(1)
-        #self.assertTrue(gitlab_data)
+        gitlab_data = get_gitlab_data(f"{url}/repository/commits")
+        #self.assertTrue(1)
+        self.assertTrue(gitlab_data)
 
 
 
