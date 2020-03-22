@@ -83,6 +83,18 @@ def get_gitlab_data(url):
 # Routes
 @app.route('/api/about')
 def about():
+    
+    member_contribs["marshall"]["commits"] = 0
+    member_contribs["xindi"]["commits"] = 0
+    member_contribs["yulissa"]["commits"] = 0
+    member_contribs["nathan"]["commits"] = 0
+    member_contribs["quinton"]["commits"] = 0
+    member_contribs["marshall"]["issues"] = 0
+    member_contribs["xindi"]["issues"] = 0
+    member_contribs["yulissa"]["issues"] = 0
+    member_contribs["nathan"]["issues"] = 0
+    member_contribs["quinton"]["issues"] = 0
+
     url = "https://gitlab.com/api/v4/projects/16729459"
     commits = get_gitlab_data(f"{url}/repository/commits")
     issues = get_gitlab_data(f"{url}/issues")
