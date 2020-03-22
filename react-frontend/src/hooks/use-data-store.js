@@ -25,7 +25,6 @@ const useDataStore = init => {
     setRecordsByPage([]);
     setRecordsCount(1);
     setCurrentPage(1);
-    setParams(initialParams);
     setComplete(false);
   };
 
@@ -46,10 +45,9 @@ const useDataStore = init => {
     throw err;
   }, []);
 
-  const fetchWithUrl = useCallback(
-    urlToFetch => apiFetch(urlToFetch, option),
-    []
-  );
+  const fetchWithUrl = useCallback(urlToFetch => apiFetch(urlToFetch, option), [
+    option
+  ]);
 
   const fetchPage = useCallback(
     page => {
@@ -100,6 +98,30 @@ const useDataStore = init => {
       });
   };
 
+  const filter = filterOn => {
+    if (filterOn === params.filter) {
+      return;
+    }
+    reset();
+    // TODO: unpack filter
+    const newParams = {
+      ...params,
+      page: 1,
+      filter: filterOn
+    };
+    const newURL = getUrl(url, newParams);
+    setParams(newParams);
+    fetchWithUrl(newURL)
+      .then(resp => {
+        onFetchSuccess(resp, 1);
+        return resp;
+      })
+      .catch(err => {
+        onFetchFail(err);
+        return err;
+      });
+  };
+
   return [
     {
       recordsCount,
@@ -110,7 +132,8 @@ const useDataStore = init => {
     },
     {
       fetchPage,
-      sort
+      sort,
+      filter
     }
   ];
 };

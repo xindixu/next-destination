@@ -32,7 +32,7 @@ const Restaurant = () => {
     apiFetch(`/restaurant/${id}`, {}).then(data => {
       setRestaurant(data.response);
     });
-  }, []);
+  }, [id]);
 
   if (!restaurant) {
     return <></>;
@@ -66,6 +66,7 @@ const Restaurant = () => {
       <Tabs defaultActiveKey={TABS.restaurants.key}>
         <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
           <Restaurants
+            initialFilters={{ category: categories }}
             coordinates={{ longitude, latitude }}
             tableSchema={RESTAURANT_SCHEMA}
           />

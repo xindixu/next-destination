@@ -51,7 +51,7 @@ const Cities = () => {
         totalRecords={recordsCount}
         loadPage={fetchPage}
         currentPage={currentPage}
-        schema={CITY_SCHEMA}
+        sortSchema={CITY_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}
       />

@@ -11,7 +11,7 @@ const Event = () => {
     apiFetch(`/event/${id}`, { useApi: true, json: true }).then(data => {
       setEvent(data.response);
     });
-  }, []);
+  }, [id]);
 
   if (!event) {
     return <></>;
