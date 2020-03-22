@@ -25,6 +25,17 @@ const photos = {
   nathan: nathanPhoto,
   xindi: xindiPhoto
 };
+
+function Test() {
+  useEffect(() => {
+    apiFetch("/unittests").then(response =>
+      response.json().then(data =>{ 
+    console.log(data)
+    })
+    );
+}, []);
+}
+
 const People = () => {
   const [people, setPeople] = useState([]);
   useEffect(() => {
@@ -32,6 +43,8 @@ const People = () => {
       setPeople(data.about)
     );
   }, []);
+
+  
 
   return (
     <div className="body">
@@ -43,6 +56,10 @@ const People = () => {
             This project connects music-focused travellers to artists, venues,
             and cities.
           </p>
+
+          <form action="/unittests">
+            <input type="submit" value="Run Unittests" onclick={Test}/>
+          </form>
 
           <h3>Links about our project</h3>
           <ul>

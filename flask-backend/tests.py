@@ -7,7 +7,6 @@ from sqlalchemy.orm import sessionmaker
 import unittest
 import random as r
 
-
 fake = Faker()
 
 
@@ -491,6 +490,6 @@ class DatabaseTestsAirbnb(unittest.TestCase):
         db.session.commit()
 
 
-
-if __name__ == '__main__':
+def main():
+#if __name__ == '__main__':
     unittest.main()

@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
 import json
 from models import Airbnb, Cities, app, db
+import tests
 
 from data import about_data, member_contribs
 from api import yelp_api_header
@@ -79,6 +80,10 @@ def get_gitlab_data(url):
         page += 1
         request = requests.get(url, params=params)
     return data
+
+@app.route('/api/unittests')
+def unittests():
+    return tests.main()
 
 # Routes
 @app.route('/api/about')
@@ -272,6 +277,7 @@ def city(id):
 @app.route('/')
 def index():
     return render_template("index.html")
+
 
 
 if __name__ == '__main__':
