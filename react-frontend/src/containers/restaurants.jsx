@@ -4,14 +4,17 @@ import { RESTAURANT_SORTABLE_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
+import apiFetch from "../lib/api-fetch";
 
 const Restaurants = ({ city, coordinates, tableSchema }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState("best_match");
+  const [filterOn, setFilterOn] = useState({});
+  const [category, setCategory] = useState([]);
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
-    { fetchPage, sort }
+    { fetchPage, sort, filter }
   ] = useDataStore(() => {
     if (city) {
       return {
@@ -42,12 +45,26 @@ const Restaurants = ({ city, coordinates, tableSchema }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    apiFetch("/categories", {}).then(({ response }) => {
+      setCategory(response.categories);
+    });
+  }, []);
+
   const updateSortOn = useCallback(
     newSortOn => {
       setSortOn(newSortOn);
       sort(newSortOn);
     },
     [sort]
+  );
+
+  const updateFilterOn = useCallback(
+    newFilterOn => {
+      setFilterOn(newFilterOn);
+      filter(newFilterOn);
+    },
+    [filter]
   );
 
   if (fetching) {
@@ -63,9 +80,12 @@ const Restaurants = ({ city, coordinates, tableSchema }) => {
         totalRecords={recordsCount}
         loadPage={fetchPage}
         currentPage={currentPage}
-        schema={RESTAURANT_SORTABLE_SCHEMA}
+        sortSchema={RESTAURANT_SORTABLE_SCHEMA}
+        filterSchema={{ category }}
         sortOn={sortOn}
+        filterOn={filterOn}
         updateSortOn={updateSortOn}
+        updateFilterOn={updateFilterOn}
       />
       <SortableTable settings={tableSchema} data={pageRecords} />
     </>
