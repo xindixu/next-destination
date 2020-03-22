@@ -240,7 +240,6 @@ def restaurants(city):
 
     sort = request.args.get('sort', default="best_match", type=str)
     url = "https://api.yelp.com/v3/businesses/search"
-
     # TODO: term should be replaced by user input if exists
     params = {
         "term": "restaurants",
@@ -267,7 +266,6 @@ def airbnbs_page():
     page = request.args.get('page', default=1, type=int)
     sort = request.args.get('sort', default="", type=str)
     return get_data_from_database(Airbnb, 'airbnbs',  page, sort)
-
 
 @app.route('/api/airbnbs/<string:city>', methods=["GET"])
 def airbnbs_per_city(city):
