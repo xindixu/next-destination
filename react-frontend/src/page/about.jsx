@@ -25,6 +25,17 @@ const photos = {
   nathan: nathanPhoto,
   xindi: xindiPhoto
 };
+
+function Test() {
+  useEffect(() => {
+    apiFetch("/unittests").then(response =>
+      response.json().then(data =>{ 
+    console.log(data)
+    })
+    );
+}, []);
+}
+
 const People = () => {
   const [people, setPeople] = useState([]);
   useEffect(() => {
@@ -32,6 +43,8 @@ const People = () => {
       setPeople(data.about)
     );
   }, []);
+
+  
 
   return (
     <div className="body">
@@ -43,6 +56,10 @@ const People = () => {
             This project connects music-focused travellers to artists, venues,
             and cities.
           </p>
+
+          <form action="/unittests">
+            <input type="submit" value="Run Unittests" onclick={Test}/>
+          </form>
 
           <h3>Links about our project</h3>
           <ul>
@@ -90,15 +107,6 @@ const People = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.artists.bandsintown.com/support/api-installation"
-              >
-                Artists and Venues through BandsinTown
-              </a>
-            </li>
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
                 href="http://developers.teleport.org/api/getting_started/#search_name"
               >
                 City Searching Feature and Photo Database
@@ -121,6 +129,14 @@ const People = () => {
               >
                 Airbnb Data for Different Cities
               </a>
+              <ul>
+                <li><p>
+                    This dataset involved bit more manual manipulation. The data tables could not be retrieved through an api.
+                    We used the pandas library in python to append the airbnbs from different cities together. Finally, we created a model
+                    in our flask backend to create a dataset in a postgres database.
+                </p>
+                </li>
+              </ul>
             </li>
           </ul>
 

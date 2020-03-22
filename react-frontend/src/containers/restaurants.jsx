@@ -79,13 +79,17 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   );
 
   if (fetching) {
-    return <></>;
+    return <>Loading...</>;
   }
   if (isError) {
     // TODO: error component
     return <>Error</>;
   }
   return (
+    <>
+    {fetching ? <>
+        Loading...
+    </> :
     <>
       <TableActions
         totalRecords={recordsCount}
@@ -99,6 +103,8 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
         updateFilterOn={updateFilterOn}
       />
       <SortableTable settings={tableSchema} data={pageRecords} />
+    </>
+    }
     </>
   );
 };

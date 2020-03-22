@@ -50,6 +50,9 @@ const Navigation = () => (
       <Route path="/about">
         <About />
       </Route>
+      <Route path="/unittests">
+        <About />
+      </Route>
       <Route path="/cities">
         <Cities />
       </Route>

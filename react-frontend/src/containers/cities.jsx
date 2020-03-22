@@ -39,13 +39,19 @@ const Cities = () => {
   );
 
   if (fetching) {
-    return <></>;
+    return <>
+        <h1>Loading...</h1>
+        </>;
   }
   if (isError) {
     // TODO: error component
     return <>Error</>;
   }
   return (
+    <>
+    { fetching ? <>
+        Loading...
+    </>:
     <>
       <TableActions
         totalRecords={recordsCount}
@@ -57,6 +63,8 @@ const Cities = () => {
       />
       <SortableTable settings={CITY_SCHEMA} data={pageRecords} />
     </>
+   }
+   </>
   );
 };
 
