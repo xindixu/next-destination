@@ -4,6 +4,7 @@ import { EVENT_SORTABLE_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
+import { Spinner } from "reactstrap"
 
 const Events = ({ city, coordinates, tableSchema }) => {
   const [isError, setIsError] = useState(false);
@@ -51,14 +52,18 @@ const Events = ({ city, coordinates, tableSchema }) => {
   );
 
   if (fetching) {
-    return <></>;
+    return <>Loading...</>;
   }
   if (isError) {
     // TODO: error component
     return <>Error</>;
   }
   return (
-    <>
+  <>
+    {fetching ? <>
+        Loading...
+    </> :
+     <>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
@@ -69,6 +74,8 @@ const Events = ({ city, coordinates, tableSchema }) => {
       />
       <SortableTable settings={tableSchema} data={pageRecords} />
     </>
+    }
+  </>
   );
 };
 Events.defaultProps = {
