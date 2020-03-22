@@ -203,6 +203,7 @@ def categories():
 def restaurants_page():
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
+    categories = request.args.get('categories', default="", type=str)
 
     MAX_PAGE_NUM = 50
     LIMIT = 20
@@ -220,7 +221,8 @@ def restaurants_page():
         "location": city,
         "limit": LIMIT,
         "offset": get_offset(page, LIMIT),
-        "sort_by": sort
+        "sort_by": sort,
+        "categories": categories
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)

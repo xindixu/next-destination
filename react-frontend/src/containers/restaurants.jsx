@@ -6,38 +6,49 @@ import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 import apiFetch from "../lib/api-fetch";
 
-const Restaurants = ({ city, coordinates, tableSchema }) => {
+const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
+  const { category } = initialFilters;
+  let categoryAlias = "";
+  if (category) {
+    categoryAlias = category.map(item => item.alias).join(",");
+  }
+  if (city) {
+    return {
+      url: `/restaurants/${city}`,
+      params: {
+        page: 1,
+        sort: initialSortOn,
+        category: categoryAlias
+      },
+      name: "businesses"
+    };
+  }
+  const { longitude, latitude } = coordinates;
+  return {
+    url: `/restaurants`,
+    params: {
+      page: 1,
+      sort: initialSortOn,
+      longitude,
+      latitude,
+      categories: categoryAlias
+    },
+    name: "businesses"
+  };
+};
+
+const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState("best_match");
-  const [filterOn, setFilterOn] = useState({});
+  const [filterOn, setFilterOn] = useState(initialFilters);
   const [category, setCategory] = useState([]);
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort, filter }
-  ] = useDataStore(() => {
-    if (city) {
-      return {
-        url: `/restaurants/${city}`,
-        params: {
-          page: 1,
-          sort: sortOn
-        },
-        name: "businesses"
-      };
-    }
-    const { longitude, latitude } = coordinates;
-    return {
-      url: `/restaurants`,
-      params: {
-        page: 1,
-        sort: sortOn,
-        longitude,
-        latitude
-      },
-      name: "businesses"
-    };
-  });
+  ] = useDataStore(() =>
+    initDataStore(city, coordinates, initialFilters, sortOn)
+  );
 
   useEffect(() => {
     fetchPage(1).catch(() => setIsError(true));
@@ -94,13 +105,17 @@ const Restaurants = ({ city, coordinates, tableSchema }) => {
 
 Restaurants.defaultProps = {
   city: "",
-  coordinates: {}
+  coordinates: {},
+  initialFilters: {}
 };
 Restaurants.propTypes = {
   city: PropTypes.string,
   coordinates: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired
+  }),
+  initialFilters: PropTypes.shape({
+    categories: PropTypes.array
   }),
   tableSchema: PropTypes.shape({
     title: PropTypes.string.isRequired,
