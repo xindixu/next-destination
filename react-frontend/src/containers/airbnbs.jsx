@@ -63,7 +63,7 @@ const Airbnbs = ({ city, coordinates }) => {
         totalRecords={recordsCount}
         loadPage={fetchPage}
         currentPage={currentPage}
-        schema={AIRBNB_SORTABLE_SCHEMA}
+        sortSchema={AIRBNB_SORTABLE_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}
       />
