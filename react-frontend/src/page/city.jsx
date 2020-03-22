@@ -101,7 +101,7 @@ const City = () => {
           </Tab>
 
           <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-            <Airbnbs city={id} />
+            <Airbnbs city={name} />
           </Tab>
         </Tabs>
       </>

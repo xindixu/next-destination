@@ -29,9 +29,9 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
 };
 
 SortOn.propTypes = {
-  totalRecords: PropTypes.number.isRequired,
-  loadPage: PropTypes.func.isRequired,
-  sortOn: PropTypes.string.isRequired
+  sortOn: PropTypes.string.isRequired,
+  updateSortOn: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired
 };
 
 export default SortOn;

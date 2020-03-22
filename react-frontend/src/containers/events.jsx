@@ -63,7 +63,7 @@ const Events = ({ city, coordinates, tableSchema }) => {
         totalRecords={recordsCount}
         loadPage={fetchPage}
         currentPage={currentPage}
-        schema={EVENT_SORTABLE_SCHEMA}
+        sortSchema={EVENT_SORTABLE_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}
       />

@@ -38,6 +38,7 @@ def convert_to_dict(instance):
         result_dict[key] = value
     return result_dict
 
+
 def get_data_from_database(model, name,  page, sort, *city):
     LIMIT = 20
     total = session.query(model).count()
@@ -46,12 +47,12 @@ def get_data_from_database(model, name,  page, sort, *city):
         session.rollback()
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
     if city:
-        total = session.query(model).filter_by(city_name = city).count()
+        total = session.query(model).filter_by(city_name=city).count()
         if sort:
-            data = session.query(model).filter_by(city_name = city).order_by(getattr(model, sort).asc()).limit(
+            data = session.query(model).filter_by(city_name=city).order_by(getattr(model, sort).asc()).limit(
                 LIMIT).offset(get_offset(page, LIMIT)).all()
         else:
-            data = session.query(model).filter_by(city_name = city).limit(
+            data = session.query(model).filter_by(city_name=city).limit(
                 LIMIT).offset(get_offset(page, LIMIT)).all()
     else:
         if sort:
@@ -68,6 +69,7 @@ def get_data_from_database(model, name,  page, sort, *city):
     }
 
     return jsonify(response=response)
+
 
 def get_gitlab_data(url):
     data = []
@@ -88,7 +90,7 @@ def unittests():
 # Routes
 @app.route('/api/about')
 def about():
-    
+
     member_contribs["marshall"]["commits"] = 0
     member_contribs["xindi"]["commits"] = 0
     member_contribs["yulissa"]["commits"] = 0
@@ -156,6 +158,7 @@ def events_page():
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
 
+
 @app.route('/api/events/<string:city>')
 def events(city):
     # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
@@ -185,12 +188,28 @@ def event(id):
     response = requests.get(url, headers=yelp_api_header).json()
     return jsonify(response=response)
 
+# Restaurants category route
+@app.route('/api/categories')
+def categories():
+    # TODO: consider saving this to db
+    url = "https://api.yelp.com/v3/categories"
+    params = {
+        "locale": "en_US"
+    }
+    all_categories = requests.get(
+        url, params=params, headers=yelp_api_header).json()["categories"]
+    restaurant_categories = list(filter(
+        lambda i: "restaurants" in i["parent_aliases"], all_categories))
+
+    return jsonify(response={"categories": restaurant_categories})
+
 # Restaurants routes
 @app.route('/api/restaurants')
 def restaurants_page():
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
-    
+    categories = request.args.get('categories', default="", type=str)
+
     MAX_PAGE_NUM = 50
     LIMIT = 20
 
@@ -201,16 +220,18 @@ def restaurants_page():
     sort = request.args.get('sort', default="best_match", type=str)
     url = "https://api.yelp.com/v3/businesses/search"
     params = {
+        "term": "restaurants",
         "longitude": longitude,
         "latitude": latitude,
         "location": city,
         "limit": LIMIT,
         "offset": get_offset(page, LIMIT),
-        "sort_by": sort
+        "sort_by": sort,
+        "categories": categories
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
-    
+
 
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
@@ -224,7 +245,9 @@ def restaurants(city):
 
     sort = request.args.get('sort', default="best_match", type=str)
     url = "https://api.yelp.com/v3/businesses/search"
+    # TODO: term should be replaced by user input if exists
     params = {
+        "term": "restaurants",
         "location": city,
         "limit": LIMIT,
         "offset": get_offset(page, LIMIT),
