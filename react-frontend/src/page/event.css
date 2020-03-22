@@ -1,0 +1,33 @@
+.event-info {
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+.event-content {
+    border-radius: 25px;
+    padding: 30px;
+    flex-wrap: wrap;
+    display: inline-block;
+    background-color: rgba(128, 0, 0, 0.685);
+
+}
+.event-image {
+    display: inline-block;
+}
+.event-image img {
+    height: fit-content;
+    width: auto;
+    max-height: 300px;
+}
+.hashtag {
+    color: wheat;
+    font-family: Impact;
+}
+p {
+    text-align: center;
+    color: white;
+}
+.hyperlink {
+    color: peachpuff;
+}
