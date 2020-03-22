@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { RESTAURANT_SORTABLE_SCHEMA } from "../lib/constants";
+import { RESTAURANT_SORTABLE_SCHEMA, CATEGORIES } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
-import apiFetch from "../lib/api-fetch";
 
 const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
   const { category } = initialFilters;
@@ -41,7 +40,7 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState("best_match");
   const [filterOn, setFilterOn] = useState(initialFilters);
-  const [category, setCategory] = useState([]);
+  // const [category, setCategory] = useState([]);
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
@@ -56,11 +55,11 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    apiFetch("/categories", {}).then(({ response }) => {
-      setCategory(response.categories);
-    });
-  }, []);
+  // useEffect(() => {
+  //   apiFetch("/categories", {}).then(({ response }) => {
+  //     setCategory(response.categories);
+  //   });
+  // }, []);
 
   const updateSortOn = useCallback(
     newSortOn => {
@@ -92,7 +91,7 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
         loadPage={fetchPage}
         currentPage={currentPage}
         sortSchema={RESTAURANT_SORTABLE_SCHEMA}
-        filterSchema={{ category }}
+        filterSchema={{ category: CATEGORIES }}
         sortOn={sortOn}
         filterOn={filterOn}
         updateSortOn={updateSortOn}

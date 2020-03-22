@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import Table from "react-bootstrap/Table";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
@@ -12,7 +11,7 @@ import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
 const TABS = {
   restaurants: {
     key: "restaurants",
-    title: "Nearby Restaurants"
+    title: "Similar Restaurants Nearby"
   },
   airbnbs: {
     key: "airbnbs",

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
@@ -110,7 +109,5 @@ const City = () => {
 
   return <> </>;
 };
-
-City.propTypes = {};
 
 export default City;

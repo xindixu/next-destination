@@ -196,7 +196,10 @@ def categories():
     restaurant_categories = list(filter(
         lambda i: "restaurants" in i["parent_aliases"], all_categories))
 
-    return jsonify(response={"categories": restaurant_categories})
+    concise_restaurant_categories = list(
+        map(lambda i: {"alias": i["alias"], "title": i["title"]}, restaurant_categories))
+
+    return jsonify(response={"categories": concise_restaurant_categories})
 
 # Restaurants routes
 @app.route('/api/restaurants')

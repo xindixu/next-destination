@@ -4,6 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "./sortable-table.css";
 
 const SortableTable = ({ data, settings }) => {
+  // TODO: pass in option as props
   const options = {
     sortName: "name",
     sortOrder: "asc"
