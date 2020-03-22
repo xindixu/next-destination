@@ -40,7 +40,7 @@ def convert_to_dict(instance):
 def get_data_from_database(model, name,  page, sort, *city):
     LIMIT = 20
     total = session.query(model).count()
-
+    
     if page * LIMIT > total:
         session.rollback()
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
