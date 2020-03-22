@@ -112,6 +112,15 @@ const People = () => {
                 City Searching Feature and Photo Database
               </a>
             </li>
+            <ul>
+                <li><p>
+                    This api was not scraped. It serves a more aesthetic purpose than a science purpose. It used on the frontend
+                    to retrieve images for the individual city page. However, since apis do not consistent naming conventions, an additional
+                    column was created in the city dataset to alter the name of the city into an appropriate id to pass to this api. The column was
+                    produced using pandas.
+                </p>
+                </li>
+              </ul>
             <li>
               <a
                 target="_blank"
@@ -121,6 +130,12 @@ const People = () => {
                 Information about Cities
               </a>
             </li>
+            <ul>
+                <li><p>
+                    ?
+                    </p>
+                </li>
+              </ul>
             <li>
               <a
                 target="_blank"
