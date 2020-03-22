@@ -71,8 +71,9 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
 
   const updateFilterOn = useCallback(
     newFilterOn => {
-      setFilterOn(newFilterOn);
-      filter(newFilterOn);
+      console.log(newFilterOn);
+      // setFilterOn(newFilterOn);
+      // filter(newFilterOn);
     },
     [filter]
   );
