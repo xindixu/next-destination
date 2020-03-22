@@ -107,15 +107,6 @@ const People = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://www.artists.bandsintown.com/support/api-installation"
-              >
-                Artists and Venues through BandsinTown
-              </a>
-            </li>
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
                 href="http://developers.teleport.org/api/getting_started/#search_name"
               >
                 City Searching Feature and Photo Database
@@ -138,6 +129,14 @@ const People = () => {
               >
                 Airbnb Data for Different Cities
               </a>
+              <ul>
+                <li><p>
+                    This dataset involved bit more manual manipulation. The data tables could not be retrieved through an api.
+                    We used the pandas library in python to append the airbnbs from different cities together. Finally, we created a model
+                    in our flask backend to create a dataset in a postgres database.
+                </p>
+                </li>
+              </ul>
             </li>
           </ul>
 
