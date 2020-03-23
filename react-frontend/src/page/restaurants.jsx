@@ -14,7 +14,8 @@ const RestaurantsPage = () => {
           coordinates={coordinates}
         />
       ) : (
-        <Restaurants tableSchema={RESTAURANTS_PAGE_SCHEMA} city="austin" />
+        <></>
+        // <Restaurants tableSchema={RESTAURANTS_PAGE_SCHEMA} city="austin" />
       )}
     </>
   );
