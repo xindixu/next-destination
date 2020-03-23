@@ -5,12 +5,19 @@ import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
-const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
-  const { category } = initialFilters;
+const getCategory = filters => {
+  console.log(filters);
+
+  const { category } = filters;
   let categoryAlias = "";
   if (category) {
     categoryAlias = category.map(item => item.alias).join(",");
   }
+  return categoryAlias;
+};
+
+const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
+  const categoryAlias = getCategory(initialFilters);
   if (city) {
     return {
       url: `/restaurants/${city}`,
@@ -40,7 +47,6 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState("best_match");
   const [filterOn, setFilterOn] = useState(initialFilters);
-  // const [category, setCategory] = useState([]);
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
@@ -55,12 +61,6 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   apiFetch("/categories", {}).then(({ response }) => {
-  //     setCategory(response.categories);
-  //   });
-  // }, []);
-
   const updateSortOn = useCallback(
     newSortOn => {
       setSortOn(newSortOn);
@@ -71,9 +71,9 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
 
   const updateFilterOn = useCallback(
     newFilterOn => {
-      console.log(newFilterOn);
-      // setFilterOn(newFilterOn);
-      // filter(newFilterOn);
+      setFilterOn(newFilterOn);
+      console.log(getCategory(newFilterOn));
+      filter({ category: getCategory(newFilterOn) });
     },
     [filter]
   );
@@ -87,10 +87,6 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   }
   return (
     <>
-    {fetching ? <>
-        Loading...
-    </> :
-    <>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
@@ -103,8 +99,6 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
         updateFilterOn={updateFilterOn}
       />
       <SortableTable settings={tableSchema} data={pageRecords} />
-    </>
-    }
     </>
   );
 };

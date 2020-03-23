@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import TagsInput from "react-tagsinput";
 import Autosuggest from "react-autosuggest";
-import { Button, ButtonToolbar } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "./tag-input.css";
 
 class TagInput extends React.Component {
@@ -20,23 +19,22 @@ class TagInput extends React.Component {
     const { getAllSuggestions, submit } = this.props;
     const { tags } = this.state;
     function autocompleteRenderInput({ addTag, ...props }) {
+      const { value, ref, onChange } = props;
       const handleOnChange = (e, { newValue, method }) => {
         if (method === "enter") {
           e.preventDefault();
         } else {
-          props.onChange(e);
+          onChange(e);
         }
       };
 
-      const inputValue =
-        (props.value && props.value.trim().toLowerCase()) || "";
+      const inputValue = (value && value.trim().toLowerCase()) || "";
       const inputLength = inputValue.length;
 
-      const suggestions = getAllSuggestions().filter(suggestion => {
-        return (
+      const suggestions = getAllSuggestions().filter(
+        suggestion =>
           suggestion.title.toLowerCase().slice(0, inputLength) === inputValue
-        );
-      });
+      );
 
       // TODO: enter to add top suggestion
       // TODO: make the container float - react portal
@@ -44,9 +42,9 @@ class TagInput extends React.Component {
 
       return (
         <Autosuggest
-          ref={props.ref}
+          ref={ref}
           suggestions={suggestions}
-          shouldRenderSuggestions={value => value && value.trim().length > 0}
+          shouldRenderSuggestions={item => item && item.trim().length > 0}
           getSuggestionValue={suggestion => suggestion.title}
           renderSuggestion={suggestion => <span>{suggestion.title}</span>}
           inputProps={{ ...props, onChange: handleOnChange }}

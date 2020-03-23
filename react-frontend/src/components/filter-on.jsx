@@ -17,9 +17,14 @@ const FilterOn = ({ filterSchema, filterOn, updateFilterOn }) => {
   );
 };
 
+FilterOn.defaultProps = {
+  filterSchema: {},
+  filterOn: ""
+};
+
 FilterOn.propTypes = {
-  filterSchema: PropTypes.object.isRequired,
-  filterOn: PropTypes.string.isRequired,
+  filterSchema: PropTypes.object,
+  filterOn: PropTypes.string,
   updateFilterOn: PropTypes.func.isRequired
 };
 

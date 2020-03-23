@@ -57,7 +57,7 @@ const Restaurant = () => {
         ))}
       </p>
       <p>
-        ({latitude}, {longitude}){" "}
+        ({latitude}, {longitude})
       </p>
       <p>{address}</p>
       <p>{price}</p>

@@ -107,7 +107,7 @@ const useDataStore = init => {
     const newParams = {
       ...params,
       page: 1,
-      filter: filterOn
+      ...filterOn
     };
     const newURL = getUrl(url, newParams);
     setParams(newParams);
