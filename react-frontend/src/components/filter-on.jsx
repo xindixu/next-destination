@@ -3,18 +3,25 @@ import PropTypes from "prop-types";
 import TagInput from "./tag-input";
 
 const FilterOn = ({ filterSchema, filterOn, updateFilterOn }) => {
-  return (
-    <>
-      {filterSchema.category && (
-        <TagInput
-          getAllSuggestions={() => filterSchema.category}
-          submit={categories =>
-            updateFilterOn({ ...filterOn, category: categories })
-          }
-        />
-      )}
-    </>
-  );
+  const { category: categorySchema } = filterSchema;
+
+  if (categorySchema) {
+    return (
+      <TagInput
+        getAllSuggestions={() => categorySchema}
+        submit={categories => {
+          updateFilterOn({
+            ...filterOn,
+            category: categorySchema.filter(item =>
+              categories.includes(item.title)
+            )
+          });
+        }}
+      />
+    );
+  }
+
+  return <></>;
 };
 
 FilterOn.defaultProps = {

@@ -103,12 +103,13 @@ const useDataStore = init => {
       return;
     }
     reset();
-    // TODO: unpack filter
+
     const newParams = {
       ...params,
       page: 1,
       ...filterOn
     };
+
     const newURL = getUrl(url, newParams);
     setParams(newParams);
     fetchWithUrl(newURL)

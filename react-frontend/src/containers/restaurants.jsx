@@ -6,8 +6,6 @@ import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
 const getCategory = filters => {
-  console.log(filters);
-
   const { category } = filters;
   let categoryAlias = "";
   if (category) {
@@ -72,8 +70,7 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   const updateFilterOn = useCallback(
     newFilterOn => {
       setFilterOn(newFilterOn);
-      console.log(getCategory(newFilterOn));
-      filter({ category: getCategory(newFilterOn) });
+      filter({ categories: getCategory(newFilterOn) });
     },
     [filter]
   );
