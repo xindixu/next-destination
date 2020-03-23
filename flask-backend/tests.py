@@ -1,6 +1,9 @@
 from models import db, Cities, Airbnb
 from faker import Faker
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS, cross_origin
+from sqlalchemy import create_engine, or_, func, desc
+from sqlalchemy.orm import sessionmaker
 import unittest
 import random as r
 
@@ -11,7 +14,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_1(self):
         new_city = Cities(name='Palestine', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -24,7 +27,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_2(self):
         new_city = Cities(name='Waco', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -37,7 +40,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_3(self):
         new_city = Cities(name='Newark', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -50,7 +53,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_4(self):
         new_city = Cities(name='Jasper', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -63,7 +66,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_insert_5(self):
         new_city = Cities(name='Lima', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -76,7 +79,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_update_6(self):
         new_city = Cities(name='Lima', state='OH', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -95,7 +98,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_update_7(self):
         new_city = Cities(name='Lima', state='OH', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=10,
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -114,7 +117,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_update_8(self):
         new_city = Cities(name='Lima', state='OH', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description='Description of the city')
+                          description='Description of the city', id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -134,7 +137,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_update_9(self):
         new_city = Cities(name='Burwell', state='NE', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -154,7 +157,7 @@ class DatabaseTestsCities(unittest.TestCase):
     def test_city_update_10(self):
         new_city = Cities(name='Pueblo', state='CO', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=2,
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -175,7 +178,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_insert_1(self):
         new_city = Cities(name='Lima', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -203,7 +206,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_insert_2(self):
         new_city = Cities(name='Pueblo', state='CO', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=2,
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -231,7 +234,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_insert_3(self):
         new_city = Cities(name='Burwell', state='NE', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -259,7 +262,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_insert_4(self):
         new_city = Cities(name='Jasper', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -287,7 +290,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_update_5(self):
         new_city = Cities(name='Jasper', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -320,7 +323,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_update_6(self):
         new_city = Cities(name='Jasper', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -353,7 +356,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_update_7(self):
         new_city = Cities(name='Burwell', state='NE', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -387,7 +390,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_update_8(self):
         new_city = Cities(name='Burwell', state='NE', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -421,7 +424,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_update_9(self):
         new_city = Cities(name='Burwell', state='NE', latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -455,7 +458,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
     def test_listing_update_10(self):
         new_city = Cities(name='Jasper', state=fake.state_abbr(include_territories=True), latitude=r.uniform(40.0, 70.0),
                           longitude=r.uniform(40.0, 70.0), population=r.randrange(1, 1000000),
-                          description=fake.text())
+                          description=fake.text(), id="test")
         db.session.add(new_city)
         db.session.commit()
 
@@ -486,6 +489,10 @@ class DatabaseTestsAirbnb(unittest.TestCase):
         db.session.query(Cities).filter_by(name='Jasper').delete()
         db.session.commit()
 
+
+def main():
+#if __name__ == '__main__':
+    unittest.main()
 
 if __name__ == '__main__':
     unittest.main()

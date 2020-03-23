@@ -1,92 +1,33 @@
-.body {
+body {
+  height: 100%;
+}
+
+#home {
   display: flex;
   flex-direction: column;
   align-items: center;
-
-}
-
-.header {
-  position: absolute;
-  width: 100%;
-  top: 10px;
-}
-
-.logo {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 50px;
-  height: 50px;
+  height: 100vh;
+  background-image: url("../assets/austin.jpg");
+  background-size: cover;
 }
 
 .title {
-  position: absolute;
-  top: -30px;
-  left: 70px;
-  font-size: 250%;
+  color: White;
+  background-color: rgba(0,0,0,0.8);
+  padding-left: 10rem;
+  padding-right: 10rem;
+  margin: auto;
+  margin-top: 0;
+  margin-bottom: 5rem;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
-.navBar {
-  position: absolute;
-  right: 5%;
-  font-size: x-large;
-  width: 600px;
-  top: 10px;
+.bottom-text-container {
+  color: White;
+  background-color: rgba(0,0,0,0.8);
+  border-radius: 8px;
 }
-
-.navbar .about {
-  position: absolute;
-  right: 65%;
-}
-
-.navbar .cities {
-  position: absolute;
-  right: 53%;
-  margin: 0%;
-}
-
-.navbar .attractions {
-  position: absolute;
-  right: 33%;
-  margin: 0px;
-}
-
-.navbar .prices {
-  position: absolute;
-  right: 20%;
-  margin: 0px;
-}
-
-.navbar .contact {
-  position: absolute;
-  right: 0px;
-  margin: 0px;
-}
-
-.banner {
-  display: flex;
-  width: 100%;
-  border-radius: 0;
-}
-
-.Row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex;
-}
-
-.Container {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.Container .text {
-  display: flex;
-  align-items: start;
-  flex-direction: column;
-  background-color: #d4ffe7;
-  border-radius: 15px;
-  padding: 15px;
+.city-name {
+    font-size: 1.5rem;
 }

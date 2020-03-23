@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { EVENT_SORTABLE_SCHEMA } from "../lib/constants";
+import { AIRBNB_SCHEMA, AIRBNB_SORTABLE_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
-import { Spinner } from "reactstrap"
 
-const Events = ({ city, coordinates, tableSchema }) => {
+const Airbnbs = ({ city, coordinates }) => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("time_start");
+  const [sortOn, setSortOn] = useState("price");
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
@@ -16,24 +15,24 @@ const Events = ({ city, coordinates, tableSchema }) => {
   ] = useDataStore(() => {
     if (city) {
       return {
-        url: `/events/${city}`,
+        url: `/airbnbs/${city}`,
         params: {
           page: 1,
           sort: sortOn
         },
-        name: "events"
+        name: "airbnbs"
       };
     }
     const { longitude, latitude } = coordinates;
     return {
-      url: `/events`,
+      url: `/airbnbs/${city}`,
       params: {
         page: 1,
         sort: sortOn,
         longitude,
         latitude
       },
-      name: "events"
+      name: "airbnbs"
     };
   });
 
@@ -52,50 +51,36 @@ const Events = ({ city, coordinates, tableSchema }) => {
   );
 
   if (fetching) {
-    return <>Loading...</>;
+    return <></>;
   }
   if (isError) {
     // TODO: error component
     return <>Error</>;
   }
   return (
-  <>
-    {fetching ? <>
-        Loading...
-    </> :
-     <>
+    <>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
         currentPage={currentPage}
-        sortSchema={EVENT_SORTABLE_SCHEMA}
+        sortSchema={AIRBNB_SORTABLE_SCHEMA}
         sortOn={sortOn}
         updateSortOn={updateSortOn}
       />
-      <SortableTable settings={tableSchema} data={pageRecords} />
+      <SortableTable settings={AIRBNB_SCHEMA} data={pageRecords} />
     </>
-    }
-  </>
   );
 };
-Events.defaultProps = {
+Airbnbs.defaultProps = {
   city: "",
   coordinates: {}
 };
-Events.propTypes = {
+Airbnbs.propTypes = {
   city: PropTypes.string,
   coordinates: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired
-  }),
-  tableSchema: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    getBodyFormat: PropTypes.func.isRequired,
-    isKey: PropTypes.bool.isRequired,
-    dataSort: PropTypes.bool.isRequired,
-    sortFunc: PropTypes.func,
-    width: PropTypes.number
-  }).isRequired
+  })
 };
 
-export default Events;
+export default Airbnbs;

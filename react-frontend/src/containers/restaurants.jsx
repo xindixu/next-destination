@@ -1,80 +1,127 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-
+import { RESTAURANT_SORTABLE_SCHEMA, CATEGORIES } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
+import TableActions from "./table-actions";
+import useDataStore from "../hooks/use-data-store";
 
-const Restaurants = ({ data }) => {
-  const settings = {
-    image: {
-      title: "",
-      getBodyFormat: (_, { image_url: img, name }) => (
-        <img src={img} alt={name} />
-      ),
-      isKey: false,
-      dataSort: false
-    },
-    name: {
-      title: "Restaurants",
-      getBodyFormat: (_, { alias, name }) => (
-        <Link to={`/restaurant/${alias}`}>{name}</Link>
-      ),
-      isKey: true,
-      dataSort: true
-    },
-    distance: {
-      title: "Distance",
-      getBodyFormat: (_, { distance }) => <span>{distance}</span>,
-      isKey: false,
-      dataSort: true
-    },
-    location: {
-      title: "Address",
-      getBodyFormat: (_, { location: { display_address: address } }) => (
-        <span>{address.join(", ")}</span>
-      ),
-      isKey: false,
-      dataSort: false
-    },
-    price: {
-      title: "Price",
-      getBodyFormat: (_, { price }) => <span>{price}</span>,
-      isKey: false,
-      dataSort: true
-    },
-    rating: {
-      title: "Rating",
-      getBodyFormat: (_, { rating }) => <span>{rating}</span>,
-      isKey: false,
-      dataSort: true
-    },
-    url: {
-      title: "URL",
-      getBodyFormat: (_, { url }) => (
-        <a href={url} target="_blank" rel="noopener noreferrer">
-          Yelp
-        </a>
-      ),
-      isKey: false,
-      dataSort: false
-    }
-  };
-  return <SortableTable settings={settings} data={data} />;
+const getCategory = filters => {
+  const { category } = filters;
+  let categoryAlias = "";
+  if (category) {
+    categoryAlias = category.map(item => item.alias).join(",");
+  }
+  return categoryAlias;
 };
 
+const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
+  const categoryAlias = getCategory(initialFilters);
+  if (city) {
+    return {
+      url: `/restaurants/${city}`,
+      params: {
+        page: 1,
+        sort: initialSortOn,
+        category: categoryAlias
+      },
+      name: "businesses"
+    };
+  }
+  const { longitude, latitude } = coordinates;
+  return {
+    url: `/restaurants`,
+    params: {
+      page: 1,
+      sort: initialSortOn,
+      longitude,
+      latitude,
+      categories: categoryAlias
+    },
+    name: "businesses"
+  };
+};
+
+const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
+  const [isError, setIsError] = useState(false);
+  const [sortOn, setSortOn] = useState("best_match");
+  const [filterOn, setFilterOn] = useState(initialFilters);
+
+  const [
+    { recordsCount, fetching, pageRecords, currentPage },
+    { fetchPage, sort, filter }
+  ] = useDataStore(() =>
+    initDataStore(city, coordinates, initialFilters, sortOn)
+  );
+
+  useEffect(() => {
+    fetchPage(1).catch(() => setIsError(true));
+    // only fetch once when mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const updateSortOn = useCallback(
+    newSortOn => {
+      setSortOn(newSortOn);
+      sort(newSortOn);
+    },
+    [sort]
+  );
+
+  const updateFilterOn = useCallback(
+    newFilterOn => {
+      setFilterOn(newFilterOn);
+      filter({ categories: getCategory(newFilterOn) });
+    },
+    [filter]
+  );
+
+  if (fetching) {
+    return <>Loading...</>;
+  }
+  if (isError) {
+    // TODO: error component
+    return <>Error</>;
+  }
+  return (
+    <>
+      <TableActions
+        totalRecords={recordsCount}
+        loadPage={fetchPage}
+        currentPage={currentPage}
+        sortSchema={RESTAURANT_SORTABLE_SCHEMA}
+        filterSchema={{ category: CATEGORIES }}
+        sortOn={sortOn}
+        filterOn={filterOn}
+        updateSortOn={updateSortOn}
+        updateFilterOn={updateFilterOn}
+      />
+      <SortableTable settings={tableSchema} data={pageRecords} />
+    </>
+  );
+};
+
+Restaurants.defaultProps = {
+  city: "",
+  coordinates: {},
+  initialFilters: {}
+};
 Restaurants.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      distance: PropTypes.number.isRequired,
-      location: PropTypes.shape({
-        display_address: PropTypes.arrayOf(PropTypes.string).isRequired
-      }).isRequired,
-      price: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      url: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired
+  city: PropTypes.string,
+  coordinates: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired
+  }),
+  initialFilters: PropTypes.shape({
+    categories: PropTypes.array
+  }),
+  tableSchema: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    getBodyFormat: PropTypes.func.isRequired,
+    isKey: PropTypes.bool.isRequired,
+    dataSort: PropTypes.bool.isRequired,
+    sortFunc: PropTypes.func,
+    width: PropTypes.number
+  }).isRequired
 };
 
 export default Restaurants;

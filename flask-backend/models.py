@@ -21,6 +21,7 @@ class Cities(db.Model):
     longitude = db.Column(db.Float, nullable=False)
     population = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(5000), nullable=False)
+    id = db.Column(db.String(80), nullable=False)
 
     listings = db.relationship('Airbnb', backref='cities')
     def  __repr__(self):

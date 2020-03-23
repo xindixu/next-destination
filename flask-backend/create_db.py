@@ -7,7 +7,7 @@ def create_cities():
         "host=localhost dbname=cityhuntdb user=postgres password=supersecret port=5432")
     cur = db_connection.cursor()
 
-    with open('city_data.csv', 'r') as city:
+    with open('id_city_data.csv', 'r') as city:
         # skip headers
         next(city)
         cur.copy_from(city, 'cities', sep=',')
@@ -16,7 +16,8 @@ def create_cities():
 
 def create_airbnb_listings():
     db_connection = psycopg2.connect(
-        "host=localhost dbname=cityhuntdb user=postgres password=supersecret port=5432")
+        "host=localhost dbname=cityhuntdb user=postgres password=supersecret"
+        " port=5432")
     cur = db_connection.cursor()
 
     with open('cleaned_us_airbnb_data.csv', 'r') as listing:

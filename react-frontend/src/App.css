@@ -1,34 +1,77 @@
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display&display=swap");
+
 img {
   height: auto;
   border-radius: 15px;
   width: 200px;
 }
 
-img.lg{
+img.lg {
   width: 1000px;
   margin: 2rem auto;
 }
 
-img.md{
+img.md {
   width: 800px;
   margin: 1.5rem auto;
-
 }
 
-img.base{
+img.base {
   width: 400px;
 }
 
-img.sm{
+img.sm {
   width: 200px;
 }
-
-
-
 
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 80%;
+}
+
+.des-sec-container h2 {
+  font-family: "Playfair Display", serif;
+  padding-bottom: 1rem;
+}
+.des-sec-container p {
+  text-align: left;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.stat-container h2 {
+  font-family: "Playfair Display", serif;
+}
+.stat-table {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
+}
+
+h1 {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.header-image-container {
+  display: flex;
+  margin: auto;
+}
+
+.header-image-container img {
+  margin: auto;
+  width: 100%;
+  height: auto;
+  max-height: 30vh;
+  object-fit: cover;
+  border-radius: 0;
 }

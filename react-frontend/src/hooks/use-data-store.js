@@ -11,54 +11,46 @@ const getUrl = (url, params) => {
 };
 
 const useDataStore = init => {
-  const { url, params, name } = init();
-  const [records, setRecords] = useState([]);
+  const { url, params: initialParams, name, option = {} } = init();
   const [recordsByPage, setRecordsByPage] = useState([]);
   const [recordsCount, setRecordsCount] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [nextUrl, setNextUrl] = useState(() => getUrl(url, params));
+  const [params, setParams] = useState(initialParams);
 
   const [fetching, setFetching] = useState(false);
   const [error, setError] = useState(false);
   const [complete, setComplete] = useState(false);
 
   const reset = () => {
-    setRecords([]);
+    setRecordsByPage([]);
     setRecordsCount(1);
-    setNextUrl("");
+    setCurrentPage(1);
     setComplete(false);
   };
 
   const onFetchSuccess = useCallback(
-    ({ response }) => {
-      setRecords([...records, ...response[name]]);
-      setRecordsByPage({ ...recordsByPage, [currentPage]: response[name] });
+    ({ response }, page) => {
+      setRecordsByPage({ ...recordsByPage, [page]: response[name] });
+      setCurrentPage(page);
       setRecordsCount(response.total);
       setFetching(false);
       setError(false);
     },
-    [currentPage, name, records, recordsByPage]
+    [name, recordsByPage]
   );
 
   const onFetchFail = useCallback(err => {
     setFetching(false);
     setError(true);
-    console.error(err);
+    throw err;
   }, []);
 
-  const fetchWithUrl = useCallback(
-    urlToFetch =>
-      apiFetch(urlToFetch, {
-        json: true,
-        useApi: false,
-        method: "GET"
-      }),
-    []
-  );
+  const fetchWithUrl = useCallback(urlToFetch => apiFetch(urlToFetch, option), [
+    option
+  ]);
 
   const fetchPage = useCallback(
     page => {
-      console.log("page", page);
       if (recordsByPage[page]) {
         return setCurrentPage(page);
       }
@@ -68,12 +60,10 @@ const useDataStore = init => {
         page
       };
       const newURL = getUrl(url, newParams);
-
+      setParams(newParams);
       return fetchWithUrl(newURL)
-        .then(resp => resp.json())
         .then(resp => {
-          onFetchSuccess(resp);
-          setCurrentPage(page);
+          onFetchSuccess(resp, page);
           return resp;
         })
         .catch(err => {
@@ -84,77 +74,67 @@ const useDataStore = init => {
     [fetchWithUrl, onFetchFail, onFetchSuccess, params, recordsByPage, url]
   );
 
-  const fetchNextPage = useCallback(() => {
-    setFetching(true);
-    return fetchWithUrl(nextUrl)
-      .then(resp => resp.json())
+  const sort = sortOn => {
+    if (sortOn === params.sort) {
+      return;
+    }
+    reset();
+    const newParams = {
+      ...params,
+      page: 1,
+      sort: sortOn
+    };
+    const newURL = getUrl(url, newParams);
+
+    setParams(newParams);
+    fetchWithUrl(newURL)
       .then(resp => {
-        onFetchSuccess(resp);
+        onFetchSuccess(resp, 1);
         return resp;
       })
       .catch(err => {
         onFetchFail(err);
         return err;
       });
-  }, [fetchWithUrl, nextUrl, onFetchFail, onFetchSuccess]);
-
-  const localSort = sortOrder =>
-    new Promise(resolve => {
-      const sorted = records.sort((a, b) => {
-        let order;
-
-        sortOrder.some(sortBy => {
-          if (a[sortBy] < b[sortBy]) {
-            order = -1;
-            return true;
-          }
-          if (a[sortBy] > b[sortBy]) {
-            order = 1;
-            return true;
-          }
-          order = 0;
-          return false;
-        });
-
-        return order;
-      });
-      setRecords(sorted);
-      resolve();
-    });
-
-  const remoteSort = sortOrder => {
-    const newParams = {
-      ...params,
-      sort: sortOrder.join(",")
-    };
-    const newURL = getUrl(url, newParams);
-    setNextUrl(newURL);
   };
 
-  const sort = sortOrder => {
-    if (complete) {
-      return localSort(sortOrder);
+  const filter = filterOn => {
+    if (filterOn === params.filter) {
+      return;
     }
     reset();
-    return remoteSort(sortOrder);
+
+    const newParams = {
+      ...params,
+      page: 1,
+      ...filterOn
+    };
+
+    const newURL = getUrl(url, newParams);
+    setParams(newParams);
+    fetchWithUrl(newURL)
+      .then(resp => {
+        onFetchSuccess(resp, 1);
+        return resp;
+      })
+      .catch(err => {
+        onFetchFail(err);
+        return err;
+      });
   };
 
   return [
     {
-      records,
       recordsCount,
-      pageRecords: recordsByPage[currentPage],
+      pageRecords: recordsByPage[currentPage] || [],
       fetching,
-      complete
+      complete,
+      currentPage
     },
     {
-      fetchNextPage,
       fetchPage,
       sort,
-      getCurrentRecords: useCallback(() => recordsByPage[currentPage], [
-        currentPage,
-        recordsByPage
-      ])
+      filter
     }
   ];
 };

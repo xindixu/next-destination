@@ -9,3 +9,27 @@ export const filterVenues = (artistVenue, venues) =>
 
 export const filterVenuesByCities = (city, venues) =>
   venues.filter(venue => venue.city === city);
+
+export const getSortableAttributes = schema =>
+  Object.keys(schema).reduce((dict, key) => {
+    if (schema[key].dataSort) {
+      dict[key] = schema[key];
+    }
+    return dict;
+  }, {});
+
+export const setLocation = callback => {
+  if (navigator.geolocation) {
+    return navigator.geolocation.getCurrentPosition(
+      ({ coords }) => callback(coords),
+      () => {
+        callback(null);
+        console.error("unable to get current location");
+      }
+    );
+  }
+  return "Geolocation is not supported by this browser.";
+};
+
+export const getCityIdByName = cityName =>
+  cityName.toLowerCase().replace(" ", "-");

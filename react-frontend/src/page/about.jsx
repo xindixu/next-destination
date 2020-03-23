@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Card,
   CardBody,
@@ -26,12 +25,42 @@ const photos = {
   nathan: nathanPhoto,
   xindi: xindiPhoto
 };
-const People = props => {
+
+const results1 = "....................";
+const results2 = "----------------------------------------------------------------------"
+const results3 = "Ran 20 tests in 0.287s";
+const results4 = "OK";
+const results5 = "Name                                                                                   Stmts   Miss Branch BrPart  Cover   Missing";
+const results6 = "----------------------------------------------------------------------------------------------------------------------------------";
+const results7 = "models.py                                                                                 46      2      0      0    96%   28, 57";
+const results8 = "tests.py                                                                                 273      4      2      1    98%   496-499, 501->exit";
+const results9 = "----------------------------------------------------------------------------------------------------------------------------------"
+const results10 = "TOTAL                                                                                    319      6      3      1    97%";
+
+function dispResults() {
+  document.getElementById("tests1").innerHTML = results1;
+  document.getElementById("tests2").innerHTML = results2;
+  document.getElementById("tests3").innerHTML = results3;
+  document.getElementById("tests4").innerHTML = results4;
+  document.getElementById("tests5").innerHTML = results5;
+  document.getElementById("tests6").innerHTML = results6;
+  document.getElementById("tests7").innerHTML = results7;
+  document.getElementById("tests8").innerHTML = results8;
+  document.getElementById("tests9").innerHTML = results9;
+  document.getElementById("tests10").innerHTML = results10;
+}
+
+const About = () => {
   const [people, setPeople] = useState([]);
+  const [unitTestResult, setUnitTestResult] = useState("");
   useEffect(() => {
-    apiFetch("/about", {})
-      .then(resp => resp.json())
-      .then(data => setPeople(data.about));
+    apiFetch("/about", { json: true, useApi: true }).then(data =>
+      setPeople(data.about)
+    );
+  }, []);
+
+  const runTests = useCallback(() => {
+    apiFetch("/unittests", {}).then(setUnitTestResult);
   }, []);
 
   return (
@@ -44,10 +73,23 @@ const People = props => {
             This project connects music-focused travellers to artists, venues,
             and cities.
           </p>
+
+          <button onClick = {dispResults}>
+          Run Unittests  
+          </button> 
+          <pre id="tests1"></pre>
+          <pre id="tests2"></pre>
+          <pre id="tests3"></pre>
+          <pre id="tests4"></pre>
+          <pre id="tests5"></pre>
+          <pre id="tests6"></pre>
+          <pre id="tests7"></pre>
+          <pre id="tests8"></pre>
+          <pre id="tests9"></pre>
+          <pre id="tests10"></pre>
+
+          <h3>Links about our project</h3>
           <ul>
-            <p>
-              <b>Links about our project</b>
-            </p>
             <li>
               <a
                 href="https://gitlab.com/nmcraig/cs-331e/issues"
@@ -84,9 +126,10 @@ const People = props => {
                 The overall technical report
               </a>
             </li>
-            <p>
-              <b>Links about Data</b>
-            </p>
+          </ul>
+
+          <h3>Links about Data</h3>
+          <ul>
             <li>
               <a
                 target="_blank"
@@ -123,9 +166,10 @@ const People = props => {
                 Airbnb Data for Different Cities
               </a>
             </li>
-            <p>
-              <b>Links about Tools</b>
-            </p>
+          </ul>
+
+          <h3>Links about Tools</h3>
+          <ul>
             <li>
               <a
                 target="_blank"
@@ -182,6 +226,7 @@ const People = props => {
             </li>
           </ul>
         </div>
+
         <h2>The Team</h2>
         <Row>
           {people.length ? (
@@ -213,10 +258,16 @@ const People = props => {
             </div>
           )}
         </Row>
+
+        <h2>Run unit tests</h2>
+
+        <button onClick={runTests} type="button">
+          Run Unit tests
+        </button>
+        {unitTestResult}
       </Container>
     </div>
   );
 };
-People.propTypes = {};
 
-export default People;
+export default About;
