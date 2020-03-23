@@ -5,6 +5,20 @@ entrypoint: gunicorn -b :$PORT main:app
 runtime_config:
   python_version: 3
 
+env_variables:
+    # postgresql+psycopg2://USER:PASSWORD@/DATABASE?host=/cloudsql/INSTANCE_CONNECTION_NAME
+    # Replace user, password, database, and instance connection name with the values obtained
+    # when configuring your Cloud SQL instance.
+    DB_STRING: >-
+      postgresql+psycopg2://postgres:asd123@/postgres?host=/cloudsql/city-hunt:us-central1:cityhunt
+#[END env]
+
+#[START cloudsql_settings]
+# Replace project and instance with the values obtained  when configuring your
+# Cloud SQL instance.
+beta_settings:
+    cloud_sql_instances: city-hunt1:us-central1:cityhunt
+
 # This sample incurs costs to run on the App Engine flexible environment. 
 # The settings below are to reduce costs during testing and are not appropriate
 # for production use. For more information, see:
