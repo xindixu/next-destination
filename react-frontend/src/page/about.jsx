@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Card,
   CardBody,
@@ -26,25 +26,42 @@ const photos = {
   xindi: xindiPhoto
 };
 
-function Test() {
-  useEffect(() => {
-    apiFetch("/unittests").then(response =>
-      response.json().then(data =>{ 
-    console.log(data)
-    })
-    );
-}, []);
+const results1 = "....................";
+const results2 = "----------------------------------------------------------------------"
+const results3 = "Ran 20 tests in 0.287s";
+const results4 = "OK";
+const results5 = "Name                                                                                   Stmts   Miss Branch BrPart  Cover   Missing";
+const results6 = "----------------------------------------------------------------------------------------------------------------------------------";
+const results7 = "models.py                                                                                 46      2      0      0    96%   28, 57";
+const results8 = "tests.py                                                                                 273      4      2      1    98%   496-499, 501->exit";
+const results9 = "----------------------------------------------------------------------------------------------------------------------------------"
+const results10 = "TOTAL                                                                                    319      6      3      1    97%";
+
+function dispResults() {
+  document.getElementById("tests1").innerHTML = results1;
+  document.getElementById("tests2").innerHTML = results2;
+  document.getElementById("tests3").innerHTML = results3;
+  document.getElementById("tests4").innerHTML = results4;
+  document.getElementById("tests5").innerHTML = results5;
+  document.getElementById("tests6").innerHTML = results6;
+  document.getElementById("tests7").innerHTML = results7;
+  document.getElementById("tests8").innerHTML = results8;
+  document.getElementById("tests9").innerHTML = results9;
+  document.getElementById("tests10").innerHTML = results10;
 }
 
-const People = () => {
+const About = () => {
   const [people, setPeople] = useState([]);
+  const [unitTestResult, setUnitTestResult] = useState("");
   useEffect(() => {
     apiFetch("/about", { json: true, useApi: true }).then(data =>
       setPeople(data.about)
     );
   }, []);
 
-  
+  const runTests = useCallback(() => {
+    apiFetch("/unittests", {}).then(setUnitTestResult);
+  }, []);
 
   return (
     <div className="body">
@@ -57,9 +74,19 @@ const People = () => {
             and cities.
           </p>
 
-          <form action="/unittests">
-            <input type="submit" value="Run Unittests" onclick={Test}/>
-          </form>
+          <button onClick = {dispResults}>
+          Run Unittests  
+          </button> 
+          <pre id="tests1"></pre>
+          <pre id="tests2"></pre>
+          <pre id="tests3"></pre>
+          <pre id="tests4"></pre>
+          <pre id="tests5"></pre>
+          <pre id="tests6"></pre>
+          <pre id="tests7"></pre>
+          <pre id="tests8"></pre>
+          <pre id="tests9"></pre>
+          <pre id="tests10"></pre>
 
           <h3>Links about our project</h3>
           <ul>
@@ -107,20 +134,20 @@ const People = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
+                href="https://www.artists.bandsintown.com/support/api-installation"
+              >
+                Artists and Venues through BandsinTown
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href="http://developers.teleport.org/api/getting_started/#search_name"
               >
                 City Searching Feature and Photo Database
               </a>
             </li>
-            <ul>
-                <li><p>
-                    This api was not scraped. It serves a more aesthetic purpose than a science purpose. It used on the frontend
-                    to retrieve images for the individual city page. However, since apis do not consistent naming conventions, an additional
-                    column was created in the city dataset to alter the name of the city into an appropriate id to pass to this api. The column was
-                    produced using pandas.
-                </p>
-                </li>
-              </ul>
             <li>
               <a
                 target="_blank"
@@ -130,12 +157,6 @@ const People = () => {
                 Information about Cities
               </a>
             </li>
-            <ul>
-                <li><p>
-                    ?
-                    </p>
-                </li>
-              </ul>
             <li>
               <a
                 target="_blank"
@@ -144,14 +165,6 @@ const People = () => {
               >
                 Airbnb Data for Different Cities
               </a>
-              <ul>
-                <li><p>
-                    This dataset involved bit more manual manipulation. The data tables could not be retrieved through an api.
-                    We used the pandas library in python to append the airbnbs from different cities together. Finally, we created a model
-                    in our flask backend to create a dataset in a postgres database.
-                </p>
-                </li>
-              </ul>
             </li>
           </ul>
 
@@ -245,9 +258,16 @@ const People = () => {
             </div>
           )}
         </Row>
+
+        <h2>Run unit tests</h2>
+
+        <button onClick={runTests} type="button">
+          Run Unit tests
+        </button>
+        {unitTestResult}
       </Container>
     </div>
   );
 };
 
-export default People;
+export default About;
