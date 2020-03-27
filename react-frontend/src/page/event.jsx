@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import "./event.css"
+import "./event.css";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import apiFetch from "../lib/api-fetch";
@@ -8,7 +8,11 @@ import Events from "../containers/events";
 import Restaurants from "../containers/restaurants";
 import Airbnbs from "../containers/airbnbs";
 import { getCityIdByName } from "../lib/util";
-import { EVENT_SCHEMA, RESTAURANT_SCHEMA, AIRBNB_SCHEMA } from "../lib/constants";
+import {
+  EVENT_SCHEMA,
+  RESTAURANT_SCHEMA,
+  AIRBNB_SCHEMA
+} from "../lib/constants";
 
 const TABS = {
   events: {
@@ -23,7 +27,7 @@ const TABS = {
     key: "airbnbs",
     title: "Nearby Airbnbs"
   }
-}
+};
 
 const Event = () => {
   const { id } = useParams();
@@ -58,9 +62,7 @@ const Event = () => {
   return (
     <>
       <h1>{name}</h1>
-      <p>
-        {description}
-      </p>
+      <p>{description}</p>
       <div className="event-info">
         <div className="event-image">
           <img src={image} alt={name} />
@@ -71,24 +73,27 @@ const Event = () => {
           </p>
           <p>
             Event time: {new Date(start).toLocaleDateString()} -
-        {new Date(end).toLocaleDateString()}
+            {new Date(end).toLocaleDateString()}
           </p>
           <p>
-            Geolocation:
-          ({latitude}, {longitude}){" "}
+            Geolocation: ({latitude}, {longitude}){" "}
           </p>
           <p>
-            <a className="hyperlink" href={url}>Event Website</a>
+            <a className="hyperlink" href={url}>
+              Event Website
+            </a>
           </p>
           <p>Event Address: {address}</p>
           <p>Cost of event: {cost}</p>
           <p>
             Learn more about {city}
-            <Link className="hyperlink" to={`/city/${getCityIdByName(city)}`}> here</Link>
+            <Link className="hyperlink" to={`/city/${getCityIdByName(city)}`}>
+              {" "}
+              here
+            </Link>
           </p>
         </div>
       </div>
-
 
       <Tabs defaultActiveKey={TABS.events.key}>
         <Tab eventKey={TABS.events.key} title={TABS.events.title}>
@@ -106,10 +111,7 @@ const Event = () => {
           />
         </Tab>
         <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-          <Airbnbs
-            city={city}
-            tableSchema={AIRBNB_SCHEMA}
-          />
+          <Airbnbs city={city} tableSchema={AIRBNB_SCHEMA} />
         </Tab>
       </Tabs>
     </>
