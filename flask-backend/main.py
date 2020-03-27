@@ -7,9 +7,10 @@ from sqlalchemy.orm import sessionmaker
 import json
 from models import Airbnb, Cities, app, db
 import tests
-
 from data import about_data, member_contribs
 from api import yelp_api_header
+import unittest
+import ciunittest
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
 CORS(app, resources=r'/*')
@@ -85,7 +86,10 @@ def get_gitlab_data(url):
 
 @app.route('/api/unittests')
 def unittests():
-    return tests.main()
+    suite = unittest.TestLoader().loadTestsFromModule(tests) 
+    json = ciunittest.JsonTestRunner().run(suite, formatted=True)
+
+    return json
 
 # Routes
 @app.route('/api/about')

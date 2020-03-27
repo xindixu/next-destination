@@ -27,7 +27,7 @@ const TableActions = ({
       role="toolbar"
       aria-label="Table actions, includes pagination, sort options, and a search bar"
     >
-      <InputGroup className="mb-2">
+      {/* <InputGroup className="mb-2">
         <InputGroup.Prepend>
           <InputGroup.Text>@</InputGroup.Text>
         </InputGroup.Prepend>
@@ -37,7 +37,7 @@ const TableActions = ({
           aria-label="search"
           aria-describedby="btnGroupAddon2"
         />
-      </InputGroup>
+      </InputGroup> */}
       <FilterOn
         className="mb-2"
         filterSchema={filterSchema}

@@ -9,7 +9,7 @@ import {
   Col,
   Spinner
 } from "reactstrap";
-
+import { Table } from "react-bootstrap";
 import apiFetch from "../lib/api-fetch";
 import marshallPhoto from "../assets/marshall_portrait.jpg";
 import yulissaPhoto from "../assets/yulissa_portrait.jpg";
@@ -26,29 +26,35 @@ const photos = {
   xindi: xindiPhoto
 };
 
-const results1 = "....................";
-const results2 = "----------------------------------------------------------------------"
-const results3 = "Ran 20 tests in 0.287s";
-const results4 = "OK";
-const results5 = "Name                                                                                   Stmts   Miss Branch BrPart  Cover   Missing";
-const results6 = "----------------------------------------------------------------------------------------------------------------------------------";
-const results7 = "models.py                                                                                 46      2      0      0    96%   28, 57";
-const results8 = "tests.py                                                                                 273      4      2      1    98%   496-499, 501->exit";
-const results9 = "----------------------------------------------------------------------------------------------------------------------------------"
-const results10 = "TOTAL                                                                                    319      6      3      1    97%";
+const UnitTestResult = ({ response }) => {
+  const { results, spentMilliseconds: totalTime } = response;
 
-function dispResults() {
-  document.getElementById("tests1").innerHTML = results1;
-  document.getElementById("tests2").innerHTML = results2;
-  document.getElementById("tests3").innerHTML = results3;
-  document.getElementById("tests4").innerHTML = results4;
-  document.getElementById("tests5").innerHTML = results5;
-  document.getElementById("tests6").innerHTML = results6;
-  document.getElementById("tests7").innerHTML = results7;
-  document.getElementById("tests8").innerHTML = results8;
-  document.getElementById("tests9").innerHTML = results9;
-  document.getElementById("tests10").innerHTML = results10;
-}
+  return (
+    <>
+      <Table triped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Statues</th>
+            <th>Description</th>
+            <th>Name</th>
+            <th>Time Spent (ms)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {results.map(({ type, description, name, spentMilliseconds }) => (
+            <tr>
+              <td>{type}</td>
+              <td>{description}</td>
+              <td>{name}</td>
+              <td>{spentMilliseconds}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+      <p>Total time spent: {totalTime}</p>
+    </>
+  );
+};
 
 const About = () => {
   const [people, setPeople] = useState([]);
@@ -60,34 +66,29 @@ const About = () => {
   }, []);
 
   const runTests = useCallback(() => {
-    apiFetch("/unittests", {}).then(setUnitTestResult);
+    apiFetch("/unittests", { json: true }).then(setUnitTestResult);
   }, []);
 
   return (
     <div className="body">
       <Container>
         <h1>About Us</h1>
+        <h2>Run unit tests</h2>
+        <button
+          onClick={runTests}
+          type="button"
+          className="btn btn-outline-primary w-100 mb-lg-3"
+        >
+          Run Unit tests
+        </button>
+        {unitTestResult && <UnitTestResult response={unitTestResult} />}
+
         <h2>The Project</h2>
         <div className="flex-links">
           <p>
             This project connects music-focused travellers to artists, venues,
             and cities.
           </p>
-
-          <button onClick = {dispResults}>
-          Run Unittests  
-          </button> 
-          <pre id="tests1"></pre>
-          <pre id="tests2"></pre>
-          <pre id="tests3"></pre>
-          <pre id="tests4"></pre>
-          <pre id="tests5"></pre>
-          <pre id="tests6"></pre>
-          <pre id="tests7"></pre>
-          <pre id="tests8"></pre>
-          <pre id="tests9"></pre>
-          <pre id="tests10"></pre>
-
           <h3>Links about our project</h3>
           <ul>
             <li>
@@ -258,13 +259,6 @@ const About = () => {
             </div>
           )}
         </Row>
-
-        <h2>Run unit tests</h2>
-
-        <button onClick={runTests} type="button">
-          Run Unit tests
-        </button>
-        {unitTestResult}
       </Container>
     </div>
   );

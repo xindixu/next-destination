@@ -490,9 +490,5 @@ class DatabaseTestsAirbnb(unittest.TestCase):
         db.session.commit()
 
 
-def main():
-#if __name__ == '__main__':
-    unittest.main()
-
 if __name__ == '__main__':
     unittest.main()
