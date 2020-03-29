@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { CITY_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
+import ToastNote from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
@@ -43,7 +44,9 @@ const Cities = () => {
   }
   if (isError) {
     // TODO: error component
-    return <>Error</>;
+    return <>
+      <ToastNote/>
+    </>;
   }
   return (
     <>
