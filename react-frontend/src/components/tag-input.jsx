@@ -64,6 +64,7 @@ class TagInput extends React.Component {
           value={tags}
           onChange={this.handleChange}
         />
+
         <Button onClick={() => submit(tags)}>Filter</Button>
       </>
     );
