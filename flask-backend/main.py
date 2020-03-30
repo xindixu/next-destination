@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, Response
 from flask_cors import CORS, cross_origin
-from sqlalchemy import create_engine, or_, func, desc
+from sqlalchemy import create_engine
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
