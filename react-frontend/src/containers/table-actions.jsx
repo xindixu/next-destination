@@ -45,13 +45,19 @@ const TableActions = ({
         updateFilterOn={updateFilterOn}
       />
 
-      <Pagination
-        totalRecords={totalRecords}
-        loadPage={loadPage}
-        currentPage={currentPage}
-      />
+      <div className="row no-gutters justify-content-between">
+        <Pagination
+          totalRecords={totalRecords}
+          loadPage={loadPage}
+          currentPage={currentPage}
+        />
 
-      <SortOn sortOn={sortOn} updateSortOn={updateSortOn} schema={sortSchema} />
+        <SortOn
+          sortOn={sortOn}
+          updateSortOn={updateSortOn}
+          schema={sortSchema}
+        />
+      </div>
     </div>
   );
 };

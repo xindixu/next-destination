@@ -1,15 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import {
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  Container,
-  Row,
-  Col,
-  Spinner
-} from "reactstrap";
-import { Table } from "react-bootstrap";
+import { Table, Spinner, Card, Container, Row, Col } from "react-bootstrap";
 import apiFetch from "../lib/api-fetch";
 import marshallPhoto from "../assets/marshall_portrait.jpg";
 import yulissaPhoto from "../assets/yulissa_portrait.jpg";
@@ -193,9 +183,9 @@ const About = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://reactstrap.github.io/"
+                href="https://react-bootstrap.netlify.com/"
               >
-                CSS - Reactstrap - a bootstrap library for react
+                CSS - React-Bootstrap - a bootstrap library for react
               </a>
             </li>
             <li>
@@ -241,21 +231,21 @@ const About = () => {
               }) => (
                 <Col key={name} xs={12} sm={12} md={6} lg={4}>
                   <Card>
-                    <CardBody>
-                      <CardTitle>{name}</CardTitle>
-                      <img src={photos[id]} alt={name} />
-                      <CardText>Skills: {responsibilities}</CardText>
-                      <CardText>Description: {description}</CardText>
-                      <CardText>Commits: {commits} </CardText>
-                      <CardText>Issues: {issues} </CardText>
-                    </CardBody>
+                    <Card.Body>
+                      <Card.Title>{name}</Card.Title>
+                      <Card.Img variant="top" src={photos[id]} alt={name} />
+                      <Card.Text>Skills: {responsibilities}</Card.Text>
+                      <Card.Text>Description: {description}</Card.Text>
+                      <Card.Text>Commits: {commits} </Card.Text>
+                      <Card.Text>Issues: {issues} </Card.Text>
+                    </Card.Body>
                   </Card>
                 </Col>
               )
             )
           ) : (
             <div className="w-100 d-flex justify-content-center">
-              <Spinner type="grow" color="info" />
+              <Spinner animation="border" variant="info" />
             </div>
           )}
         </Row>

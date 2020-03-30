@@ -1,18 +1,18 @@
 .react-tagsinput {
   background-color: #fff;
   border: 1px solid #ccc;
+  border-radius: 0.25rem;
   overflow: hidden;
 }
 
 .react-tagsinput--focused {
-  border-color: #a5d24a;
+  box-shadow: 0 0 0 0.1rem rgba(0,123,255,.3)
 }
 
 .react-tagsinput-tag {
-  background-color: #cde69c;
-  border-radius: 2px;
-  border: 1px solid #a5d24a;
-  color: #638421;
+  border-radius: 0.25rem;
+  border: 1px solid #005cbf;
+  color: #005cbf;
   display: inline-block;
   margin-bottom: 5px;
   margin-right: 5px;

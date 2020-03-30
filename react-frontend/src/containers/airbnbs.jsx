@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
+import { Container } from "react-bootstrap";
 import { AIRBNB_SCHEMA, AIRBNB_SORTABLE_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
+import Toast from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
@@ -54,11 +56,10 @@ const Airbnbs = ({ city, coordinates }) => {
     return <></>;
   }
   if (isError) {
-    // TODO: error component
-    return <>Error</>;
+    return <Toast />;
   }
   return (
-    <>
+    <Container fluid>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
@@ -68,7 +69,7 @@ const Airbnbs = ({ city, coordinates }) => {
         updateSortOn={updateSortOn}
       />
       <SortableTable settings={AIRBNB_SCHEMA} data={pageRecords} />
-    </>
+    </Container>
   );
 };
 Airbnbs.defaultProps = {
