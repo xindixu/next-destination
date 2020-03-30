@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { Spinner } from "reactstrap";
+import { Container } from "react-bootstrap";
 import { EVENT_SORTABLE_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
-import ToastNote from "../components/toast";
+import Toast from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
@@ -56,11 +56,10 @@ const Events = ({ city, coordinates, tableSchema }) => {
     return <>Loading...</>;
   }
   if (isError) {
-    // TODO: error component
-    return <><ToastNote/></>;
+    return <Toast />;
   }
   return (
-    <>
+    <Container fluid>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
@@ -70,7 +69,7 @@ const Events = ({ city, coordinates, tableSchema }) => {
         updateSortOn={updateSortOn}
       />
       <SortableTable settings={tableSchema} data={pageRecords} />
-    </>
+    </Container>
   );
 };
 Events.defaultProps = {

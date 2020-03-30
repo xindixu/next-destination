@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
-import PropTypes from "prop-types";
+import { Container } from "react-bootstrap";
 import { CITY_SCHEMA } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
-import ToastNote from "../components/toast";
+import Toast from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
@@ -43,13 +43,10 @@ const Cities = () => {
     return <>Loading...</>;
   }
   if (isError) {
-    // TODO: error component
-    return <>
-      <ToastNote/>
-    </>;
+    return <Toast />;
   }
   return (
-    <>
+    <Container fluid>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
@@ -59,10 +56,8 @@ const Cities = () => {
         updateSortOn={updateSortOn}
       />
       <SortableTable settings={CITY_SCHEMA} data={pageRecords} />
-    </>
+    </Container>
   );
 };
-
-Cities.propTypes = {};
 
 export default Cities;

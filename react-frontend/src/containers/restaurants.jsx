@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
+import { Container } from "react-bootstrap";
 import { RESTAURANT_SORTABLE_SCHEMA, CATEGORIES } from "../lib/constants";
 import SortableTable from "../components/sortable-table";
-import ToastNote from "../components/toast";
+import Toast from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
@@ -80,11 +81,10 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
     return <>Loading...</>;
   }
   if (isError) {
-    // TODO: error component
-    return <><ToastNote/></>;
+    return <Toast />;
   }
   return (
-    <>
+    <Container fluid>
       <TableActions
         totalRecords={recordsCount}
         loadPage={fetchPage}
@@ -97,7 +97,7 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
         updateFilterOn={updateFilterOn}
       />
       <SortableTable settings={tableSchema} data={pageRecords} />
-    </>
+    </Container>
   );
 };
 
