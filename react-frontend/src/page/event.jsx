@@ -7,7 +7,6 @@ import apiFetch from "../lib/api-fetch";
 import Events from "../containers/events";
 import Restaurants from "../containers/restaurants";
 import Airbnbs from "../containers/airbnbs";
-import Card from "../components/card";
 import { getCityIdByName } from "../lib/util";
 import {
   EVENT_SCHEMA,

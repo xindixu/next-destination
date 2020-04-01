@@ -33,3 +33,25 @@ export const setLocation = callback => {
 
 export const getCityIdByName = cityName =>
   cityName.toLowerCase().replace(" ", "-");
+
+export const getGoogleMapLinkByCoordinates = (latitude, longtitude) =>
+  `http://www.google.com/maps/place/${latitude},${longtitude}`;
+
+export const getWeekDay = num => {
+  const days = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+  return days[num];
+};
+
+export const getHours = time => {
+  const hour = time.substring(0, 2);
+  const minute = time.substring(2);
+  return `${hour}:${minute}`;
+};

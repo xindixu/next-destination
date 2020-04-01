@@ -10,8 +10,13 @@
     flex-wrap: wrap;
     display: inline-block;
     background-color: rgba(128, 0, 0, 0.685);
-
 }
+
+.event-content p {
+    text-align: center;
+    color: white;
+}
+
 .event-image {
     display: inline-block;
 }
@@ -24,10 +29,7 @@
     color: wheat;
     font-family: Impact;
 }
-.event-content p {
-    text-align: center;
-    color: white;
-}
+
 .hyperlink {
     color: peachpuff;
 }
