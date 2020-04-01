@@ -58,15 +58,17 @@ class TagInput extends React.Component {
     }
 
     return (
-      <>
+      <div className="row no-gutters justify-content-between">
         <TagsInput
           renderInput={autocompleteRenderInput}
           value={tags}
           onChange={this.handleChange}
         />
 
-        <Button onClick={() => submit(tags)}>Filter</Button>
-      </>
+        <Button variant="outline-primary" onClick={() => submit(tags)}>
+          Filter
+        </Button>
+      </div>
     );
   }
 }

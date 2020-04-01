@@ -11,6 +11,7 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
     <div>
       <DropdownButton
         as={ButtonGroup}
+        variant="outline-primary"
         title={`Sort on ${
           sortableAttributes[sort] ? sortableAttributes[sort].title : ""
         }`}
@@ -20,7 +21,11 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
           <Dropdown.Item
             key={key}
             eventKey={key}
+            active={key === sort}
             onClick={() => {
+              if (key === sort) {
+                return;
+              }
               updateSortOn({ ...sortOn, sort: key });
             }}
           >
@@ -31,13 +36,19 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
       {order && (
         <DropdownButton
           as={ButtonGroup}
+          variant="outline-primary"
           title={(ORDER_SCHEMA.find(({ key }) => key === order) || {}).title}
           alignRight
         >
           {ORDER_SCHEMA.map(({ title, key }) => (
             <Dropdown.Item
+              key={key}
               eventKey={key}
+              active={key === order}
               onClick={() => {
+                if (key === order) {
+                  return;
+                }
                 updateSortOn({ ...sortOn, order: key });
               }}
             >

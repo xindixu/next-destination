@@ -1,4 +1,7 @@
-.btn-toolbar {
+.table-actions {
   margin: 1rem 0;
-  height: 3rem;
+}
+
+.table-actions > div {
+  margin: 0.5rem 0;
 }
