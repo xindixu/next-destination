@@ -45,7 +45,9 @@ const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
 
 const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("best_match");
+  const [sortOn, setSortOn] = useState({
+    sort: "best_match"
+  });
   const [filterOn, setFilterOn] = useState(initialFilters);
 
   const [

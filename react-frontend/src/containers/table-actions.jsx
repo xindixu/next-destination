@@ -70,7 +70,10 @@ TableActions.propTypes = {
   filterOn: PropTypes.string.isRequired,
   updateFilterOn: PropTypes.func.isRequired,
   sortSchema: PropTypes.object.isRequired,
-  sortOn: PropTypes.string.isRequired,
+  sortOn: PropTypes.shape({
+    sort: PropTypes.string.isRequired,
+    order: PropTypes.string
+  }).isRequired,
   updateSortOn: PropTypes.func.isRequired
 };
 

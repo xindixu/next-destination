@@ -9,7 +9,10 @@ import useDataStore from "../hooks/use-data-store";
 
 const Events = ({ city, coordinates, tableSchema }) => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("time_start");
+  const [sortOn, setSortOn] = useState({
+    sort: "time_start",
+    order: "asc"
+  });
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },

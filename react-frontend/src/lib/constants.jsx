@@ -280,6 +280,10 @@ export const CITY_SCHEMA = {
   }
 };
 
+export const ORDER_SCHEMA = [
+  { title: "Ascending", key: "asc" },
+  { title: "Descending", key: "desc" }
+];
 export const CATEGORIES = [
   {
     alias: "afghani",

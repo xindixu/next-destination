@@ -9,7 +9,10 @@ import useDataStore from "../hooks/use-data-store";
 
 const Airbnbs = ({ city, coordinates }) => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("price");
+  const [sortOn, setSortOn] = useState({
+    sort: "price",
+    order: "asc"
+  });
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
