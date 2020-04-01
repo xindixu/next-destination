@@ -40,28 +40,23 @@ def convert_to_dict(instance):
     return result_dict
 
 
-def get_data_from_database(model, name,  page, sort, *city):
+def get_data_from_database(model, name, page, sort, order, *city):
     LIMIT = 20
-    total = session.query(model).count()
-
+    if city:
+        # airbnb route
+        query = session.query(model).filter_by(city_name=city)
+    else:
+        query = session.query(model)
+    
+    total = query.count()
     if page * LIMIT > total:
         session.rollback()
-        abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
-    if city:
-        total = session.query(model).filter_by(city_name=city).count()
-        if sort:
-            data = session.query(model).filter_by(city_name=city).order_by(getattr(model, sort).asc()).limit(
-                LIMIT).offset(get_offset(page, LIMIT)).all()
-        else:
-            data = session.query(model).filter_by(city_name=city).limit(
-                LIMIT).offset(get_offset(page, LIMIT)).all()
-    else:
-        if sort:
-            data = session.query(model).order_by(getattr(model, sort).asc()).limit(
-                LIMIT).offset(get_offset(page, LIMIT)).all()
-        else:
-            data = session.query(model).limit(
-                LIMIT).offset(get_offset(page, LIMIT)).all()
+        abort(404, description=f"Page out of range")
+
+    if sort:
+        query = query.order_by(getattr(model, sort).asc() if order == 'asc' else getattr(model, sort).desc())
+
+    data = query.limit(LIMIT).offset(get_offset(page, LIMIT)).all()
 
     dictionary = convert_to_array_of_dict(data)
     response = {
@@ -142,7 +137,6 @@ def about():
 def events_page():
     longitude = request.args.get('longitude', type=float)
     latitude = request.args.get('latitude', type=float)
-
     MAX_PAGE_NUM = 50
     LIMIT = 20
     page = request.args.get('page', default=1, type=int)
@@ -150,6 +144,7 @@ def events_page():
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
     sort = request.args.get('sort', default="time_start", type=str)
+    order = request.args.get('order', default="asc", type=str)
 
     url = "https://api.yelp.com/v3/events"
     params = {
@@ -157,7 +152,8 @@ def events_page():
         "latitude": latitude,
         "limit": LIMIT,
         "offset": get_offset(page, LIMIT),
-        "sort_on": sort
+        "sort_on": sort,
+        "sort_by": order
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
@@ -173,13 +169,15 @@ def events(city):
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
     sort = request.args.get('sort', default="time_start", type=str)
+    order = request.args.get('order', default="asc", type=str)
 
     url = "https://api.yelp.com/v3/events"
     params = {
         "location": city,
         "limit": LIMIT,
         "offset": get_offset(page, LIMIT),
-        "sort_on": sort
+        "sort_on": sort,
+        "sort_by": order
     }
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return jsonify(response=response)
@@ -242,6 +240,7 @@ def restaurants_page():
 
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
+    # Yelp restaurant api doesn't accept sort order (ascending or decending) setting
     # Per yelp documentation, it cannot return more than 1000 results if offset and limit are used
     MAX_PAGE_NUM = 50
     LIMIT = 20
@@ -273,24 +272,20 @@ def restaurant(id):
 
 
 # Airbnb routes
-@app.route('/api/airbnbs', methods=["GET"])
-def airbnbs_page():
-    page = request.args.get('page', default=1, type=int)
-    sort = request.args.get('sort', default="", type=str)
-    return get_data_from_database(Airbnb, 'airbnbs',  page, sort)
-
 @app.route('/api/airbnbs/<string:city>', methods=["GET"])
-def airbnbs_per_city(city):
+def airbnbs(city):
     page = request.args.get('page', default=1, type=int)
-    sort = request.args.get('sort', default="", type=str)
-    return get_data_from_database(Airbnb, 'airbnbs',  page, sort, city)
+    sort = request.args.get('sort', default="price", type=str)
+    order = request.args.get('order', default="asc", type=str)
+    return get_data_from_database(Airbnb, 'airbnbs', page, sort, order, city)
 
 # City routes
 @app.route('/api/cities', methods=["GET"])
 def cities_page():
     page = request.args.get('page', default=1, type=int)
-    sort = request.args.get('sort', default="", type=str)
-    return get_data_from_database(Cities, 'cities',  page, sort)
+    sort = request.args.get('sort', default="name", type=str)
+    order = request.args.get('order', default="asc", type=str)
+    return get_data_from_database(Cities, 'cities',  page, sort, order)
 
 
 @app.route('/api/city/<string:id>', methods=['GET'])
