@@ -6,8 +6,12 @@ const Home = () => {
   return (
     <div id="home">
       <div className="title">
-        <h1>Project Name</h1>
-        <p className="description">Discover something new! </p>
+        <h1>City Hunt</h1>
+        <p className="description">
+          Discover something new!
+          Make your dream vacation happen.. City Hunt is a centralized application designed to simplify travel arrangements.
+          Try our random city generator to start discovering new places!
+          </p>
       </div>
       <div className="bottom-text-container">
         <Container className="Container">
