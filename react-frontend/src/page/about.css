@@ -4,3 +4,11 @@
   justify-content: center;
   flex-direction: column;
 }
+
+.card-img-top {
+  border-radius: 0;
+}
+
+.about .card {
+  height: 100%;
+}

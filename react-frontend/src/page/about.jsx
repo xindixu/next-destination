@@ -1,5 +1,13 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Table, Spinner, Card, Container, Row, Col } from "react-bootstrap";
+import {
+  Table,
+  Spinner,
+  Card,
+  Container,
+  CardDeck,
+  Col,
+  Row
+} from "react-bootstrap";
 import apiFetch from "../lib/api-fetch";
 import marshallPhoto from "../assets/marshall_portrait.jpg";
 import yulissaPhoto from "../assets/yulissa_portrait.jpg";
@@ -60,7 +68,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="body">
+    <div className="about">
       <Container>
         <h1>About Us</h1>
         <h2>Run unit tests</h2>
@@ -229,11 +237,11 @@ const About = () => {
                 description,
                 id
               }) => (
-                <Col key={name} xs={12} sm={12} md={6} lg={4}>
+                <Col key={name} xs={12} sm={12} md={6} lg={4} className="mb-4">
                   <Card>
+                    <Card.Img variant="top" src={photos[id]} alt={name} />
                     <Card.Body>
                       <Card.Title>{name}</Card.Title>
-                      <Card.Img variant="top" src={photos[id]} alt={name} />
                       <Card.Text>Skills: {responsibilities}</Card.Text>
                       <Card.Text>Description: {description}</Card.Text>
                       <Card.Text>Commits: {commits} </Card.Text>

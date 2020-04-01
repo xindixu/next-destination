@@ -23,6 +23,7 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
             eventKey={key}
             active={key === sort}
             onClick={() => {
+              // use the following instead of disabled to preserve active style
               if (key === sort) {
                 return;
               }
