@@ -32,8 +32,10 @@
 
 .react-tagsinput-input {
   background: transparent;
+  width: 100%;
   border: 0;
   color: #777;
+  font-size: 13px;
   font-weight: 400;
   margin-bottom: 6px;
   margin-top: 1px;
