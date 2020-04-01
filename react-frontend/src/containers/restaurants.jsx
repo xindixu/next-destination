@@ -18,12 +18,14 @@ const getCategory = filters => {
 
 const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
   const categoryAlias = getCategory(initialFilters);
+  const { sort, order } = initialSortOn;
   if (city) {
     return {
       url: `/restaurants/${city}`,
       params: {
         page: 1,
-        sort: initialSortOn,
+        sort,
+        order,
         category: categoryAlias
       },
       name: "businesses"
@@ -34,7 +36,8 @@ const initDataStore = (city, coordinates, initialFilters, initialSortOn) => {
     url: `/restaurants`,
     params: {
       page: 1,
-      sort: initialSortOn,
+      sort,
+      order,
       longitude,
       latitude,
       categories: categoryAlias
@@ -53,9 +56,7 @@ const Restaurants = ({ city, coordinates, initialFilters, tableSchema }) => {
   const [
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort, filter }
-  ] = useDataStore(() =>
-    initDataStore(city, coordinates, initialFilters, sortOn)
-  );
+  ] = useDataStore(() => initDataStore(city, coordinates, filterOn, sortOn));
 
   useEffect(() => {
     fetchPage(1).catch(() => setIsError(true));

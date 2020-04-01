@@ -18,12 +18,15 @@ const Events = ({ city, coordinates, tableSchema }) => {
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => {
+    const { sort, order } = sortOn;
+
     if (city) {
       return {
         url: `/events/${city}`,
         params: {
           page: 1,
-          sort: sortOn
+          sort,
+          order
         },
         name: "events"
       };
@@ -33,7 +36,8 @@ const Events = ({ city, coordinates, tableSchema }) => {
       url: `/events`,
       params: {
         page: 1,
-        sort: sortOn,
+        sort,
+        order,
         longitude,
         latitude
       },

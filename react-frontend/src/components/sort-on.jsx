@@ -64,7 +64,7 @@ const SortOn = ({ sortOn, updateSortOn, schema }) => {
 SortOn.propTypes = {
   sortOn: PropTypes.shape({
     sort: PropTypes.string.isRequired,
-    order: PropTypes.string
+    order: PropTypes.oneOf(["asc", "desc"])
   }).isRequired,
   updateSortOn: PropTypes.func.isRequired,
   schema: PropTypes.object.isRequired

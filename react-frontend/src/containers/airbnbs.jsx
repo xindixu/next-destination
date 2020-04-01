@@ -18,24 +18,13 @@ const Airbnbs = ({ city, coordinates }) => {
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => {
-    if (city) {
-      return {
-        url: `/airbnbs/${city}`,
-        params: {
-          page: 1,
-          sort: sortOn
-        },
-        name: "airbnbs"
-      };
-    }
-    const { longitude, latitude } = coordinates;
+    const { sort, order } = sortOn;
     return {
       url: `/airbnbs/${city}`,
       params: {
         page: 1,
-        sort: sortOn,
-        longitude,
-        latitude
+        sort,
+        order
       },
       name: "airbnbs"
     };

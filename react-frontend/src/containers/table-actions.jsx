@@ -73,7 +73,7 @@ TableActions.propTypes = {
   sortSchema: PropTypes.object.isRequired,
   sortOn: PropTypes.shape({
     sort: PropTypes.string.isRequired,
-    order: PropTypes.string
+    order: PropTypes.oneOf(["asc", "desc"])
   }).isRequired,
   updateSortOn: PropTypes.func.isRequired
 };
