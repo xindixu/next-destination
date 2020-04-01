@@ -15,7 +15,7 @@ import ciunittest
 # ! for some reason this code does not work when it is put into the __name__ if statment
 CORS(app, resources=r'/*')
 engine = create_engine(
-    'postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
+    'postgres+psycopg2://postgres:asdf@localhost:5432/cityhuntdb')
 Session = sessionmaker(bind=engine)
 session = Session()
 # ! end of code that doesn't work

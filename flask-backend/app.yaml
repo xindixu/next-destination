@@ -10,7 +10,7 @@ env_variables:
     # Replace user, password, database, and instance connection name with the values obtained
     # when configuring your Cloud SQL instance.
     DB_STRING: >-
-      postgresql+psycopg2://postgres:zxcvbn12@/postgres?host=/cloudsql/city-hunt-267820:us-central1:database-city-hunt
+      postgresql+psycopg2://postgres:asdf@/postgres?host=/cloudsql/city-hunt-267820:us-central1:database-city-hunt
 #[END env]
 
 #[START cloudsql_settings]
