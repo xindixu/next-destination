@@ -111,7 +111,7 @@ export const RESTAURANT_SCHEMA = {
   },
   distance: {
     title: "Distance",
-    getBodyFormat: (_, { distance }) => <span>{distance}</span>,
+    getBodyFormat: (_, { distance }) => <span>{Number(distance).toFixed(2)} yd.</span>,
     isKey: false,
     dataSort: true
   },
