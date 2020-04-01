@@ -24,7 +24,7 @@
     color: wheat;
     font-family: Impact;
 }
-p {
+.event-content p {
     text-align: center;
     color: white;
 }

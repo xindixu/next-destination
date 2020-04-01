@@ -7,6 +7,7 @@ import apiFetch from "../lib/api-fetch";
 import Events from "../containers/events";
 import Restaurants from "../containers/restaurants";
 import Airbnbs from "../containers/airbnbs";
+import Card from "../components/card";
 import { getCityIdByName } from "../lib/util";
 import {
   EVENT_SCHEMA,
@@ -63,6 +64,7 @@ const Event = () => {
     <>
       <h1>{name}</h1>
       <p>{description}</p>
+
       <div className="event-info">
         <div className="event-image">
           <img src={image} alt={name} />
@@ -88,7 +90,6 @@ const Event = () => {
           <p>
             Learn more about {city}
             <Link className="hyperlink" to={`/city/${getCityIdByName(city)}`}>
-              {" "}
               here
             </Link>
           </p>
