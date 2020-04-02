@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import "./home.css";
 
 const Home = () => {
-  var cities = [{"cityname": "Austin, TX", "AveragePrice": "80", "Restaurants":"90","UpcomingEvents":"90"},
-  {"cityname": "New York, NY", "AveragePrice": "160", "Restaurants":"1000","UpcomingEvents":"100"},
-  {"cityname": "Boston, MA", "AveragePrice": "140", "Restaurants":"900","UpcomingEvents":"120"}
+  var cities = [{"cityname": "Austin, TX", "AveragePrice": "80", "Restaurants":"90","UpcomingEvents":"90","id":"austin"},
+  {"cityname": "New York, NY", "AveragePrice": "160", "Restaurants":"1000","UpcomingEvents":"100",'id':"new-york"},
+  {"cityname": "Boston, MA", "AveragePrice": "140", "Restaurants":"900","UpcomingEvents":"120","id":"boston"}
   ];
   const rand = cities[Math.floor(Math.random()*3)];
+  
+  // const [image, setImage] = useState("");
+  // useEffect(() => {
+  //   fetch(`https://api.teleport.org/api/urban_areas/slug:${rand['id']}/images/`)
+  //     .then(resp => resp.json())
+  //     .then(data => {
+  //       try {
+  //         setImage(data.photos[0].image.web);
+  //       } catch (error) {
+  //         console.error("No image available");
+  //       }
+  //     });
+  // }, []);
+  // console.log({image});
   return (
     <div id="home">
       <div className="title">
@@ -27,7 +41,6 @@ const Home = () => {
               <p> # of restaurants in the area: {rand["Restaurants"]}</p>
               <p> # of upcoming events in the area: {rand["UpcomingEvents"]}</p>
             </Col>
-
           </Row>
         </Container>
       </div>
