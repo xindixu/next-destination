@@ -4,7 +4,6 @@ import {
   Spinner,
   Card,
   Container,
-  CardDeck,
   Col,
   Row
 } from "react-bootstrap";
@@ -241,7 +240,7 @@ const About = () => {
                     <Card.Img variant="top" src={photos[id]} alt={name} />
                     <Card.Body>
                       <Card.Title>{name}</Card.Title>
-                      <Card.Text colot>Skills: {responsibilities}</Card.Text>
+                      <Card.Text>Skills: {responsibilities}</Card.Text>
                       <Card.Text>Description: {description}</Card.Text>
                       <Card.Text>Commits: {commits} </Card.Text>
                       <Card.Text>Issues: {issues} </Card.Text>
