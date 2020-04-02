@@ -284,6 +284,21 @@ export const ORDER_SCHEMA = [
   { title: "Ascending", key: "asc" },
   { title: "Descending", key: "desc" }
 ];
+
+export const TABS = {
+  restaurants: {
+    key: "restaurants",
+    title: "Restaurants"
+  },
+  airbnbs: {
+    key: "airbnbs",
+    title: "Airbnbs"
+  },
+  events: {
+    key: "events",
+    title: "Events"
+  }
+};
 export const CATEGORIES = [
   {
     alias: "afghani",

@@ -8,30 +8,12 @@ import Events from "../containers/events";
 import Restaurants from "../containers/restaurants";
 import Airbnbs from "../containers/airbnbs";
 import { getCityIdByName } from "../lib/util";
-import {
-  EVENT_SCHEMA,
-  RESTAURANT_SCHEMA,
-  AIRBNB_SCHEMA
-} from "../lib/constants";
-
-const TABS = {
-  events: {
-    key: "events",
-    title: "Nearby Events"
-  },
-  restaurants: {
-    key: "restaurants",
-    title: "Nearby Restaurants"
-  },
-  airbnbs: {
-    key: "airbnbs",
-    title: "Nearby Airbnbs"
-  }
-};
+import { EVENT_SCHEMA, RESTAURANT_SCHEMA, TABS } from "../lib/constants";
 
 const Event = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [showAirbnbs, setShowAirbnbs] = useState(true);
 
   useEffect(() => {
     apiFetch(`/event/${id}`, { useApi: true, json: true }).then(data => {
@@ -110,9 +92,11 @@ const Event = () => {
             tableSchema={RESTAURANT_SCHEMA}
           />
         </Tab>
-        <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-          <Airbnbs city={city} tableSchema={AIRBNB_SCHEMA} />
-        </Tab>
+        {showAirbnbs && (
+          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
+            <Airbnbs city={name} setShowAirbnbs={setShowAirbnbs} />
+          </Tab>
+        )}
       </Tabs>
     </>
   );

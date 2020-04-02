@@ -7,7 +7,7 @@ import Toast from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
-const Airbnbs = ({ city, coordinates }) => {
+const Airbnbs = ({ city, coordinates, setShowAirbnbs }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState({
     sort: "price",
@@ -18,6 +18,7 @@ const Airbnbs = ({ city, coordinates }) => {
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => {
+    // TODO: get airbnb by coordinate
     const { sort, order } = sortOn;
     return {
       url: `/airbnbs/${city}`,
@@ -31,7 +32,10 @@ const Airbnbs = ({ city, coordinates }) => {
   });
 
   useEffect(() => {
-    fetchPage(1).catch(() => setIsError(true));
+    fetchPage(1).catch(() => {
+      setIsError(true);
+      setShowAirbnbs(false);
+    });
     // only fetch once when mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -66,14 +70,16 @@ const Airbnbs = ({ city, coordinates }) => {
 };
 Airbnbs.defaultProps = {
   city: "",
-  coordinates: {}
+  coordinates: {},
+  setShowAirbnbs: () => {}
 };
 Airbnbs.propTypes = {
   city: PropTypes.string,
   coordinates: PropTypes.shape({
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired
-  })
+  }),
+  setShowAirbnbs: PropTypes.func
 };
 
 export default Airbnbs;

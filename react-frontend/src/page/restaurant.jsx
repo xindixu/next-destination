@@ -5,27 +5,12 @@ import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import Airbnbs from "../containers/airbnbs";
-import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
+import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 import {
   getGoogleMapLinkByCoordinates,
   getWeekDay,
   getHours
 } from "../lib/util";
-
-const TABS = {
-  restaurants: {
-    key: "restaurants",
-    title: "Similar Restaurants Nearby"
-  },
-  airbnbs: {
-    key: "airbnbs",
-    title: "Nearby Airbnbs"
-  },
-  events: {
-    key: "events",
-    title: "Nearby Events"
-  }
-};
 
 const getOpenHours = hours => (
   <div>
@@ -40,6 +25,7 @@ const getOpenHours = hours => (
 const Restaurant = () => {
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState(null);
+  const [showAirbnbs, setShowAirbnbs] = useState(true);
 
   useEffect(() => {
     apiFetch(`/restaurant/${id}`, {}).then(data => {
@@ -109,9 +95,11 @@ const Restaurant = () => {
             tableSchema={EVENT_SCHEMA}
           />
         </Tab>
-        <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-          <Airbnbs city={city} />
-        </Tab>
+        {showAirbnbs && (
+          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
+            <Airbnbs city={name} setShowAirbnbs={setShowAirbnbs} />
+          </Tab>
+        )}
       </Tabs>
     </>
   );

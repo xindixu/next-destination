@@ -7,30 +7,14 @@ import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import Airbnbs from "../containers/airbnbs";
-import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
-
-const TABS = {
-  restaurants: {
-    key: "restaurants",
-    title: "Restaurants"
-  },
-  airbnbs: {
-    key: "airbnbs",
-    title: "Airbnbs"
-  },
-  events: {
-    key: "events",
-    title: "Events"
-  }
-};
+import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 
 const City = () => {
   const { id } = useParams();
-
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
-
+  const [showAirbnbs, setShowAirbnbs] = useState(true);
   // TODO: data should be passed down from parent
   useEffect(() => {
     apiFetch(`/city/${id}`, {})
@@ -99,9 +83,11 @@ const City = () => {
             <Events city={id} tableSchema={EVENT_SCHEMA} />
           </Tab>
 
-          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-            <Airbnbs city={name} />
-          </Tab>
+          {showAirbnbs && (
+            <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
+              <Airbnbs city={name} setShowAirbnbs={setShowAirbnbs} />
+            </Tab>
+          )}
         </Tabs>
       </>
     );
