@@ -111,7 +111,9 @@ export const RESTAURANT_SCHEMA = {
   },
   distance: {
     title: "Distance",
-    getBodyFormat: (_, { distance }) => <span>{Number(distance).toFixed(2)} yd.</span>,
+    getBodyFormat: (_, { distance }) => (
+      <span>{Number(distance).toFixed(2)} yd.</span>
+    ),
     isKey: false,
     dataSort: true
   },
@@ -215,11 +217,9 @@ export const EVENT_SCHEMA = {
   time: {
     title: "Time",
     getBodyFormat: (_, { time_start: start, time_end: end }) => (
-      // TODO: format year if no year presents in end
-      // TODO: format as May 24, 2020
       <span>
-        {new Date(start).toLocaleDateString()} -{" "}
-        {new Date(end).toLocaleDateString()}
+        {new Date(start).toLocaleDateString()}
+        {end && `- ${new Date(end).toLocaleDateString()}`}
       </span>
     ),
     isKey: false,
