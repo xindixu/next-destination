@@ -53,7 +53,7 @@ const City = () => {
         {/* TODO: extract this component */}
         <div className="description">
           <h2>Description</h2>
-          <p> {description} </p>
+          <p>{description.replace(/^"|"$/g, "")}</p>
           <h2>Statistics</h2>
           <div className="stat-table">
             <Table>

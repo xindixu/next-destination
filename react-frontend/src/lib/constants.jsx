@@ -274,7 +274,9 @@ export const CITY_SCHEMA = {
   },
   description: {
     title: "Description",
-    getBodyFormat: (_, { description }) => <span>{description}</span>,
+    getBodyFormat: (_, { description }) => (
+      <span>{description.replace(/^"|"$/g, "")}</span>
+    ),
     isKey: false,
     dataSort: false
   }
