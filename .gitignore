@@ -168,3 +168,4 @@ yarn.lock
 package-lock.json
 
 .vs
+db_backup.sql

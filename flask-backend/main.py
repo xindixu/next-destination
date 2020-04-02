@@ -83,7 +83,6 @@ def get_gitlab_data(url):
 def unittests():
     suite = unittest.TestLoader().loadTestsFromModule(tests) 
     json = ciunittest.JsonTestRunner().run(suite, formatted=True)
-
     return json
 
 # Routes
@@ -298,12 +297,13 @@ def city(id):
         session.rollback()
         return 'ERROR SOMEWHERE'
 
-
 @app.route('/')
 def index():
     return render_template("index.html")
 
-
+@app.route('/<path:path>')
+def catch_all(path):
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
