@@ -3,6 +3,11 @@ import { Row, Col, Container } from "react-bootstrap";
 import "./home.css";
 
 const Home = () => {
+  var cities = [{"cityname": "Austin, TX", "AveragePrice": "80", "Restaurants":"90","UpcomingEvents":"90"},
+  {"cityname": "New York, NY", "AveragePrice": "160", "Restaurants":"1000","UpcomingEvents":"100"},
+  {"cityname": "Boston, MA", "AveragePrice": "140", "Restaurants":"900","UpcomingEvents":"120"}
+  ];
+  const rand = cities[Math.floor(Math.random()*3)];
   return (
     <div id="home">
       <div className="title">
@@ -17,11 +22,12 @@ const Home = () => {
         <Container className="Container">
           <Row>
             <Col className="text">
-              <p className="city-name">Austin, TX</p>
-              <p> Average Airbnb Price: 80</p>
-              <p> # of restaurants in the area</p>
-              <p> # of upcoming events in the area: 90 </p>
+              <p className="city-name">{rand["cityname"]}</p>
+              <p> Average Airbnb Price: {rand["AveragePrice"]}</p>
+              <p> # of restaurants in the area: {rand["Restaurants"]}</p>
+              <p> # of upcoming events in the area: {rand["UpcomingEvents"]}</p>
             </Col>
+
           </Row>
         </Container>
       </div>
