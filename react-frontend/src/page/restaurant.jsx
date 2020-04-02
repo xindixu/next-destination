@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Tabs, Tab, Badge, Card } from "react-bootstrap";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
@@ -9,7 +9,8 @@ import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 import {
   getGoogleMapLinkByCoordinates,
   getWeekDay,
-  getHours
+  getHours,
+  getCityIdByName
 } from "../lib/util";
 
 const getOpenHours = hours => (
@@ -57,28 +58,37 @@ const Restaurant = () => {
       <div className="text-center">
         {categories.map(({ title }) => (
           <Badge pill variant="info" key={title}>
-            #{title}{" "}
+            #{title}
           </Badge>
         ))}
       </div>
 
-      <h2>Location & Hours</h2>
-      <p>
-        <a
-          href={getGoogleMapLinkByCoordinates(latitude, longitude)}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Map
-        </a>
-      </p>
-      <p>{address.join(", ")}</p>
-      {getOpenHours(hours)}
+      <div className="description">
+        <h2>Location & Hours</h2>
+        <p>
+          <a
+            href={getGoogleMapLinkByCoordinates(latitude, longitude)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {address.join(", ")}
+          </a>
+        </p>
 
-      <p>Price {price}</p>
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        Restaurant Website
-      </a>
+        {getOpenHours(hours)}
+
+        <h2>Information</h2>
+
+        <p>Price {price}</p>
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          Restaurant Website
+        </a>
+
+        <p>
+          Learn more about{" "}
+          <Link to={`/city/${getCityIdByName(city)}`}>{city}</Link>
+        </p>
+      </div>
 
       <Tabs defaultActiveKey={TABS.restaurants.key}>
         <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>

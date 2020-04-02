@@ -67,11 +67,11 @@ const Event = () => {
             </a>
           </p>
           <p>Event Address: {address}</p>
-          <p>Cost of event: {cost}</p>
+          <p>Cost of event: {isFree ? "Free" : cost || "n/a"}</p>
           <p>
-            Learn more about {city}
+            Learn more about{" "}
             <Link className="hyperlink" to={`/city/${getCityIdByName(city)}`}>
-              here
+              {city}
             </Link>
           </p>
         </div>

@@ -51,12 +51,9 @@ const City = () => {
         </h1>
 
         {/* TODO: extract this component */}
-        <div className="des-sec-container">
+        <div className="description">
           <h2>Description</h2>
           <p> {description} </p>
-        </div>
-
-        <div className="stat-container">
           <h2>Statistics</h2>
           <div className="stat-table">
             <Table>

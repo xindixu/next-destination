@@ -31,21 +31,8 @@ img.sm {
   width: 80%;
 }
 
-.des-sec-container h2 {
-  font-family: "Playfair Display", serif;
-  padding-bottom: 1rem;
-}
-.des-sec-container p {
-  text-align: left;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.stat-container h2 {
-  font-family: "Playfair Display", serif;
-}
-.stat-table {
-  padding-left: 3rem;
-  padding-right: 3rem;
+.description {
+  margin: 2rem;
 }
 
 h1,
@@ -60,6 +47,10 @@ h6 {
 h1 {
   padding: 3rem 0;
   text-align: center;
+}
+
+h2 {
+  margin-bottom: 1rem;
 }
 
 .header-image-container {
