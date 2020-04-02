@@ -120,6 +120,15 @@ const About = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
+                href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Phase-2-Development"
+              >
+                Our report for phase 2 Development
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Technical-Report"
               >
                 The overall technical report
@@ -129,15 +138,6 @@ const About = () => {
 
           <h3>Links about Data</h3>
           <ul>
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.artists.bandsintown.com/support/api-installation"
-              >
-                Artists and Venues through BandsinTown
-              </a>
-            </li>
             <li>
               <a
                 target="_blank"
@@ -163,6 +163,15 @@ const About = () => {
                 href="http://insideairbnb.com/get-the-data.html"
               >
                 Airbnb Data for Different Cities
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.yelp.com/developers/documentation/v3deairbnb.com/get-the-data.html"
+              >
+                Yelp Data for Restaurants
               </a>
             </li>
           </ul>
@@ -194,15 +203,6 @@ const About = () => {
                 href="https://react-bootstrap.netlify.com/"
               >
                 CSS - React-Bootstrap - a bootstrap library for react
-              </a>
-            </li>
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://insideairbnb.com/get-the-data.html"
-              >
-                Airbnb Data for Different Cities
               </a>
             </li>
             <li>
