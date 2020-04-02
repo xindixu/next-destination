@@ -6,11 +6,9 @@ from sqlalchemy import create_engine
 
 app = Flask(__name__)
 # TODO: replace with real password
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:zxcvbn12@/postgres?host=/cloudsql/city-hunt-267820:us-central1:database-city-hunt'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
-
 
 class Cities(db.Model):
     '''
