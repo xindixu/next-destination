@@ -84,8 +84,7 @@ const About = () => {
         <h2>The Project</h2>
         <div className="flex-links">
           <p>
-            This project connects music-focused travellers to artists, venues,
-            and cities.
+            This project connects travellers to cities, food, and events!
           </p>
           <h3>Links about our project</h3>
           <ul>
@@ -242,7 +241,7 @@ const About = () => {
                     <Card.Img variant="top" src={photos[id]} alt={name} />
                     <Card.Body>
                       <Card.Title>{name}</Card.Title>
-                      <Card.Text>Skills: {responsibilities}</Card.Text>
+                      <Card.Text colot>Skills: {responsibilities}</Card.Text>
                       <Card.Text>Description: {description}</Card.Text>
                       <Card.Text>Commits: {commits} </Card.Text>
                       <Card.Text>Issues: {issues} </Card.Text>
