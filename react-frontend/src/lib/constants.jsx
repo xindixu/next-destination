@@ -45,7 +45,7 @@ export const AIRBNB_SCHEMA = {
   },
   price: {
     title: "Price per night",
-    getBodyFormat: (_, { price }) => <span>{price}</span>,
+    getBodyFormat: (_, { price }) => <span>${price}</span>,
     isKey: false,
     dataSort: true
   },
