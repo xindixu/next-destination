@@ -1,7 +1,7 @@
 import pandas as pd
 import csv
 
-df = pd.read_csv("city_data.csv")
+df = pd.read_csv("city_data.csv", encoding = "ISO-8859-1")
 
 df['id'] = df['name'].apply(lambda x: x.replace(" ", '-').lower())
 

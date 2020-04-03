@@ -34,7 +34,7 @@ const City = () => {
         try {
           setImage(data.photos[0].image.web);
         } catch (error) {
-          console.error("No image available");
+          setImage();
         }
       });
   }, []);
