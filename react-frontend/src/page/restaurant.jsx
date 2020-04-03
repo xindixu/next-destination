@@ -107,7 +107,10 @@ const Restaurant = () => {
         </Tab>
         {showAirbnbs && (
           <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-            <Airbnbs city={name} setShowAirbnbs={setShowAirbnbs} />
+            <Airbnbs
+              coordinates={{ longitude, latitude }}
+              setShowAirbnbs={setShowAirbnbs}
+            />
           </Tab>
         )}
       </Tabs>
