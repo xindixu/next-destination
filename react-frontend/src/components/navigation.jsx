@@ -9,6 +9,7 @@ import {
 import { Navbar, Nav } from "react-bootstrap";
 
 import Home from "../page/home";
+import NotFound from "../page/not-found";
 import About from "../page/about";
 import Cities from "../page/cities";
 import City from "../page/city";
@@ -50,9 +51,6 @@ const Navigation = () => (
       <Route path="/about">
         <About />
       </Route>
-      <Route path="/unittests">
-        <About />
-      </Route>
       <Route path="/cities">
         <Cities />
       </Route>
@@ -73,6 +71,9 @@ const Navigation = () => (
       </Route>
       <Route exact path="/">
         <Home />
+      </Route>
+      <Route>
+        <NotFound />
       </Route>
     </Switch>
   </Router>

@@ -1,7 +1,6 @@
 import psycopg2
 from models import app, db, Cities, Airbnb
 
-
 def create_cities():
     db_connection = psycopg2.connect(
         "host=city-hunt-267820 dbname=database-city-hunt user=postgres password=zxcvbn12 port=us-central1")

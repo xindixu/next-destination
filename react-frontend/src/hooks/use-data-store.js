@@ -74,15 +74,16 @@ const useDataStore = init => {
     [fetchWithUrl, onFetchFail, onFetchSuccess, params, recordsByPage, url]
   );
 
-  const sort = sortOn => {
-    if (sortOn === params.sort) {
+  const sort = ({ sort, order }) => {
+    if (sort === params.sort && order === params.order) {
       return;
     }
     reset();
     const newParams = {
       ...params,
       page: 1,
-      sort: sortOn
+      sort,
+      order
     };
     const newURL = getUrl(url, newParams);
 

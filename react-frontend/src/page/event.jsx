@@ -8,30 +8,12 @@ import Events from "../containers/events";
 import Restaurants from "../containers/restaurants";
 import Airbnbs from "../containers/airbnbs";
 import { getCityIdByName } from "../lib/util";
-import {
-  EVENT_SCHEMA,
-  RESTAURANT_SCHEMA,
-  AIRBNB_SCHEMA
-} from "../lib/constants";
-
-const TABS = {
-  events: {
-    key: "events",
-    title: "Nearby Events"
-  },
-  restaurants: {
-    key: "restaurants",
-    title: "Nearby Restaurants"
-  },
-  airbnbs: {
-    key: "airbnbs",
-    title: "Nearby Airbnbs"
-  }
-};
+import { EVENT_SCHEMA, RESTAURANT_SCHEMA, TABS } from "../lib/constants";
 
 const Event = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
+  const [showAirbnbs, setShowAirbnbs] = useState(true);
 
   useEffect(() => {
     apiFetch(`/event/${id}`, { useApi: true, json: true }).then(data => {
@@ -63,6 +45,7 @@ const Event = () => {
     <>
       <h1>{name}</h1>
       <p>{description}</p>
+
       <div className="event-info">
         <div className="event-image">
           <img src={image} alt={name} />
@@ -84,12 +67,11 @@ const Event = () => {
             </a>
           </p>
           <p>Event Address: {address}</p>
-          <p>Cost of event: {cost}</p>
+          <p>Cost of event: {isFree ? "Free" : cost || "n/a"}</p>
           <p>
-            Learn more about {city}
+            Learn more about{" "}
             <Link className="hyperlink" to={`/city/${getCityIdByName(city)}`}>
-              {" "}
-              here
+              {city}
             </Link>
           </p>
         </div>
@@ -110,9 +92,14 @@ const Event = () => {
             tableSchema={RESTAURANT_SCHEMA}
           />
         </Tab>
-        <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-          <Airbnbs city={city} tableSchema={AIRBNB_SCHEMA} />
-        </Tab>
+        {showAirbnbs && (
+          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
+            <Airbnbs
+              coordinates={{ longitude, latitude }}
+              setShowAirbnbs={setShowAirbnbs}
+            />
+          </Tab>
+        )}
       </Tabs>
     </>
   );

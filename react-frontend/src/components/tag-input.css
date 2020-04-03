@@ -1,8 +1,10 @@
 .react-tagsinput {
   background-color: #fff;
   border: 1px solid #ccc;
+  margin-right: 1rem;
   border-radius: 0.25rem;
   overflow: hidden;
+  flex-grow: 1;  
 }
 
 .react-tagsinput--focused {
@@ -30,14 +32,14 @@
 
 .react-tagsinput-input {
   background: transparent;
+  width: 100%;
   border: 0;
   color: #777;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
-  margin-bottom: 6px;
-  margin-top: 1px;
+  margin: auto;
   outline: none;
-  padding: 5px;
+  padding: 8px;
 }
 
 .react-autosuggest__suggestions-container {

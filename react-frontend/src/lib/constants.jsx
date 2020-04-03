@@ -45,7 +45,7 @@ export const AIRBNB_SCHEMA = {
   },
   price: {
     title: "Price per night",
-    getBodyFormat: (_, { price }) => <span>{price}</span>,
+    getBodyFormat: (_, { price }) => <span>${price}</span>,
     isKey: false,
     dataSort: true
   },
@@ -111,7 +111,9 @@ export const RESTAURANT_SCHEMA = {
   },
   distance: {
     title: "Distance",
-    getBodyFormat: (_, { distance }) => <span>{distance}</span>,
+    getBodyFormat: (_, { distance }) => (
+      <span>{Number(distance).toFixed(2)} yd.</span>
+    ),
     isKey: false,
     dataSort: true
   },
@@ -215,11 +217,9 @@ export const EVENT_SCHEMA = {
   time: {
     title: "Time",
     getBodyFormat: (_, { time_start: start, time_end: end }) => (
-      // TODO: format year if no year presents in end
-      // TODO: format as May 24, 2020
       <span>
-        {new Date(start).toLocaleDateString()} -{" "}
-        {new Date(end).toLocaleDateString()}
+        {new Date(start).toLocaleDateString()}
+        {end && `- ${new Date(end).toLocaleDateString()}`}
       </span>
     ),
     isKey: false,
@@ -274,12 +274,33 @@ export const CITY_SCHEMA = {
   },
   description: {
     title: "Description",
-    getBodyFormat: (_, { description }) => <span>{description}</span>,
+    getBodyFormat: (_, { description }) => (
+      <span>{description.replace(/^"|"$/g, "")}</span>
+    ),
     isKey: false,
     dataSort: false
   }
 };
 
+export const ORDER_SCHEMA = [
+  { title: "Ascending", key: "asc" },
+  { title: "Descending", key: "desc" }
+];
+
+export const TABS = {
+  restaurants: {
+    key: "restaurants",
+    title: "Restaurants"
+  },
+  airbnbs: {
+    key: "airbnbs",
+    title: "Airbnbs"
+  },
+  events: {
+    key: "events",
+    title: "Events"
+  }
+};
 export const CATEGORIES = [
   {
     alias: "afghani",

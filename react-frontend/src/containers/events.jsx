@@ -9,18 +9,24 @@ import useDataStore from "../hooks/use-data-store";
 
 const Events = ({ city, coordinates, tableSchema }) => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("time_start");
+  const [sortOn, setSortOn] = useState({
+    sort: "time_start",
+    order: "asc"
+  });
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },
     { fetchPage, sort }
   ] = useDataStore(() => {
+    const { sort, order } = sortOn;
+
     if (city) {
       return {
         url: `/events/${city}`,
         params: {
           page: 1,
-          sort: sortOn
+          sort,
+          order
         },
         name: "events"
       };
@@ -30,7 +36,8 @@ const Events = ({ city, coordinates, tableSchema }) => {
       url: `/events`,
       params: {
         page: 1,
-        sort: sortOn,
+        sort,
+        order,
         longitude,
         latitude
       },

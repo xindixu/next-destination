@@ -7,30 +7,14 @@ import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import Airbnbs from "../containers/airbnbs";
-import { RESTAURANT_SCHEMA, EVENT_SCHEMA } from "../lib/constants";
-
-const TABS = {
-  restaurants: {
-    key: "restaurants",
-    title: "Restaurants"
-  },
-  airbnbs: {
-    key: "airbnbs",
-    title: "Airbnbs"
-  },
-  events: {
-    key: "events",
-    title: "Events"
-  }
-};
+import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 
 const City = () => {
   const { id } = useParams();
-
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
-
+  const [showAirbnbs, setShowAirbnbs] = useState(true);
   // TODO: data should be passed down from parent
   useEffect(() => {
     apiFetch(`/city/${id}`, {})
@@ -67,12 +51,9 @@ const City = () => {
         </h1>
 
         {/* TODO: extract this component */}
-        <div className="des-sec-container">
+        <div className="description">
           <h2>Description</h2>
-          <p> {description} </p>
-        </div>
-
-        <div className="stat-container">
+          <p>{description.replace(/^"|"$/g, "")}</p>
           <h2>Statistics</h2>
           <div className="stat-table">
             <Table>
@@ -99,9 +80,11 @@ const City = () => {
             <Events city={id} tableSchema={EVENT_SCHEMA} />
           </Tab>
 
-          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-            <Airbnbs city={name} />
-          </Tab>
+          {showAirbnbs && (
+            <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
+              <Airbnbs city={name} setShowAirbnbs={setShowAirbnbs} />
+            </Tab>
+          )}
         </Tabs>
       </>
     );

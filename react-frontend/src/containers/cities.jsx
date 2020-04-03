@@ -8,7 +8,10 @@ import useDataStore from "../hooks/use-data-store";
 
 const Cities = () => {
   const [isError, setIsError] = useState(false);
-  const [sortOn, setSortOn] = useState("");
+  const [sortOn, setSortOn] = useState({
+    sort: "name",
+    order: "asc"
+  });
 
   const [
     { recordsCount, fetching, pageRecords, currentPage },

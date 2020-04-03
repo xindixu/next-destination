@@ -5,10 +5,7 @@ import { Spinner } from "react-bootstrap";
 import "./sortable-table.css";
 
 const SortableTable = ({ data, settings }) => {
-  // TODO: pass in option as props
   const options = {
-    sortName: "name",
-    sortOrder: "asc",
     noDataText: (
       <div className="w-100 d-flex justify-content-center">
         <Spinner animation="border" role="status">

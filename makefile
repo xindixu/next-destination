@@ -23,3 +23,15 @@ deploy: ;@echo "Building ${PROJECT}.....";
 	cp -a react-frontend/build/. flask-backend/static/react
 	cp -a flask-backend/static/react/index.html flask-backend/templates/index.html 
 
+ifeq ($(shell uname), Darwin)          # Apple
+    PYDOC := pydoc3
+else ifeq ($(shell uname -p), unknown) # Windows
+    PYDOC := python -m pydoc        # on my machine it's pydoc
+
+endif
+
+models.html: flask-backend/models.py
+	$(PYDOC) -w models
+
+IDB2.log:
+	git log > IDB2.log

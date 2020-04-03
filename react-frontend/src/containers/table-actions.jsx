@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  ButtonToolbar,
-  ButtonGroup,
-  InputGroup,
-  FormControl
-} from "react-bootstrap";
+// import {
+//   ButtonToolbar,
+//   ButtonGroup,
+//   InputGroup,
+//   FormControl
+// } from "react-bootstrap";
 import Pagination from "../components/pagination";
 import SortOn from "../components/sort-on";
 import FilterOn from "../components/filter-on";
@@ -24,6 +24,7 @@ const TableActions = ({
 }) => {
   return (
     <div
+      className="table-actions"
       role="toolbar"
       aria-label="Table actions, includes pagination, sort options, and a search bar"
     >
@@ -70,7 +71,10 @@ TableActions.propTypes = {
   filterOn: PropTypes.string.isRequired,
   updateFilterOn: PropTypes.func.isRequired,
   sortSchema: PropTypes.object.isRequired,
-  sortOn: PropTypes.string.isRequired,
+  sortOn: PropTypes.shape({
+    sort: PropTypes.string.isRequired,
+    order: PropTypes.oneOf(["asc", "desc"])
+  }).isRequired,
   updateSortOn: PropTypes.func.isRequired
 };
 

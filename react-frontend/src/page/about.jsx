@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { Table, Spinner, Card, Container, Row, Col } from "react-bootstrap";
+import {
+  Table,
+  Spinner,
+  Card,
+  Container,
+  Col,
+  Row
+} from "react-bootstrap";
 import apiFetch from "../lib/api-fetch";
 import marshallPhoto from "../assets/marshall_portrait.jpg";
 import yulissaPhoto from "../assets/yulissa_portrait.jpg";
@@ -60,7 +67,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="body">
+    <div className="about">
       <Container>
         <h1>About Us</h1>
         <h2>Run unit tests</h2>
@@ -76,8 +83,7 @@ const About = () => {
         <h2>The Project</h2>
         <div className="flex-links">
           <p>
-            This project connects music-focused travellers to artists, venues,
-            and cities.
+            This project connects travellers to cities, food, and events!
           </p>
           <h3>Links about our project</h3>
           <ul>
@@ -112,6 +118,15 @@ const About = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
+                href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Phase-2-Development"
+              >
+                Our report for phase 2 Development
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Technical-Report"
               >
                 The overall technical report
@@ -121,15 +136,6 @@ const About = () => {
 
           <h3>Links about Data</h3>
           <ul>
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.artists.bandsintown.com/support/api-installation"
-              >
-                Artists and Venues through BandsinTown
-              </a>
-            </li>
             <li>
               <a
                 target="_blank"
@@ -155,6 +161,15 @@ const About = () => {
                 href="http://insideairbnb.com/get-the-data.html"
               >
                 Airbnb Data for Different Cities
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.yelp.com/developers/documentation/v3deairbnb.com/get-the-data.html"
+              >
+                Yelp Data for Restaurants
               </a>
             </li>
           </ul>
@@ -192,15 +207,6 @@ const About = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="http://insideairbnb.com/get-the-data.html"
-              >
-                Airbnb Data for Different Cities
-              </a>
-            </li>
-            <li>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
                 href="https://slack.com/"
               >
                 Communication and gitlab integration done with Slack
@@ -229,11 +235,11 @@ const About = () => {
                 description,
                 id
               }) => (
-                <Col key={name} xs={12} sm={12} md={6} lg={4}>
+                <Col key={name} xs={12} sm={12} md={6} lg={4} className="mb-4">
                   <Card>
+                    <Card.Img variant="top" src={photos[id]} alt={name} />
                     <Card.Body>
                       <Card.Title>{name}</Card.Title>
-                      <Card.Img variant="top" src={photos[id]} alt={name} />
                       <Card.Text>Skills: {responsibilities}</Card.Text>
                       <Card.Text>Description: {description}</Card.Text>
                       <Card.Text>Commits: {commits} </Card.Text>
