@@ -187,7 +187,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Lima', state='TX', smart_location='Lima, TX', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Lima')
 
         db.session.add(new_listing)
@@ -215,7 +215,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Pueblo', state='CO', smart_location='Pueblo, CO', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Pueblo')
 
         db.session.add(new_listing)
@@ -243,14 +243,14 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Burwell', state='NE', smart_location='Burwell,NE', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Burwell')
 
         db.session.add(new_listing)
         db.session.commit()
 
         query_listings = db.session.query(Airbnb).filter_by(id=4000003.0).one()
-        self.assertEqual(query_listings.price, '$1')
+        self.assertEqual(query_listings.price, 1.0)
 
         query_listings = db.session.query(
             Airbnb).filter_by(id=4000003.0).delete()
@@ -271,7 +271,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Jasper', state='TX', smart_location='Jasper,TX', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Jasper')
 
         db.session.add(new_listing)
@@ -299,20 +299,20 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Jasper', state='TX', smart_location='Jasper,TX', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Jasper')
 
         db.session.add(new_listing)
         db.session.commit()
 
         query_listing = db.session.query(Airbnb).filter_by(id=4000005.0).one()
-        self.assertEqual(query_listing.price, '$1')
+        self.assertEqual(query_listing.price, 1.0)
 
         db.session.query(Airbnb).filter_by(id=4000005.0).update(
-            {Airbnb.price: '$500'}, synchronize_session=False)
+            {Airbnb.price: 500.0}, synchronize_session=False)
         db.session.commit()
         query_updated = db.session.query(Airbnb).filter_by(id=4000005.0).one()
-        self.assertEqual(query_updated.price, '$500')
+        self.assertEqual(query_updated.price, 500.0)
 
         db.session.query(Airbnb).filter_by(id=4000005.0).delete()
         db.session.commit()
@@ -332,20 +332,20 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Jasper', state='TX', smart_location='Jasper,TX', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Jasper')
 
         db.session.add(new_listing)
         db.session.commit()
 
         query_listing = db.session.query(Airbnb).filter_by(id=4000006.0).one()
-        self.assertEqual(query_listing.price, '$1')
+        self.assertEqual(query_listing.price, 1.0)
 
         db.session.query(Airbnb).filter_by(id=4000006.0).update(
-            {Airbnb.price: '$7000'}, synchronize_session=False)
+            {Airbnb.price: 7000.0}, synchronize_session=False)
         db.session.commit()
         query_updated = db.session.query(Airbnb).filter_by(id=4000006.0).one()
-        self.assertEqual(query_updated.price, '$7000')
+        self.assertEqual(query_updated.price, 7000.0)
 
         db.session.query(Airbnb).filter_by(id=4000006.0).delete()
         db.session.commit()
@@ -365,7 +365,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Burwell', state='NE', smart_location='Burwell,NE', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Burwell')
 
         db.session.add(new_listing)
@@ -399,7 +399,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Burwell', state='NE', smart_location='Burwell,NE', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Burwell')
 
         db.session.add(new_listing)
@@ -433,7 +433,7 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Burwell', state='NE', smart_location='Burwell,NE', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Burwell')
 
         db.session.add(new_listing)
@@ -467,21 +467,21 @@ class DatabaseTestsAirbnb(unittest.TestCase):
                              city='Jasper', state='TX', smart_location='Jasper,TX', latitude=r.uniform(40.0, 70.0),
                              longitude=r.uniform(40.0, 70.0), room_type=fake.bs(), accomodates=r.uniform(2.0, 15.0),
                              amenities="{stuff}",
-                             price='$1', number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
+                             price=1.0, number_of_reviews=r.uniform(2.0, 40.0), review_scores_rating=r.uniform(2.0, 98.0),
                              city_name='Jasper')
 
         db.session.add(new_listing)
         db.session.commit()
 
         query_listing = db.session.query(Airbnb).filter_by(id=4000010.0).one()
-        self.assertEqual(query_listing.price, "$1")
+        self.assertEqual(query_listing.price, 1.0)
 
         db.session.query(Airbnb).filter_by(id=4000010.0).update(
-            {Airbnb.price: '$600'}, synchronize_session=False)
+            {Airbnb.price: 600.0}, synchronize_session=False)
         db.session.commit()
         query_updated = db.session.query(Airbnb).filter_by(id=4000010.0).one()
         self.assertEqual(query_updated.price,
-                         '$600')
+                         600.0)
 
         db.session.query(Airbnb).filter_by(id=4000010.0).delete()
         db.session.commit()

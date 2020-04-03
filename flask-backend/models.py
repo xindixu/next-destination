@@ -32,7 +32,8 @@ class Cities(db.Model):
     id = db.Column(db.String(80), nullable=False)
 
     listings = db.relationship('Airbnb', backref='cities')
-    def  __repr__(self):
+
+    def __repr__(self):
         return f"Cities('{self.name}')"
 
 
@@ -67,14 +68,16 @@ class Airbnb(db.Model):
     room_type = db.Column(db.String(80), nullable=False)
     accomodates = db.Column(db.Float, nullable=False)
     amenities = db.Column(db.String(2000), nullable=False)
-    price = db.Column(db.String(20), nullable=False)
+    price = db.Column(db.Float, nullable=False)
     number_of_reviews = db.Column(db.Integer, nullable=False)
     review_scores_rating = db.Column(db.Float, nullable=False)
     city_name = db.Column(db.String(40), db.ForeignKey(
         'cities.name'), nullable=False)
-    def  __repr__(self):
+
+    def __repr__(self):
         return f"Airbnb('{self.id}')"
 
 # engine = create_engine('postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
+
 
 db.create_all()
