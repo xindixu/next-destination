@@ -13,8 +13,12 @@ import unittest
 import ciunittest
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
+
+DB_STRING = os.environ.get(
+    "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
+
 CORS(app, resources=r'/*')
-engine = create_engine('postgresql+psycopg2://postgres:zxcvbn12@/postgres?host=/cloudsql/city-hunt-267820:us-central1:database-city-hunt')
+engine = create_engine(DB_STRING)
 Session = sessionmaker(bind=engine)
 session = Session()
 # ! end of code that doesn't work

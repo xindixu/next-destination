@@ -22,7 +22,7 @@ before_script:
     - printenv | sort
 
 stages:
-   - Tests
+  - Tests
 
 test:
   stage: Tests
