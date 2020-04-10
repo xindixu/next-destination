@@ -77,7 +77,7 @@ class Airbnb(db.Model):
     def __repr__(self):
         return f"Airbnb('{self.id}')"
 
-# engine = create_engine('postgres+psycopg2://postgres:supersecret@localhost:5432/cityhuntdb')
+# engine = create_engine('postgres+psycopg2://postgres:bone_ranger!1@localhost:5432/cityhuntdb')
 
 
 db.create_all()
