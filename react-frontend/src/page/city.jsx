@@ -11,12 +11,14 @@ import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 
 const City = () => {
   const { id } = useParams();
+  console.log(id)
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
   const [showAirbnbs, setShowAirbnbs] = useState(true);
   // TODO: data should be passed down from parent
   useEffect(() => {
+    
     apiFetch(`/city/${id}`, {})
       .then(data => {
         setCity(data.city);
