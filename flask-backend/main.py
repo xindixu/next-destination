@@ -297,11 +297,11 @@ def city(id):
         session.rollback()
         return 'ERROR SOMEWHERE'
 
-@app.route('/api/random-city', methods=['GET'])
+@app.route('/api/city/random', methods=['GET'])
 def city_rand():
     city_data_rand = session.query(Cities).order_by(func.random()).limit(1).one_or_none()
     city_dict_rand = convert_to_dict(city_data_rand)
-    return jsonify(city_dict_rand)
+    return jsonify(city=city_dict_rand)
 
 @app.route('/')
 def index():
