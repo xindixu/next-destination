@@ -22,8 +22,9 @@ const Home = () => {
         setIsError(true);
       });
   }, [id]);
-  console.log(city)
+  console.log(city);
   
+  // var t_id = city["id"];
   // useEffect(() => {
   //   fetch(`https://api.teleport.org/api/urban_areas/slug:${t_id}/images/`)
   //     .then(resp => resp.json())
@@ -35,7 +36,6 @@ const Home = () => {
   //       }
   //     });
   // }, []);
-
   
   console.log({image});
   if (city) {
