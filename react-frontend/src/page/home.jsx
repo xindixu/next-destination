@@ -7,141 +7,141 @@ import apiFetch from "../lib/api-fetch";
 
 const Home = () => {
   var cities = [
-    {"name":"New York City"} ,
-    {"name":"Los Angeles"} ,
-    {"name":"Chicago"} ,
-    {"name":"Miami"} ,
-    {"name":"Dallas"} ,
-    {"name":"Philadelphia"} ,
-    {"name":"Houston"} ,
-    {"name":"Washington"} ,
-    {"name":"Atlanta"} ,
-    {"name":"Boston"} ,
-    {"name":"Phoenix"} ,
-    {"name":"Seattle"} ,
-    {"name":"San Francisco"} ,
-    {"name":"Detroit"} ,
-    {"name":"San Diego"} ,
-    {"name":"Minneapolis"} ,
-    {"name":"Tampa"} ,
-    {"name":"Denver"} ,
-    {"name":"Brooklyn"} ,
-    {"name":"Queens"} ,
-    {"name":"Baltimore"} ,
-    {"name":"Riverside"} ,
-    {"name":"St. Louis"} ,
-    {"name":"Las Vegas"} ,
-    {"name":"Portland"} ,
-    {"name":"San Antonio"} ,
-    {"name":"Sacramento"} ,
-    {"name":"San Jose"} ,
-    {"name":"Orlando"} ,
-    {"name":"Cleveland"} ,
-    {"name":"Pittsburgh"} ,
-    {"name":"Cincinnati"} ,
-    {"name":"Manhattan"} ,
-    {"name":"Austin"} ,
-    {"name":"Kansas City"} ,
-    {"name":"Indianapolis"} ,
-    {"name":"Columbus"} ,
-    {"name":"Virginia Beach"} ,
-    {"name":"Charlotte"} ,
-    {"name":"Bronx"} ,
-    {"name":"Milwaukee"} ,
-    {"name":"Providence"} ,
-    {"name":"Jacksonville"} ,
-    {"name":"Salt Lake City"} ,
-    {"name":"Nashville"} ,
-    {"name":"Memphis"} ,
-    {"name":"Richmond"} ,
-    {"name":"New Orleans"} ,
-    {"name":"Raleigh"} ,
-    {"name":"Louisville"} ,
-    {"name":"Oklahoma City"} ,
-    {"name":"Bridgeport"} ,
-    {"name":"Buffalo"} ,
-    {"name":"Hartford"} ,
-    {"name":"Fort Worth"} ,
-    {"name":"Tucson"} ,
-    {"name":"El Paso"} ,
-    {"name":"Honolulu"} ,
-    {"name":"Omaha"} ,
-    {"name":"McAllen"} ,
-    {"name":"Albuquerque"} ,
-    {"name":"Birmingham"} ,
-    {"name":"Dayton"} ,
-    {"name":"Rochester"} ,
-    {"name":"Sarasota"} ,
-    {"name":"Fresno"} ,
-    {"name":"Allentown"} ,
-    {"name":"Tulsa"} ,
-    {"name":"Concord"} ,
-    {"name":"Cape Coral"} ,
-    {"name":"Springfield"} ,
-    {"name":"Colorado Springs"} ,
-    {"name":"Charleston"} ,
-    {"name":"Grand Rapids"} ,
-    {"name":"Mission Viejo"} ,
-    {"name":"Albany"} ,
-    {"name":"Knoxville"} ,
-    {"name":"Baton Rouge"} ,
-    {"name":"Bakersfield"} ,
-    {"name":"Ogden"} ,
-    {"name":"New Haven"} ,
-    {"name":"Columbia"} ,
-    {"name":"Akron"} ,
-    {"name":"Provo"} ,
-    {"name":"Worcester"} ,
-    {"name":"Mesa"} ,
-    {"name":"Toledo"} ,
-    {"name":"Murrieta"} ,
-    {"name":"Wichita"} ,
-    {"name":"Staten Island"} ,
-    {"name":"Long Beach"} ,
-    {"name":"Greenville"} ,
-    {"name":"Little Rock"} ,
-    {"name":"Harrisburg"} ,
-    {"name":"Denton"} ,
-    {"name":"Madison"} ,
-    {"name":"Reno"}
+      {"name":"New York City","id":"new-york"},
+      {"name":"Los Angeles","id":"los-angeles"},
+      {"name":"Chicago","id":"chicago"},
+      {"name":"Miami","id":"miami"},
+      {"name":"Dallas","id":"dallas"},
+      {"name":"Philadelphia","id":"philadelphia"},
+      {"name":"Houston","id":"houston"},
+      {"name":"Washington","id":"washington"},
+      {"name":"Atlanta","id":"atlanta"},
+      {"name":"Boston","id":"boston"},
+      {"name":"Phoenix","id":"phoenix"},
+      {"name":"Seattle","id":"seattle"},
+      {"name":"San Francisco","id":"san-francisco"},
+      {"name":"Detroit","id":"detroit"},
+      {"name":"San Diego","id":"san-diego"},
+      {"name":"Minneapolis","id":"minneapolis-saint-paul"},
+      {"name":"Tampa","id":"tampa"},
+      {"name":"Denver","id":"denver"},
+      {"name":"Brooklyn","id":"brooklyn"},
+      {"name":"Queens","id":"queens"},
+      {"name":"Baltimore","id":"baltimore"},
+      {"name":"Riverside","id":"riverside"},
+      {"name":"St. Louis","id":"st.-louis"},
+      {"name":"Las Vegas","id":"las-vegas"},
+      {"name":"Portland","id":"portland"},
+      {"name":"San Antonio","id":"san-antonio"},
+      {"name":"Sacramento","id":"sacramento"},
+      {"name":"San Jose","id":"san-jose"},
+      {"name":"Orlando","id":"orlando"},
+      {"name":"Cleveland","id":"cleveland"},
+      {"name":"Pittsburgh","id":"pittsburgh"},
+      {"name":"Cincinnati","id":"cincinnati"},
+      {"name":"Manhattan","id":"manhattan"},
+      {"name":"Austin","id":"austin"},
+      {"name":"Kansas City","id":"kansas-city"},
+      {"name":"Indianapolis","id":"indianapolis"},
+      {"name":"Columbus","id":"columbus"},
+      {"name":"Virginia Beach","id":"virginia-beach"},
+      {"name":"Charlotte","id":"charlotte"},
+      {"name":"Bronx","id":"bronx"},
+      {"name":"Milwaukee","id":"milwaukee"},
+      {"name":"Providence","id":"providence"},
+      {"name":"Jacksonville","id":"jacksonville"},
+      {"name":"Salt Lake City","id":"salt-lake-city"},
+      {"name":"Nashville","id":"nashville"},
+      {"name":"Memphis","id":"memphis"},
+      {"name":"Richmond","id":"richmond"},
+      {"name":"New Orleans","id":"new-orleans"},
+      {"name":"Raleigh","id":"raleigh"},
+      {"name":"Louisville","id":"louisville"},
+      {"name":"Oklahoma City","id":"oklahoma-city"},
+      {"name":"Bridgeport","id":"bridgeport"},
+      {"name":"Buffalo","id":"buffalo"},
+      {"name":"Hartford","id":"hartford"},
+      {"name":"Fort Worth","id":"fort-worth"},
+      {"name":"Tucson","id":"tucson"},
+      {"name":"El Paso","id":"el-paso"},
+      {"name":"Honolulu","id":"honolulu"},
+      {"name":"Omaha","id":"omaha"},
+      {"name":"McAllen","id":"mcallen"},
+      {"name":"Albuquerque","id":"albuquerque"},
+      {"name":"Birmingham","id":"birmingham"},
+      {"name":"Dayton","id":"dayton"},
+      {"name":"Rochester","id":"rochester"},
+      {"name":"Sarasota","id":"sarasota"},
+      {"name":"Fresno","id":"fresno"},
+      {"name":"Allentown","id":"allentown"},
+      {"name":"Tulsa","id":"tulsa"},
+      {"name":"Concord","id":"concord"},
+      {"name":"Cape Coral","id":"cape-coral"},
+      {"name":"Springfield","id":"springfield"},
+      {"name":"Colorado Springs","id":"colorado-springs"},
+      {"name":"Charleston","id":"charleston"},
+      {"name":"Grand Rapids","id":"grand-rapids"},
+      {"name":"Mission Viejo","id":"mission-viejo"},
+      {"name":"Albany","id":"albany"},
+      {"name":"Knoxville","id":"knoxville"},
+      {"name":"Baton Rouge","id":"baton-rouge"},
+      {"name":"Bakersfield","id":"bakersfield"},
+      {"name":"Ogden","id":"ogden"},
+      {"name":"New Haven","id":"new-haven"},
+      {"name":"Columbia","id":"columbia"},
+      {"name":"Akron","id":"akron"},
+      {"name":"Provo","id":"provo"},
+      {"name":"Worcester","id":"worcester"},
+      {"name":"Mesa","id":"mesa"},
+      {"name":"Toledo","id":"toledo"},
+      {"name":"Murrieta","id":"murrieta"},
+      {"name":"Wichita","id":"wichita"},
+      {"name":"Staten Island","id":"staten-island"},
+      {"name":"Long Beach","id":"long-beach"},
+      {"name":"Greenville","id":"greenville"},
+      {"name":"Little Rock","id":"little-rock"},
+      {"name":"Harrisburg","id":"harrisburg"},
+      {"name":"Denton","id":"denton"},
+      {"name":"Madison","id":"madison"},
+      {"name":"Reno","id":"reno"}
     ]
   const rand = Math.floor(Math.random()*97);
-  const id = cities[rand]['name'].toLowerCase()
-  console.log(id);
+  console.log(rand);
+  const id = cities[rand]["name"];
+  console.log(cities[rand]);
+  const t_id = cities[rand]['id'];
+  //const t_id = cities[rand]["id"].toLowerCase();
 
   //const { id } = cities[rand]["name"]
   const [city, setCity] = useState(null);
+  const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
-    console.log("2"+ `${id}`);
-    console.log(`/city/${id}`);
     apiFetch(`/city/${id}`, {})
       .then(data => {
-        console.log("Jour")
         setCity(data.city);
       })
       .catch(() => {
-        console.log("BON")
         setIsError(true);
       });
   }, [id]);
-  console.log(city);
-  // const [image, setImage] = useState("");
-  // useEffect(() => {
-  //   fetch(`https://api.teleport.org/api/urban_areas/slug:${rand['id']}/images/`)
-  //     .then(resp => resp.json())
-  //     .then(data => {
-  //       try {
-  //         setImage(data.photos[0].image.web);
-  //       } catch (error) {
-  //         console.error("No image available");
-  //       }
-  //     });
-  // }, []);
-  // console.log({image});
+  
+  console.log(t_id);
+  useEffect(() => {
+    fetch(`https://api.teleport.org/api/urban_areas/slug:${t_id}/images/`)
+      .then(resp => resp.json())
+      .then(data => {
+        try {
+          setImage(data.photos[0].image.web);
+        } catch (error) {
+          console.error("No image available");
+        }
+      });
+  }, []);
+
+  console.log({image});
   if (city) {
-    const { n_id } = id;
     const { state, latitude, longitude, population, description, name } = city;
     return (
       <div id="home">
@@ -160,7 +160,6 @@ const Home = () => {
                 <p className="city-name">{name}, {state}</p>
                 <p> Population: {population}</p>
                 <p> Description: {description}</p>
-                
               </Col>
             </Row>
           </Container>
@@ -168,7 +167,6 @@ const Home = () => {
       </div>
     );
   };
-  console.log("HERE")
   return <>
     <h1>NO CITY FOUND</h1>
   </>;
