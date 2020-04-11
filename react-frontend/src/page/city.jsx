@@ -11,7 +11,6 @@ import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 
 const City = () => {
   const { id } = useParams();
-  console.log(id)
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
@@ -29,7 +28,6 @@ const City = () => {
   }, [id]);
 
   useEffect(() => {
-    // TODO: fix getting image when slug has a space
     fetch(`https://api.teleport.org/api/urban_areas/slug:${id}/images/`)
       .then(resp => resp.json())
       .then(data => {

@@ -106,20 +106,17 @@ const Home = () => {
       {"name":"Reno","id":"reno"}
     ]
   const rand = Math.floor(Math.random()*97);
-  console.log(rand);
-  const id = cities[rand]["name"];
-  console.log(cities[rand]);
+  const id = cities[rand]["name"].toLowerCase();
   const t_id = cities[rand]['id'];
-  //const t_id = cities[rand]["id"].toLowerCase();
-
-  //const { id } = cities[rand]["name"]
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
-
+  
   useEffect(() => {
+    console.log(`/city/${id}`)
     apiFetch(`/city/${id}`, {})
       .then(data => {
+        console.log("JOUR")
         setCity(data.city);
       })
       .catch(() => {
@@ -127,7 +124,6 @@ const Home = () => {
       });
   }, [id]);
   
-  console.log(t_id);
   useEffect(() => {
     fetch(`https://api.teleport.org/api/urban_areas/slug:${t_id}/images/`)
       .then(resp => resp.json())
@@ -140,6 +136,7 @@ const Home = () => {
       });
   }, []);
 
+  console.log(city);
   console.log({image});
   if (city) {
     const { state, latitude, longitude, population, description, name } = city;
@@ -157,6 +154,7 @@ const Home = () => {
           <Container className="Container">
             <Row>
               <Col className="text">
+                <img src={image} alt={name}></img>
                 <p className="city-name">{name}, {state}</p>
                 <p> Population: {population}</p>
                 <p> Description: {description}</p>
