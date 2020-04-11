@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
@@ -11,13 +11,29 @@ import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 
 const City = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const history = useHistory();
+
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
   const [showAirbnbs, setShowAirbnbs] = useState(true);
+
+  const defaultTab = TABS.restaurants.key;
+  const [activeTab, setActiveTab] = useState(() => {
+    const tabFromUrl = location.hash.replace("#", "");
+    if (tabFromUrl === TABS.airbnbs.key && !showAirbnbs) {
+      return defaultTab;
+    }
+
+    if (!Object.keys(TABS).includes(tabFromUrl)) {
+      return defaultTab;
+    }
+    return tabFromUrl || defaultTab;
+  });
+
   // TODO: data should be passed down from parent
   useEffect(() => {
-    
     apiFetch(`/city/${id}`, {})
       .then(data => {
         setCity(data.city);
@@ -39,6 +55,12 @@ const City = () => {
       });
   }, []);
 
+  const updateTab = newTab => {
+    setActiveTab(newTab);
+    history.replace({
+      hash: `#${newTab}`
+    });
+  };
   if (city) {
     const { state, latitude, longitude, population, description, name } = city;
     return (
@@ -71,7 +93,9 @@ const City = () => {
           </div>
         </div>
 
-        <Tabs defaultActiveKey={TABS.restaurants.key}>
+        {/* TODO: @xindixu extract tabs and pass in children */}
+
+        <Tabs activeKey={activeTab} onSelect={updateTab}>
           <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
             <Restaurants city={id} tableSchema={RESTAURANT_SCHEMA} />
           </Tab>
@@ -82,7 +106,11 @@ const City = () => {
 
           {showAirbnbs && (
             <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-              <Airbnbs city={name} setShowAirbnbs={setShowAirbnbs} />
+              <Airbnbs
+                city={name}
+                setShowAirbnbs={setShowAirbnbs}
+                setActiveTab={() => updateTab(defaultTab)}
+              />
             </Tab>
           )}
         </Tabs>
