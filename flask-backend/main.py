@@ -339,10 +339,16 @@ def city_rand():
 @app.route('/api/search')
 def search():
     q = request.args.get('q', default="", type=str)
-    response_restaurants = search_restaurants(q)
-    response_events = search_events(q)
-    # TODO: add events, aibnbs, cities results
-    return jsonify(results={'restaurants': response_restaurants, 'events': response_events})
+    searchOn = request.args.getlist('on')
+
+    results = {}
+    if 'restaurants' in searchOn:
+        results['restaurants'] = search_restaurants(q)
+    if 'events' in searchOn:
+        results['events'] = search_events(q)
+
+    # TODO: add aibnbs, cities results
+    return jsonify(results=results)
 
 
 @app.route('/')

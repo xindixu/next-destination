@@ -1,22 +1,55 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Button, Container, Form, FormControl } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Form,
+  FormControl,
+  Dropdown
+} from "react-bootstrap";
 import SortableTable from "../components/sortable-table";
-import { EVENTS_PAGE_SCHEMA, RESTAURANTS_PAGE_SCHEMA, CATEGORIES } from "../lib/constants";
+import {
+  EVENTS_PAGE_SCHEMA,
+  RESTAURANTS_PAGE_SCHEMA,
+  MODELS
+} from "../lib/constants";
+import { getUrl } from "../lib/util";
 import apiFetch from "../lib/api-fetch";
 import "./search.css";
 
-const Search = props => {
+const Search = () => {
   const [query, setQuery] = useState("");
+  const [lastUrl, setLastUrl] = useState("");
+  const [modelToSearch, setModelToSearch] = useState(() => {
+    return Object.keys(MODELS).reduce((memo, key) => {
+      memo[key] = true;
+      return memo;
+    }, {});
+  });
   const [restaurants, setRestaurants] = useState([]);
   const [events, setEvents] = useState([]);
+
   const onSubmit = () => {
-    apiFetch(`/search?q=${query}`, {})
+    const searchOn = Object.keys(modelToSearch).filter(
+      key => modelToSearch[key]
+    );
+
+    const url = getUrl("/search", { q: query, on: searchOn });
+    if (lastUrl === url) {
+      console.log("same result, do nothing");
+      return;
+    }
+    setLastUrl(url);
+    setRestaurants([]);
+    setEvents([]);
+
+    apiFetch(url, {})
       .then(({ results }) => {
         const { restaurants, events, cities, airbnbs } = results;
-        setRestaurants(restaurants.businesses);
-        setEvents(events.events)
-        console.log(results);
+        const restaurantsResults =
+          (restaurants && restaurants.businesses) || [];
+        const eventsResults = (events && events.events) || [];
+        setRestaurants(restaurantsResults);
+        setEvents(eventsResults);
       })
       .catch(err => console.error(err));
   };
@@ -33,6 +66,25 @@ const Search = props => {
         <Button variant="outline-primary" onClick={onSubmit}>
           Search
         </Button>
+        <Dropdown>
+          <Dropdown.Toggle>Custom toggle</Dropdown.Toggle>
+          <Dropdown.Menu>
+            {Object.values(MODELS).map(({ key, title }) => (
+              <Form.Check
+                key={key}
+                type="checkbox"
+                label={title}
+                checked={modelToSearch[key]}
+                onChange={() => {
+                  setModelToSearch({
+                    ...modelToSearch,
+                    [key]: !modelToSearch[key]
+                  });
+                }}
+              />
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
       </Form>
 
       {restaurants.length ? (
@@ -44,7 +96,5 @@ const Search = props => {
     </Container>
   );
 };
-
-Search.propTypes = {};
 
 export default Search;

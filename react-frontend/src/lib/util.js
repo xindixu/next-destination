@@ -1,3 +1,5 @@
+import qs from "qs";
+
 export const filterCities = (venueCity, cities) =>
   cities.filter(city => city.name === venueCity);
 
@@ -54,4 +56,12 @@ export const getHours = time => {
   const hour = time.substring(0, 2);
   const minute = time.substring(2);
   return `${hour}:${minute}`;
+};
+
+export const getUrl = (url, params) => {
+  const query = qs.stringify(params, { arrayFormat: "repeat" });
+  if (query) {
+    return url.indexOf("?") ? `${url}?${query}` : `${url}&${query}`;
+  }
+  return url;
 };

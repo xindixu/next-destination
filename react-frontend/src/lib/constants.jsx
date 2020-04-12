@@ -301,6 +301,26 @@ export const TABS = {
     title: "Events"
   }
 };
+
+export const MODELS = {
+  restaurants: {
+    key: "restaurants",
+    title: "Restaurants"
+  },
+  airbnbs: {
+    key: "airbnbs",
+    title: "Airbnbs"
+  },
+  events: {
+    key: "events",
+    title: "Events"
+  },
+  cities: {
+    key: "cities",
+    title: "Cities"
+  }
+};
+
 export const CATEGORIES = [
   {
     alias: "afghani",
