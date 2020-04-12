@@ -303,11 +303,17 @@ def city_rand():
     city_dict_rand = convert_to_dict(city_data_rand)
     return jsonify(city=city_dict_rand)
 
-@app.route('/api/search/<string:id>', methods=['POST'])
-def search():
-    return render_template("index.html")
-
+@app.route('/api/search_cities/<string:term>', methods=['GET', 'POST', "OPTIONS"])
+def search_cities(term):
+    if (term):
+        try:
+            query_data = session.query(Cities).filter(Cities.name.like('%'+term+'%')).limit(5)
+            query_data_results = convert_to_array_of_dict(query_data)
+            return jsonify(results=query_data_results) 
+        except:
+            return term
 @app.route('/')
+
 def index():
     return render_template("index.html")
 
