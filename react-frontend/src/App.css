@@ -34,6 +34,10 @@ img.sm {
 .description {
   margin: 2rem;
 }
+.full-page {
+  height: 100vh;
+  width: 100vw;
+}
 
 h1,
 h2,
