@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Container, Form, FormControl } from "react-bootstrap";
+import SortableTable from "../components/sortable-table";
+import { RESTAURANTS_PAGE_SCHEMA, CATEGORIES } from "../lib/constants";
 import apiFetch from "../lib/api-fetch";
 import "./search.css";
 
 const Search = props => {
   const [query, setQuery] = useState("");
+  const [restaurants, setRestaurants] = useState([]);
   const onSubmit = () => {
     apiFetch(`/search?q=${query}`, {})
-      .then(resp => {
-        console.log(resp);
+      .then(({ results }) => {
+        const { restaurants, events, cities, airbnbs } = results;
+        setRestaurants(restaurants.businesses);
+        console.log(results);
       })
       .catch(err => console.error(err));
   };
@@ -27,6 +32,10 @@ const Search = props => {
           Search
         </Button>
       </Form>
+
+      {restaurants.length ? (
+        <SortableTable settings={RESTAURANTS_PAGE_SCHEMA} data={restaurants} />
+      ) : null}
     </Container>
   );
 };

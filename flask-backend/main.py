@@ -47,14 +47,15 @@ def get_data_from_database(model, name, page, sort, order, *city):
         query = session.query(model).filter_by(city_name=city)
     else:
         query = session.query(model)
-    
+
     total = query.count()
     if page * LIMIT > total:
         session.rollback()
         abort(404, description=f"Page out of range")
 
     if sort:
-        query = query.order_by(getattr(model, sort).asc() if order == 'asc' else getattr(model, sort).desc())
+        query = query.order_by(getattr(model, sort).asc(
+        ) if order == 'asc' else getattr(model, sort).desc())
 
     data = query.limit(LIMIT).offset(get_offset(page, LIMIT)).all()
 
@@ -79,9 +80,10 @@ def get_gitlab_data(url):
         request = requests.get(url, params=params)
     return data
 
+
 @app.route('/api/unittests')
 def unittests():
-    suite = unittest.TestLoader().loadTestsFromModule(tests) 
+    suite = unittest.TestLoader().loadTestsFromModule(tests)
     json = ciunittest.JsonTestRunner().run(suite, formatted=True)
     return json
 
@@ -237,6 +239,22 @@ def restaurants_page():
     return jsonify(response=response)
 
 
+def restaurants_endpoint(params):
+    url = "https://api.yelp.com/v3/businesses/search"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_restaurants(query):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "location": "austin"
+    }
+    return restaurants_endpoint(params)
+
+
 @app.route('/api/restaurants/<string:city>')
 def restaurants(city):
     # Yelp restaurant api doesn't accept sort order (ascending or decending) setting
@@ -249,7 +267,6 @@ def restaurants(city):
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
     sort = request.args.get('sort', default="best_match", type=str)
-    url = "https://api.yelp.com/v3/businesses/search"
     # TODO: term should be replaced by user input if exists
     params = {
         "term": "restaurants",
@@ -258,7 +275,7 @@ def restaurants(city):
         "offset": get_offset(page, LIMIT),
         "sort_by": sort
     }
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    response = restaurants_endpoint(params)
     return jsonify(response=response)
 
 
@@ -297,24 +314,32 @@ def city(id):
         session.rollback()
         return 'ERROR SOMEWHERE'
 
+
 @app.route('/api/city/random', methods=['GET'])
 def city_rand():
-    city_data_rand = session.query(Cities).order_by(func.random()).limit(1).one_or_none()
+    city_data_rand = session.query(Cities).order_by(
+        func.random()).limit(1).one_or_none()
     city_dict_rand = convert_to_dict(city_data_rand)
     return jsonify(city=city_dict_rand)
+
 
 @app.route('/api/search')
 def search():
     q = request.args.get('q', default="", type=str)
-    return jsonify(result=q)
+    response_restaurants = search_restaurants(q)
+    # TODO: add events, aibnbs, cities results
+    return jsonify(results={'restaurants': response_restaurants})
+
 
 @app.route('/')
 def index():
     return render_template("index.html")
 
+
 @app.route('/<path:path>')
 def catch_all(path):
     return render_template("index.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
