@@ -303,6 +303,11 @@ def city_rand():
     city_dict_rand = convert_to_dict(city_data_rand)
     return jsonify(city=city_dict_rand)
 
+@app.route('/api/search')
+def search():
+    q = request.args.get('q', default="", type=str)
+    return jsonify(result=q)
+
 @app.route('/')
 def index():
     return render_template("index.html")
