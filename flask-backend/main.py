@@ -171,8 +171,6 @@ def events(city):
 
     sort = request.args.get('sort', default="time_start", type=str)
     order = request.args.get('order', default="asc", type=str)
-
-    url = "https://api.yelp.com/v3/events"
     params = {
         "location": city,
         "limit": LIMIT,
@@ -180,7 +178,7 @@ def events(city):
         "sort_on": sort,
         "sort_by": order
     }
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    response = search_events(params)
     return jsonify(response=response)
 
 
@@ -191,6 +189,21 @@ def event(id):
     response = requests.get(url, headers=yelp_api_header).json()
     return jsonify(response=response)
 
+
+def events_endpoint(params):
+    url = "https://api.yelp.com/v3/events"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_events(query):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "location": "austin"
+    }
+    return events_endpoint(params)
 # Restaurants category route
 @app.route('/api/categories')
 def categories():
@@ -327,8 +340,9 @@ def city_rand():
 def search():
     q = request.args.get('q', default="", type=str)
     response_restaurants = search_restaurants(q)
+    response_events = search_events(q)
     # TODO: add events, aibnbs, cities results
-    return jsonify(results={'restaurants': response_restaurants})
+    return jsonify(results={'restaurants': response_restaurants, 'events': response_events})
 
 
 @app.route('/')
