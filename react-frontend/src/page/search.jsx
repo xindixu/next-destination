@@ -56,7 +56,8 @@ const Search = () => {
 
   return (
     <Container fluid className="full-page">
-      <Form inline>
+      <h1>Search CityHunt</h1>
+      <Form inline className="justify-content-center">
         <FormControl
           type="text"
           placeholder="Search"
@@ -67,7 +68,7 @@ const Search = () => {
           Search
         </Button>
         <Dropdown>
-          <Dropdown.Toggle>Custom toggle</Dropdown.Toggle>
+          <Dropdown.Toggle>Search by</Dropdown.Toggle>
           <Dropdown.Menu>
             {Object.values(MODELS).map(({ key, title }) => (
               <Form.Check
