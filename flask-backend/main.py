@@ -170,7 +170,7 @@ def events(city):
     sort = request.args.get('sort', default="time_start", type=str)
     order = request.args.get('order', default="asc", type=str)
 
-    url = "https://api.yelp.com/v3/events"
+    
     params = {
         "location": city,
         "limit": LIMIT,
@@ -178,9 +178,23 @@ def events(city):
         "sort_on": sort,
         "sort_by": order
     }
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    response = search_events(params)
     return jsonify(response=response)
 
+def events_endpoint(params):
+    url = "https://api.yelp.com/v3/events"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_events(query):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "location": "austin"
+    }
+    return events_endpoint(params)
 
 @app.route('/api/event/<string:id>')
 def event(id):
@@ -207,6 +221,21 @@ def categories():
 
     return jsonify(response={"categories": concise_restaurant_categories})
 
+def restaurants_endpoint(params):
+    url = "https://api.yelp.com/v3/businesses/search"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_restaurants(query):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "location": "austin"
+    }
+    return restaurants_endpoint(params)
+
 # Restaurants routes
 @app.route('/api/restaurants')
 def restaurants_page():
@@ -222,7 +251,6 @@ def restaurants_page():
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
     sort = request.args.get('sort', default="best_match", type=str)
-    url = "https://api.yelp.com/v3/businesses/search"
     params = {
         "term": "restaurants",
         "longitude": longitude,
@@ -233,7 +261,7 @@ def restaurants_page():
         "sort_by": sort,
         "categories": categories
     }
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    response = restaurants_endpoint(params)
     return jsonify(response=response)
 
 
@@ -303,8 +331,6 @@ def city_rand():
     city_dict_rand = convert_to_dict(city_data_rand)
     return jsonify(city=city_dict_rand)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 @app.route('/api/search')
 def search():
@@ -320,26 +346,16 @@ def search():
     # TODO: add aibnbs, cities results
     return jsonify(results=results)
 
-=======
-@app.route('/api/search_cities/<string:term>', methods=['GET', 'POST', "OPTIONS"])
-def search_cities(term):
-        try:
-            query_data = session.query(Cities).filter(Cities.name.like("%"+term+"%")).limit(5)
-=======
 @app.route('/api/search_cities/<string:term>', methods=['GET', 'POST', "OPTIONS"])
 def search_cities(term):
     if (term):
         try: 
             query_data = session.query(Cities).filter(Cities.name.like('%'+term+'%')).limit(5)
->>>>>>> df110f9a671547f975b551c90c82fd3eaf927b82
             query_data_results = convert_to_array_of_dict(query_data)
             return jsonify(results=query_data_results) 
         except:
             return term
-<<<<<<< HEAD
->>>>>>> issue105
-=======
->>>>>>> df110f9a671547f975b551c90c82fd3eaf927b82
+
 
 @app.route('/')
 

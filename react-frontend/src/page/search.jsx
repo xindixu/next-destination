@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 import {
   Button,
@@ -100,16 +99,3 @@ const Search = () => {
 };
 
 export default Search;
-=======
-import React, { useEffect, useState } from "react";
-import NameForm from "../components/form";
-
-const Search = () => {
-    return <>
-        <NameForm />
-    </>
-
-}
-
-export default Search
->>>>>>> issue105
