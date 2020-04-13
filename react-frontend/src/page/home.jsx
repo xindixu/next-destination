@@ -14,17 +14,17 @@ const Home = () => {
   useEffect(() => {
     apiFetch(`/city/random`, {})
       .then(data => {
-        console.log("BON")
+        
         setCity(data.city);
+        const t_id = city['id'];
       })
       .catch(() => {
-        console.log("NON")
+        
         setIsError(true);
       });
   }, [id]);
   console.log(city);
   
-  // var t_id = city["id"];
   // useEffect(() => {
   //   fetch(`https://api.teleport.org/api/urban_areas/slug:${t_id}/images/`)
   //     .then(resp => resp.json())

@@ -55,6 +55,9 @@ const Navigation = () => (
       <Route path="/about">
         <About />
       </Route>
+      <Route path="/search">
+        <Search />
+      </Route>
       <Route path="/cities">
         <Cities />
       </Route>
