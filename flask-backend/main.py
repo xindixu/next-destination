@@ -335,6 +335,7 @@ def city_rand():
     city_dict_rand = convert_to_dict(city_data_rand)
     return jsonify(city=city_dict_rand)
 
+<<<<<<< HEAD
 
 @app.route('/api/search')
 def search():
@@ -350,8 +351,19 @@ def search():
     # TODO: add aibnbs, cities results
     return jsonify(results=results)
 
+=======
+@app.route('/api/search_cities/<string:term>', methods=['GET', 'POST', "OPTIONS"])
+def search_cities(term):
+        try:
+            query_data = session.query(Cities).filter(Cities.name.like("%"+term+"%")).limit(5)
+            query_data_results = convert_to_array_of_dict(query_data)
+            return jsonify(results=query_data_results) 
+        except:
+            return term
+>>>>>>> issue105
 
 @app.route('/')
+
 def index():
     return render_template("index.html")
 
