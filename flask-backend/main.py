@@ -1,18 +1,19 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, Response
-from flask_cors import CORS, cross_origin
-from sqlalchemy import create_engine, or_, func, desc
+from flask_cors import CORS
+from sqlalchemy import create_engine, func
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
+import unittest
+import ciunittest
 import json
 from models import Airbnb, Cities, app, db
 import tests
 from data import about_data, member_contribs
 from api import yelp_api_header
-import unittest
-import ciunittest
 
-# ! for some reason this code does not work when it is put into the __name__ if statment
+
+# ! for some reason this code does not work when it is put into the __name__ if statement
 CORS(app, resources=r'/*')
 engine = create_engine(
     'postgres+psycopg2://postgres:bone_ranger!1@localhost:5432/cityhuntdb')
