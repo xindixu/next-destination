@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Button,
   Container,
@@ -6,7 +6,8 @@ import {
   FormControl,
   Dropdown,
   Tabs,
-  Tab
+  Tab,
+  Spinner
 } from "react-bootstrap";
 import SortableTable from "../components/sortable-table";
 import {
@@ -34,6 +35,7 @@ const processResults = results => {
 const Search = () => {
   const [query, setQuery] = useState("");
   const [lastUrl, setLastUrl] = useState("");
+  const [fetching, setFetching] = useState(false);
   const [modelToSearch, setModelToSearch] = useState(() => {
     return Object.keys(MODELS).reduce((memo, key) => {
       memo[key] = true;
@@ -43,23 +45,32 @@ const Search = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [events, setEvents] = useState([]);
 
-  const setDataFromResponse = ({ results }) => {
-    const {
-      restaurantsResults,
-      eventsResults,
-      citiesResults,
-      airbnbsResults
-    } = processResults(results);
+  const setDataFromResponse = useCallback(
+    ({ results }, override = false) => {
+      const {
+        restaurantsResults,
+        eventsResults,
+        citiesResults,
+        airbnbsResults
+      } = processResults(results);
 
-    if (restaurantsResults.length) {
-      setRestaurants([...restaurants, ...restaurantsResults]);
-    }
-    if (eventsResults.length) {
-      setEvents([...events, ...eventsResults]);
-    }
-  };
+      if (restaurantsResults.length) {
+        setRestaurants(
+          override
+            ? restaurantsResults
+            : [...restaurants, ...restaurantsResults]
+        );
+      }
+      if (eventsResults.length) {
+        setEvents(override ? eventsResults : [...events, ...eventsResults]);
+      }
+      setFetching(false);
+    },
+    [events, restaurants]
+  );
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
+    setFetching(true);
     const searchOn = Object.keys(modelToSearch).filter(
       key => modelToSearch[key]
     );
@@ -70,44 +81,56 @@ const Search = () => {
       return;
     }
     setLastUrl(url);
-    setRestaurants([]);
-    setEvents([]);
-
     apiFetch(url, {})
-      .then(setDataFromResponse)
+      .then(resp => setDataFromResponse(resp, true))
       .catch(err => console.error(err));
-  };
+  }, [lastUrl, modelToSearch, query, setDataFromResponse]);
 
-  const getOffset = searchOn => {
-    if (searchOn === MODELS.restaurants.key) {
-      return restaurants.length;
-    }
-    if (searchOn === MODELS.events.key) {
-      return events.length;
-    }
-  };
-  const fetchMore = searchOn => {
-    const url = getUrl("/search", {
-      q: query,
-      on: searchOn,
-      offset: getOffset(searchOn)
-    });
-    setLastUrl(url);
-    apiFetch(url, {})
-      .then(setDataFromResponse)
-      .catch(err => console.error(err));
-  };
+  const getOffset = useCallback(
+    searchOn => {
+      if (searchOn === MODELS.restaurants.key) {
+        return restaurants.length;
+      }
+      if (searchOn === MODELS.events.key) {
+        return events.length;
+      }
+      return 0;
+    },
+    [events.length, restaurants.length]
+  );
+
+  const fetchMore = useCallback(
+    searchOn => {
+      setFetching(true);
+      const url = getUrl("/search", {
+        q: query,
+        on: searchOn,
+        offset: getOffset(searchOn)
+      });
+      setLastUrl(url);
+      apiFetch(url, {})
+        .then(setDataFromResponse)
+        .catch(err => console.error(err));
+    },
+    [getOffset, query, setDataFromResponse]
+  );
 
   return (
     <Container fluid className="full-page">
       <h1>Search CityHunt</h1>
-      <Form inline className="justify-content-center mb-lg-5">
+      <Form
+        inline
+        className="justify-content-center mb-lg-5"
+        onSubmit={e => e.preventDefault()}
+      >
         <FormControl
           type="text"
           id="search-bar"
           placeholder="Search"
           value={query}
           onChange={e => setQuery(e.target.value)}
+          // submit when hitting enter
+          onKeyDown={e => e.which === 13 && onSubmit()}
         />
         <Button variant="outline-primary" onClick={onSubmit}>
           Search
@@ -117,7 +140,10 @@ const Search = () => {
           <Dropdown.Menu>
             {Object.values(MODELS).map(({ key, title }) => (
               <Form.Check
+                custom
                 key={key}
+                // must have id in order to sync checked with onChange
+                id={`custom-${title}`}
                 type="checkbox"
                 label={title}
                 checked={modelToSearch[key]}
@@ -132,7 +158,6 @@ const Search = () => {
           </Dropdown.Menu>
         </Dropdown>
       </Form>
-
       {/* only show results after a search is executed */}
       {lastUrl && (
         <Tabs>
@@ -171,6 +196,14 @@ const Search = () => {
             </Tab>
           ) : null}
         </Tabs>
+      )}
+
+      {fetching && (
+        <div className="w-100 d-flex justify-content-center">
+          <Spinner animation="border" variant="info">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </div>
       )}
     </Container>
   );
