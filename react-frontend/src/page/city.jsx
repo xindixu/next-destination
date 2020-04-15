@@ -1,36 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
 import Table from "react-bootstrap/Table";
 import apiFetch from "../lib/api-fetch";
 import Restaurants from "../containers/restaurants";
 import Events from "../containers/events";
 import Airbnbs from "../containers/airbnbs";
+import Tabs from "../components/tabs";
 import { RESTAURANT_SCHEMA, EVENT_SCHEMA, TABS } from "../lib/constants";
 
 const City = () => {
   const { id } = useParams();
-  const location = useLocation();
-  const history = useHistory();
 
   const [city, setCity] = useState(null);
   const [image, setImage] = useState("");
   const [isError, setIsError] = useState(false);
   const [showAirbnbs, setShowAirbnbs] = useState(true);
-
-  const defaultTab = TABS.restaurants.key;
-  const [activeTab, setActiveTab] = useState(() => {
-    const tabFromUrl = location.hash.replace("#", "");
-    if (tabFromUrl === TABS.airbnbs.key && !showAirbnbs) {
-      return defaultTab;
-    }
-
-    if (!Object.keys(TABS).includes(tabFromUrl)) {
-      return defaultTab;
-    }
-    return tabFromUrl || defaultTab;
-  });
 
   // TODO: data should be passed down from parent
   useEffect(() => {
@@ -55,14 +39,36 @@ const City = () => {
       });
   }, []);
 
-  const updateTab = newTab => {
-    setActiveTab(newTab);
-    history.replace({
-      hash: `#${newTab}`
-    });
-  };
   if (city) {
     const { state, latitude, longitude, population, description, name } = city;
+
+    const eventProps = {
+      eventKey: TABS.events.key,
+      title: TABS.events.title,
+      content: <Events city={id} tableSchema={EVENT_SCHEMA} />
+    };
+    const restaurantProps = {
+      eventKey: TABS.restaurants.key,
+      title: TABS.restaurants.title,
+      content: <Restaurants city={id} tableSchema={RESTAURANT_SCHEMA} />
+    };
+    const airbnbProps = {
+      eventKey: TABS.airbnbs.key,
+      title: TABS.airbnbs.title,
+      content: (
+        <Airbnbs
+          city={name}
+          setShowAirbnbs={setShowAirbnbs}
+          setActiveTab={() => {}}
+        />
+      )
+    };
+
+    const tabs = [restaurantProps, eventProps];
+    if (showAirbnbs) {
+      tabs.push(airbnbProps);
+    }
+
     return (
       <>
         <div className="header-image-container">
@@ -93,27 +99,7 @@ const City = () => {
           </div>
         </div>
 
-        {/* TODO: @xindixu extract tabs and pass in children */}
-
-        <Tabs activeKey={activeTab} onSelect={updateTab}>
-          <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-            <Restaurants city={id} tableSchema={RESTAURANT_SCHEMA} />
-          </Tab>
-
-          <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-            <Events city={id} tableSchema={EVENT_SCHEMA} />
-          </Tab>
-
-          {showAirbnbs && (
-            <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-              <Airbnbs
-                city={name}
-                setShowAirbnbs={setShowAirbnbs}
-                setActiveTab={() => updateTab(defaultTab)}
-              />
-            </Tab>
-          )}
-        </Tabs>
+        <Tabs tabs={tabs} />
       </>
     );
   }
