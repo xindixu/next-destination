@@ -47,14 +47,15 @@ def get_data_from_database(model, name, page, sort, order, *city):
         query = session.query(model).filter_by(city_name=city)
     else:
         query = session.query(model)
-    
+
     total = query.count()
     if page * LIMIT > total:
         session.rollback()
         abort(404, description=f"Page out of range")
 
     if sort:
-        query = query.order_by(getattr(model, sort).asc() if order == 'asc' else getattr(model, sort).desc())
+        query = query.order_by(getattr(model, sort).asc(
+        ) if order == 'asc' else getattr(model, sort).desc())
 
     data = query.limit(LIMIT).offset(get_offset(page, LIMIT)).all()
 
@@ -79,9 +80,10 @@ def get_gitlab_data(url):
         request = requests.get(url, params=params)
     return data
 
+
 @app.route('/api/unittests')
 def unittests():
-    suite = unittest.TestLoader().loadTestsFromModule(tests) 
+    suite = unittest.TestLoader().loadTestsFromModule(tests)
     json = ciunittest.JsonTestRunner().run(suite, formatted=True)
     return json
 
@@ -130,7 +132,23 @@ def about():
 
     return jsonify(about=about_data)
 
-# ! the user needs to allow the location prompt or else the page and backend will show blank
+# Event helper functions
+def events_endpoint(params):
+    url = "https://api.yelp.com/v3/events"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_events(query, offset):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "offset": offset,
+        "location": "austin"
+    }
+    return events_endpoint(params)
+
 # Event routes
 @app.route('/api/events')
 def events_page():
@@ -170,7 +188,6 @@ def events(city):
     sort = request.args.get('sort', default="time_start", type=str)
     order = request.args.get('order', default="asc", type=str)
 
-    
     params = {
         "location": city,
         "limit": LIMIT,
@@ -181,20 +198,6 @@ def events(city):
     response = search_events(params)
     return jsonify(response=response)
 
-def events_endpoint(params):
-    url = "https://api.yelp.com/v3/events"
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
-    return response
-
-
-def search_events(query):
-    LIMIT = 5
-    params = {
-        "term": query,
-        "limit": LIMIT,
-        "location": "austin"
-    }
-    return events_endpoint(params)
 
 @app.route('/api/event/<string:id>')
 def event(id):
@@ -221,17 +224,19 @@ def categories():
 
     return jsonify(response={"categories": concise_restaurant_categories})
 
+# Restaurant helper functions
 def restaurants_endpoint(params):
     url = "https://api.yelp.com/v3/businesses/search"
     response = requests.get(url, params=params, headers=yelp_api_header).json()
     return response
 
 
-def search_restaurants(query):
+def search_restaurants(query, offset):
     LIMIT = 5
     params = {
         "term": query,
         "limit": LIMIT,
+        "offset": offset,
         "location": "austin"
     }
     return restaurants_endpoint(params)
@@ -325,9 +330,11 @@ def city(id):
         session.rollback()
         return 'ERROR SOMEWHERE'
 
+
 @app.route('/api/city/random', methods=['GET'])
 def city_rand():
-    city_data_rand = session.query(Cities).order_by(func.random()).limit(1).one_or_none()
+    city_data_rand = session.query(Cities).order_by(
+        func.random()).limit(1).one_or_none()
     city_dict_rand = convert_to_dict(city_data_rand)
     return jsonify(city=city_dict_rand)
 
@@ -336,23 +343,26 @@ def city_rand():
 def search():
     q = request.args.get('q', default="", type=str)
     searchOn = request.args.getlist('on')
+    offset = request.args.get('offset', default=0, type=int)
 
     results = {}
     if 'restaurants' in searchOn:
-        results['restaurants'] = search_restaurants(q)
+        results['restaurants'] = search_restaurants(q, offset)
     if 'events' in searchOn:
-        results['events'] = search_events(q)
+        results['events'] = search_events(q, offset)
 
     # TODO: add aibnbs, cities results
     return jsonify(results=results)
 
+
 @app.route('/api/search_cities/<string:term>', methods=['GET', 'POST', "OPTIONS"])
 def search_cities(term):
     if (term):
-        try: 
-            query_data = session.query(Cities).filter(Cities.name.like('%'+term+'%')).limit(5)
+        try:
+            query_data = session.query(Cities).filter(
+                Cities.name.like('%'+term+'%')).limit(5)
             query_data_results = convert_to_array_of_dict(query_data)
-            return jsonify(results=query_data_results) 
+            return jsonify(results=query_data_results)
         except:
             return term
 
@@ -361,9 +371,11 @@ def search_cities(term):
 def index():
     return render_template("index.html")
 
+
 @app.route('/<path:path>')
 def catch_all(path):
     return render_template("index.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

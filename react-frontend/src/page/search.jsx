@@ -78,8 +78,20 @@ const Search = () => {
       .catch(err => console.error(err));
   };
 
+  const getOffset = searchOn => {
+    if (searchOn === MODELS.restaurants.key) {
+      return restaurants.length;
+    }
+    if (searchOn === MODELS.events.key) {
+      return events.length;
+    }
+  };
   const fetchMore = searchOn => {
-    const url = getUrl("/search", { q: query, on: searchOn, offset: 0 });
+    const url = getUrl("/search", {
+      q: query,
+      on: searchOn,
+      offset: getOffset(searchOn)
+    });
     setLastUrl(url);
     apiFetch(url, {})
       .then(setDataFromResponse)
