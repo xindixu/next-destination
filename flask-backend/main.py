@@ -22,6 +22,8 @@ session = Session()
 # ! end of code that doesn't work
 
 # Helper functions
+
+
 def get_offset(page, page_size):
     return (page-1)*page_size
 
@@ -53,7 +55,8 @@ def get_data_from_database(model, name, page, sort, order, *city):
         abort(404, description=f"Page out of range")
 
     if sort:
-        query = query.order_by(getattr(model, sort).asc() if order == 'asc' else getattr(model, sort).desc())
+        query = query.order_by(getattr(model, sort).asc(
+        ) if order == 'asc' else getattr(model, sort).desc())
 
     data = query.limit(LIMIT).offset(get_offset(page, LIMIT)).all()
 
@@ -69,7 +72,7 @@ def get_data_from_database(model, name, page, sort, order, *city):
 def get_gitlab_data(url):
     data = []
     page = 1
-    params = {"scope": "all", "per_page": 100, page: page}
+    params = {"scope": "all", "per_page": 500, page: page}
     request = requests.get(url, params=params)
 
     while page <= int(request.headers["X-Total-Pages"]):
@@ -88,7 +91,6 @@ def unittests():
 # Routes
 @app.route('/api/about')
 def about():
-
     member_contribs["marshall"]["commits"] = 0
     member_contribs["xindi"]["commits"] = 0
     member_contribs["yulissa"]["commits"] = 0
@@ -117,20 +119,25 @@ def about():
             member_contribs["quinton"]["commits"] += 1
 
     for issue in issues:
-        if issue["author"]["username"] == "mam23942":
+        assignee_usernames = [assignee["username"] for assignee in issue["assignees"]]
+
+        print(assignee_usernames)
+        if "mam23942" in assignee_usernames:
             member_contribs["marshall"]["issues"] += 1
-        elif issue["author"]["username"] == "xindixu":
+        if "xindixu" in assignee_usernames:
             member_contribs["xindi"]["issues"] += 1
-        elif issue["author"]["username"] == "yulissa.montes":
+        if "yulissa.montes" in assignee_usernames:
             member_contribs["yulissa"]["issues"] += 1
-        elif issue["author"]["username"] == "nmcraig":
+        if "nmcraig" in assignee_usernames:
             member_contribs["nathan"]["issues"] += 1
-        elif issue["author"]["username"] == "quintonpham":
+        if "quintonpham" in assignee_usernames:
             member_contribs["quinton"]["issues"] += 1
 
     return jsonify(about=about_data)
 
 # Event helper functions
+
+
 def events_endpoint(params):
     url = "https://api.yelp.com/v3/events"
     response = requests.get(url, params=params, headers=yelp_api_header).json()
@@ -223,6 +230,8 @@ def categories():
     return jsonify(response={"categories": concise_restaurant_categories})
 
 # Restaurant helper functions
+
+
 def restaurants_endpoint(params):
     url = "https://api.yelp.com/v3/businesses/search"
     response = requests.get(url, params=params, headers=yelp_api_header).json()
@@ -310,6 +319,8 @@ def airbnbs(city):
     return get_data_from_database(Airbnb, 'airbnbs', page, sort, order, city)
 
 # City helper functions
+
+
 def search_cities(query, offset):
     try:
         query_data = session.query(Cities).filter(
@@ -363,8 +374,6 @@ def search():
 
     # TODO: add aibnbs results
     return jsonify(results=results)
-
-
 
 
 @app.route('/')
