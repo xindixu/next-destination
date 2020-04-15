@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./event.css";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
 import apiFetch from "../lib/api-fetch";
 import Events from "../containers/events";
 import Restaurants from "../containers/restaurants";
 import Airbnbs from "../containers/airbnbs";
+import Tabs from "../components/tabs";
 import { getCityIdByName } from "../lib/util";
 import { EVENT_SCHEMA, RESTAURANT_SCHEMA, TABS } from "../lib/constants";
 
@@ -40,6 +39,44 @@ const Event = () => {
     time_end: end,
     description
   } = event;
+
+  const eventProps = {
+    eventKey: TABS.events.key,
+    title: TABS.events.title,
+    content: (
+      <Events
+        coordinates={{ longitude, latitude }}
+        tableSchema={EVENT_SCHEMA}
+      />
+    )
+  };
+  const restaurantProps = {
+    eventKey: TABS.restaurants.key,
+    title: TABS.restaurants.title,
+    content: (
+      <Restaurants
+        initialFilters={{ category: categories }}
+        coordinates={{ longitude, latitude }}
+        tableSchema={RESTAURANT_SCHEMA}
+      />
+    )
+  };
+  const airbnbProps = {
+    eventKey: TABS.airbnbs.key,
+    title: TABS.airbnbs.title,
+    content: (
+      <Airbnbs
+        coordinates={{ longitude, latitude }}
+        setShowAirbnbs={setShowAirbnbs}
+        setActiveTab={() => {}}
+      />
+    )
+  };
+
+  const tabs = [eventProps, restaurantProps];
+  if (showAirbnbs) {
+    tabs.push(airbnbProps);
+  }
 
   return (
     <>
@@ -77,30 +114,7 @@ const Event = () => {
         </div>
       </div>
 
-      <Tabs defaultActiveKey={TABS.events.key}>
-        <Tab eventKey={TABS.events.key} title={TABS.events.title}>
-          <Events
-            coordinates={{ longitude, latitude }}
-            tableSchema={EVENT_SCHEMA}
-          />
-        </Tab>
-
-        <Tab eventKey={TABS.restaurants.key} title={TABS.restaurants.title}>
-          <Restaurants
-            initialFilters={{ category: categories }}
-            coordinates={{ longitude, latitude }}
-            tableSchema={RESTAURANT_SCHEMA}
-          />
-        </Tab>
-        {showAirbnbs && (
-          <Tab eventKey={TABS.airbnbs.key} title={TABS.airbnbs.title}>
-            <Airbnbs
-              coordinates={{ longitude, latitude }}
-              setShowAirbnbs={setShowAirbnbs}
-            />
-          </Tab>
-        )}
-      </Tabs>
+      <Tabs tabs={tabs} />
     </>
   );
 };
