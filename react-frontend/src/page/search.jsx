@@ -4,7 +4,9 @@ import {
   Container,
   Form,
   FormControl,
-  Dropdown
+  Dropdown,
+  Tabs,
+  Tab
 } from "react-bootstrap";
 import SortableTable from "../components/sortable-table";
 import {
@@ -88,12 +90,27 @@ const Search = () => {
         </Dropdown>
       </Form>
 
-      {restaurants.length ? (
-        <SortableTable settings={RESTAURANTS_PAGE_SCHEMA} data={restaurants} />
-      ) : null}
-      {events.length ? (
-        <SortableTable settings={EVENTS_PAGE_SCHEMA} data={events} />
-      ) : null}
+      {/* only show results after a search is executed */}
+      {lastUrl && (
+        <Tabs>
+          {restaurants.length ? (
+            <Tab
+              eventKey={MODELS.restaurants.key}
+              title={MODELS.restaurants.title}
+            >
+              <SortableTable
+                settings={RESTAURANTS_PAGE_SCHEMA}
+                data={restaurants}
+              />
+            </Tab>
+          ) : null}
+          {events.length ? (
+            <Tab eventKey={MODELS.events.key} title={MODELS.events.title}>
+              <SortableTable settings={EVENTS_PAGE_SCHEMA} data={events} />
+            </Tab>
+          ) : null}
+        </Tabs>
+      )}
     </Container>
   );
 };
