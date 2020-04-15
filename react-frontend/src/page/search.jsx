@@ -13,7 +13,8 @@ import SortableTable from "../components/sortable-table";
 import {
   EVENTS_PAGE_SCHEMA,
   RESTAURANTS_PAGE_SCHEMA,
-  MODELS
+  MODELS,
+  CITY_SCHEMA
 } from "../lib/constants";
 import { getUrl } from "../lib/util";
 import apiFetch from "../lib/api-fetch";
@@ -23,11 +24,12 @@ const processResults = results => {
   const { restaurants, events, cities, airbnbs } = results;
   const restaurantsResults = (restaurants && restaurants.businesses) || [];
   const eventsResults = (events && events.events) || [];
+  const citiesResults = cities || [];
 
   return {
     restaurantsResults,
     eventsResults,
-    citiesResults: [],
+    citiesResults,
     airbnbsResults: []
   };
 };
@@ -44,6 +46,7 @@ const Search = () => {
   });
   const [restaurants, setRestaurants] = useState([]);
   const [events, setEvents] = useState([]);
+  const [cities, setCities] = useState([]);
 
   const setDataFromResponse = useCallback(
     ({ results }, override = false) => {
@@ -64,9 +67,12 @@ const Search = () => {
       if (eventsResults.length) {
         setEvents(override ? eventsResults : [...events, ...eventsResults]);
       }
+      if (citiesResults.length) {
+        setCities(override ? citiesResults : [...cities, ...citiesResults]);
+      }
       setFetching(false);
     },
-    [events, restaurants]
+    [cities, events, restaurants]
   );
 
   const onSubmit = useCallback(() => {
@@ -94,9 +100,12 @@ const Search = () => {
       if (searchOn === MODELS.events.key) {
         return events.length;
       }
+      if (searchOn === MODELS.cities.key) {
+        return cities.length;
+      }
       return 0;
     },
-    [events.length, restaurants.length]
+    [events.length, restaurants.length, cities.length]
   );
 
   const fetchMore = useCallback(
@@ -158,6 +167,15 @@ const Search = () => {
           </Dropdown.Menu>
         </Dropdown>
       </Form>
+
+      {fetching && (
+        <div className="w-100 d-flex justify-content-center">
+          <Spinner animation="border" variant="info">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+        </div>
+      )}
+
       {/* only show results after a search is executed */}
       {lastUrl && (
         <Tabs>
@@ -195,15 +213,21 @@ const Search = () => {
               </Button>
             </Tab>
           ) : null}
+          {cities.length ? (
+            <Tab eventKey={MODELS.cities.key} title={MODELS.cities.title}>
+              <SortableTable settings={CITY_SCHEMA} data={cities} />
+              <Button
+                variant="dark"
+                className="w-100 my-5"
+                onClick={() => {
+                  fetchMore(MODELS.cities.key);
+                }}
+              >
+                Show more
+              </Button>
+            </Tab>
+          ) : null}
         </Tabs>
-      )}
-
-      {fetching && (
-        <div className="w-100 d-flex justify-content-center">
-          <Spinner animation="border" variant="info">
-            <span className="sr-only">Loading...</span>
-          </Spinner>
-        </div>
       )}
     </Container>
   );

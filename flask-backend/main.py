@@ -21,8 +21,6 @@ session = Session()
 # ! end of code that doesn't work
 
 # Helper functions
-
-
 def get_offset(page, page_size):
     return (page-1)*page_size
 
@@ -54,8 +52,7 @@ def get_data_from_database(model, name, page, sort, order, *city):
         abort(404, description=f"Page out of range")
 
     if sort:
-        query = query.order_by(getattr(model, sort).asc(
-        ) if order == 'asc' else getattr(model, sort).desc())
+        query = query.order_by(getattr(model, sort).asc() if order == 'asc' else getattr(model, sort).desc())
 
     data = query.limit(LIMIT).offset(get_offset(page, LIMIT)).all()
 
@@ -311,6 +308,16 @@ def airbnbs(city):
     order = request.args.get('order', default="asc", type=str)
     return get_data_from_database(Airbnb, 'airbnbs', page, sort, order, city)
 
+# City helper functions
+def search_cities(query, offset):
+    try:
+        query_data = session.query(Cities).filter(
+            Cities.name.like('%'+query+'%')).limit(5)
+        return convert_to_array_of_dict(query_data)
+    except:
+        session.rollback()
+        return []
+
 # City routes
 @app.route('/api/cities', methods=["GET"])
 def cities_page():
@@ -350,21 +357,13 @@ def search():
         results['restaurants'] = search_restaurants(q, offset)
     if 'events' in searchOn:
         results['events'] = search_events(q, offset)
+    if 'cities' in searchOn:
+        results['cities'] = search_cities(q, offset)
 
-    # TODO: add aibnbs, cities results
+    # TODO: add aibnbs results
     return jsonify(results=results)
 
 
-@app.route('/api/search_cities/<string:term>', methods=['GET', 'POST', "OPTIONS"])
-def search_cities(term):
-    if (term):
-        try:
-            query_data = session.query(Cities).filter(
-                Cities.name.like('%'+term+'%')).limit(5)
-            query_data_results = convert_to_array_of_dict(query_data)
-            return jsonify(results=query_data_results)
-        except:
-            return term
 
 
 @app.route('/')
