@@ -81,7 +81,7 @@ const Restaurant = () => {
       />
     )
   };
-  const tabs = [eventProps, restaurantProps];
+  const tabs = [restaurantProps, eventProps];
   if (showAirbnbs) {
     tabs.push(airbnbProps);
   }

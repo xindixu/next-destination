@@ -129,7 +129,7 @@ const Search = () => {
       <h1>Search CityHunt</h1>
       <Form
         inline
-        className="justify-content-center mb-lg-5"
+        className="justify-content-center mb-5"
         onSubmit={e => e.preventDefault()}
       >
         <FormControl
