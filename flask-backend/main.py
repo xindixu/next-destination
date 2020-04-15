@@ -200,7 +200,7 @@ def events(city):
         "sort_on": sort,
         "sort_by": order
     }
-    response = search_events(params)
+    response = events_endpoint(params)
     return jsonify(response=response)
 
 
