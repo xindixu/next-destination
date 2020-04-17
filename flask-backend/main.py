@@ -324,7 +324,7 @@ def airbnbs(city):
 def search_cities(query, offset):
     try:
         query_data = session.query(Cities).filter(
-            Cities.name.like('%'+query+'%')).limit(5)
+            Cities.id.like('%'+query.lower()+'%')).limit(5)
         return convert_to_array_of_dict(query_data)
     except:
         session.rollback()
