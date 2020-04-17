@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getCityIdByName } from "./util";
+import { getCityIdByName, getGoogleMapLinkByCoordinates } from "./util";
 
 export const MAX_PAGE_NUM = 50;
 export const LIMIT = 20;
@@ -248,12 +248,6 @@ export const EVENTS_PAGE_SCHEMA = {
 };
 
 export const CITY_SCHEMA = {
-  image: {
-    title: "Picture",
-    getBodyFormat: _ => <span>INSERT PICTURE HERE</span>,
-    isKey: false,
-    dataSort: false
-  },
   name: {
     title: "City",
     getBodyFormat: (_, { id, name }) => <Link to={`/city/${id}`}>{name}</Link>,
@@ -276,6 +270,20 @@ export const CITY_SCHEMA = {
     title: "Description",
     getBodyFormat: (_, { description }) => (
       <span>{description.replace(/^"|"$/g, "")}</span>
+    ),
+    isKey: false,
+    dataSort: false
+  },
+  map: {
+    title: "Map",
+    getBodyFormat: (_, { latitude, longitude }) => (
+      <a
+        href={getGoogleMapLinkByCoordinates(latitude, longitude)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Map
+      </a>
     ),
     isKey: false,
     dataSort: false
