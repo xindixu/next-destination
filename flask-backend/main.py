@@ -11,12 +11,16 @@ from models import Airbnb, Cities, app, db
 import tests
 from data import about_data, member_contribs
 from api import yelp_api_header
+import unittest
+import ciunittest
+import os
 
+# ! for some reason this code does not work when it is put into the __name__ if statment
+DB_STRING = os.environ.get(
+    "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
 
-# ! for some reason this code does not work when it is put into the __name__ if statement
 CORS(app, resources=r'/*')
-engine = create_engine(
-    'postgres+psycopg2://postgres:bone_ranger!1@localhost:5432/cityhuntdb')
+engine = create_engine(DB_STRING)
 Session = sessionmaker(bind=engine)
 session = Session()
 # ! end of code that doesn't work

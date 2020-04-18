@@ -1,31 +1,20 @@
-runtime: python
+runtime: python37
 env: flex
 entrypoint: gunicorn -b :$PORT main:app
-
-runtime_config:
-  python_version: 3
 
 env_variables:
     # postgresql+psycopg2://USER:PASSWORD@/DATABASE?host=/cloudsql/INSTANCE_CONNECTION_NAME
     # Replace user, password, database, and instance connection name with the values obtained
     # when configuring your Cloud SQL instance.
     DB_STRING: >-
-      postgresql+psycopg2://postgres:asd123@/postgres?host=/cloudsql/city-hunt:us-central1:cityhunt
-#[END env]
+      postgresql+psycopg2://postgres:zxcvbn12@/postgres?host=/cloudsql/city-hunt-267820:us-central1:database-city-hunt
 
 #[START cloudsql_settings]
 # Replace project and instance with the values obtained  when configuring your
 # Cloud SQL instance.
 beta_settings:
-    cloud_sql_instances: city-hunt1:us-central1:cityhunt
+    cloud_sql_instances: city-hunt-267820:us-central1:database-city-hunt
 
-# This sample incurs costs to run on the App Engine flexible environment. 
-# The settings below are to reduce costs during testing and are not appropriate
-# for production use. For more information, see:
-# https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
-manual_scaling:
-  instances: 1
-resources:
-  cpu: 1
-  memory_gb: 0.5
-  disk_size_gb: 10
+instance_class: F1
+automatic_scaling:
+  max_instances: 1

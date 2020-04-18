@@ -1,10 +1,9 @@
 import psycopg2
 from models import app, db, Cities, Airbnb
 
-
 def create_cities():
     db_connection = psycopg2.connect(
-        "host=localhost dbname=cityhuntdb user=postgres password=bone_ranger!1 port=5432")
+        "host=city-hunt-267820 dbname=database-city-hunt user=postgres password=zxcvbn12 port=us-central1")
     cur = db_connection.cursor()
 
     with open('id_city_data.csv', 'r') as city:
@@ -16,7 +15,7 @@ def create_cities():
 
 def create_airbnb_listings():
     db_connection = psycopg2.connect(
-        "host=localhost dbname=cityhuntdb user=postgres password=bone_ranger!1 port=5432")
+        "host=city-hunt-267820 dbname=database-city-hunt user=postgres password=zxcvbn12 port=us-central1")
     cur = db_connection.cursor()
 
     with open('cleaned_us_airbnb_data.csv', 'r') as listing:
