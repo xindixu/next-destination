@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import "./home.css";
+import apiFetch from "../lib/api-fetch";
+import { useParams } from "react-router-dom";
+
 
 const Home = () => {
-  var cities = [{"cityname": "Austin, TX", "AveragePrice": "80", "Restaurants":"90","UpcomingEvents":"90","id":"austin"},
-  {"cityname": "New York, NY", "AveragePrice": "160", "Restaurants":"1000","UpcomingEvents":"100",'id':"new-york"},
-  {"cityname": "Boston, MA", "AveragePrice": "140", "Restaurants":"900","UpcomingEvents":"120","id":"boston"}
-  ];
-  const rand = cities[Math.floor(Math.random()*3)];
+  const { id } = useParams();
+  const [city, setCity] = useState(null);
+  const [image, setImage] = useState("");
+  const [isError, setIsError] = useState(false);
   
-  // const [image, setImage] = useState("");
+  useEffect(() => {
+    apiFetch(`/city/random`, {})
+      .then(data => {
+        
+        setCity(data.city);
+        const t_id = city['id'];
+      })
+      .catch(() => {
+        
+        setIsError(true);
+      });
+  }, [id]);
+  console.log(city);
+  
   // useEffect(() => {
-  //   fetch(`https://api.teleport.org/api/urban_areas/slug:${rand['id']}/images/`)
+  //   fetch(`https://api.teleport.org/api/urban_areas/slug:${t_id}/images/`)
   //     .then(resp => resp.json())
   //     .then(data => {
   //       try {
@@ -21,31 +36,60 @@ const Home = () => {
   //       }
   //     });
   // }, []);
-  // console.log({image});
-  return (
+  
+  console.log({image});
+  if (city) {
+    const { state, latitude, longitude, population, description, name } = city;
+    return (
+      <div id="home">
+        <div className="title">
+          <h1>City Hunt</h1>
+            <p className="description">
+              Discover something new!
+              Make your dream vacation happen.. City Hunt is a centralized application designed to simplify travel arrangements.
+              Try our random city generator to start discovering new places!
+            </p>
+        </div>
+        <div className="bottom-text-container">
+          <Container className="Container">
+            <Row>
+              <Col className="text">
+                <img src={image} alt={name}></img>
+                <p className="city-name">{name}, {state}</p>
+                <p> Population: {population}</p>
+                <p> Description: {description}</p>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </div>
+    );
+  };
+  return <>
     <div id="home">
-      <div className="title">
-        <h1>City Hunt</h1>
-        <p className="description">
-          Discover something new!
-          Make your dream vacation happen.. City Hunt is a centralized application designed to simplify travel arrangements.
-          Try our random city generator to start discovering new places!
-          </p>
+        <div className="title">
+          <h1>City Hunt</h1>
+            <p className="description">
+              Discover something new!
+              Make your dream vacation happen.. City Hunt is a centralized application designed to simplify travel arrangements.
+              Try our random city generator to start discovering new places!
+            </p>
+        </div>
+        <div className="bottom-text-container">
+          <Container className="Container">
+            <Row>
+              <Col className="text">
+                
+                <p className="city-name">Nowhere</p>
+                <p> Population: 0</p>
+                <p> Description: This city is in the middle of nowhere.</p>
+              </Col>
+            </Row>
+          </Container>
+        </div>
       </div>
-      <div className="bottom-text-container">
-        <Container className="Container">
-          <Row>
-            <Col className="text">
-              <p className="city-name">{rand["cityname"]}</p>
-              <p> Average Airbnb Price: {rand["AveragePrice"]}</p>
-              <p> # of restaurants in the area: {rand["Restaurants"]}</p>
-              <p> # of upcoming events in the area: {rand["UpcomingEvents"]}</p>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    </div>
-  );
+  </>;
 };
+
 
 export default Home;

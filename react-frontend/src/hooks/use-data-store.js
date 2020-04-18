@@ -1,14 +1,6 @@
 import { useState, useCallback } from "react";
-import qs from "qs";
 import apiFetch from "../lib/api-fetch";
-
-const getUrl = (url, params) => {
-  const query = qs.stringify(params);
-  if (query) {
-    return url.indexOf("?") ? `${url}?${query}` : `${url}&${query}`;
-  }
-  return url;
-};
+import { getUrl } from "../lib/util";
 
 const useDataStore = init => {
   const { url, params: initialParams, name, option = {} } = init();

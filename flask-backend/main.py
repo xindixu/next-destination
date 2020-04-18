@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort, Response
-from flask_cors import CORS, cross_origin
-from sqlalchemy import create_engine
+from flask_cors import CORS
+from sqlalchemy import create_engine, func
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
+import unittest
+import ciunittest
 import json
 from models import Airbnb, Cities, app, db
 import tests
@@ -50,14 +52,15 @@ def get_data_from_database(model, name, page, sort, order, *city):
         query = session.query(model).filter_by(city_name=city)
     else:
         query = session.query(model)
-    
+
     total = query.count()
     if page * LIMIT > total:
         session.rollback()
         abort(404, description=f"Page out of range")
 
     if sort:
-        query = query.order_by(getattr(model, sort).asc() if order == 'asc' else getattr(model, sort).desc())
+        query = query.order_by(getattr(model, sort).asc(
+        ) if order == 'asc' else getattr(model, sort).desc())
 
     data = query.limit(LIMIT).offset(get_offset(page, LIMIT)).all()
 
@@ -73,7 +76,7 @@ def get_data_from_database(model, name, page, sort, order, *city):
 def get_gitlab_data(url):
     data = []
     page = 1
-    params = {"scope": "all", "per_page": 100, page: page}
+    params = {"scope": "all", "per_page": 500, page: page}
     request = requests.get(url, params=params)
 
     while page <= int(request.headers["X-Total-Pages"]):
@@ -82,16 +85,16 @@ def get_gitlab_data(url):
         request = requests.get(url, params=params)
     return data
 
+
 @app.route('/api/unittests')
 def unittests():
-    suite = unittest.TestLoader().loadTestsFromModule(tests) 
+    suite = unittest.TestLoader().loadTestsFromModule(tests)
     json = ciunittest.JsonTestRunner().run(suite, formatted=True)
     return json
 
 # Routes
 @app.route('/api/about')
 def about():
-
     member_contribs["marshall"]["commits"] = 0
     member_contribs["xindi"]["commits"] = 0
     member_contribs["yulissa"]["commits"] = 0
@@ -120,20 +123,41 @@ def about():
             member_contribs["quinton"]["commits"] += 1
 
     for issue in issues:
-        if issue["author"]["username"] == "mam23942":
+        assignee_usernames = [assignee["username"] for assignee in issue["assignees"]]
+
+        print(assignee_usernames)
+        if "mam23942" in assignee_usernames:
             member_contribs["marshall"]["issues"] += 1
-        elif issue["author"]["username"] == "xindixu":
+        if "xindixu" in assignee_usernames:
             member_contribs["xindi"]["issues"] += 1
-        elif issue["author"]["username"] == "yulissa.montes":
+        if "yulissa.montes" in assignee_usernames:
             member_contribs["yulissa"]["issues"] += 1
-        elif issue["author"]["username"] == "nmcraig":
+        if "nmcraig" in assignee_usernames:
             member_contribs["nathan"]["issues"] += 1
-        elif issue["author"]["username"] == "quintonpham":
+        if "quintonpham" in assignee_usernames:
             member_contribs["quinton"]["issues"] += 1
 
     return jsonify(about=about_data)
 
-# ! the user needs to allow the location prompt or else the page and backend will show blank
+# Event helper functions
+
+
+def events_endpoint(params):
+    url = "https://api.yelp.com/v3/events"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_events(query, offset):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "offset": offset,
+        "location": "austin"
+    }
+    return events_endpoint(params)
+
 # Event routes
 @app.route('/api/events')
 def events_page():
@@ -173,7 +197,6 @@ def events(city):
     sort = request.args.get('sort', default="time_start", type=str)
     order = request.args.get('order', default="asc", type=str)
 
-    url = "https://api.yelp.com/v3/events"
     params = {
         "location": city,
         "limit": LIMIT,
@@ -181,7 +204,7 @@ def events(city):
         "sort_on": sort,
         "sort_by": order
     }
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    response = events_endpoint(params)
     return jsonify(response=response)
 
 
@@ -210,6 +233,25 @@ def categories():
 
     return jsonify(response={"categories": concise_restaurant_categories})
 
+# Restaurant helper functions
+
+
+def restaurants_endpoint(params):
+    url = "https://api.yelp.com/v3/businesses/search"
+    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    return response
+
+
+def search_restaurants(query, offset):
+    LIMIT = 5
+    params = {
+        "term": query,
+        "limit": LIMIT,
+        "offset": offset,
+        "location": "austin"
+    }
+    return restaurants_endpoint(params)
+
 # Restaurants routes
 @app.route('/api/restaurants')
 def restaurants_page():
@@ -225,7 +267,6 @@ def restaurants_page():
         abort(404, description=f"Page cannot exceed {MAX_PAGE_NUM}")
 
     sort = request.args.get('sort', default="best_match", type=str)
-    url = "https://api.yelp.com/v3/businesses/search"
     params = {
         "term": "restaurants",
         "longitude": longitude,
@@ -236,7 +277,7 @@ def restaurants_page():
         "sort_by": sort,
         "categories": categories
     }
-    response = requests.get(url, params=params, headers=yelp_api_header).json()
+    response = restaurants_endpoint(params)
     return jsonify(response=response)
 
 
@@ -281,6 +322,18 @@ def airbnbs(city):
     order = request.args.get('order', default="asc", type=str)
     return get_data_from_database(Airbnb, 'airbnbs', page, sort, order, city)
 
+# City helper functions
+
+
+def search_cities(query, offset):
+    try:
+        query_data = session.query(Cities).filter(
+            Cities.id.like('%'+query.lower()+'%')).limit(5)
+        return convert_to_array_of_dict(query_data)
+    except:
+        session.rollback()
+        return []
+
 # City routes
 @app.route('/api/cities', methods=["GET"])
 def cities_page():
@@ -300,13 +353,42 @@ def city(id):
         session.rollback()
         return 'ERROR SOMEWHERE'
 
+
+@app.route('/api/city/random', methods=['GET'])
+def city_rand():
+    city_data_rand = session.query(Cities).order_by(
+        func.random()).limit(1).one_or_none()
+    city_dict_rand = convert_to_dict(city_data_rand)
+    return jsonify(city=city_dict_rand)
+
+
+@app.route('/api/search')
+def search():
+    q = request.args.get('q', default="", type=str)
+    searchOn = request.args.getlist('on')
+    offset = request.args.get('offset', default=0, type=int)
+
+    results = {}
+    if 'restaurants' in searchOn:
+        results['restaurants'] = search_restaurants(q, offset)
+    if 'events' in searchOn:
+        results['events'] = search_events(q, offset)
+    if 'cities' in searchOn:
+        results['cities'] = search_cities(q, offset)
+
+    # TODO: add aibnbs results
+    return jsonify(results=results)
+
+
 @app.route('/')
 def index():
     return render_template("index.html")
 
+
 @app.route('/<path:path>')
 def catch_all(path):
     return render_template("index.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)

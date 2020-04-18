@@ -38,8 +38,6 @@ class TagInput extends React.Component {
 
       // TODO: enter to add top suggestion
       // TODO: make the container float - react portal
-      // TODO: styling
-
       return (
         <Autosuggest
           ref={ref}

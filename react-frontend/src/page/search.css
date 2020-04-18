@@ -1,0 +1,8 @@
+.form-inline > * {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#search-bar {
+  width: 50%;
+}

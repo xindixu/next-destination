@@ -17,6 +17,7 @@ import Restaurants from "../page/restaurants";
 import Restaurant from "../page/restaurant";
 import Event from "../page/event";
 import Events from "../page/events";
+import Search from "../page/search";
 
 const AppNavBar = () => {
   const location = useLocation();
@@ -39,6 +40,9 @@ const AppNavBar = () => {
         <Nav.Link eventKey="/events" as={Link} to="/events">
           Events
         </Nav.Link>
+        <Nav.Link eventKey="/search" as={Link} to="/search">
+          Search
+        </Nav.Link>
       </Nav>
     </Navbar>
   );
@@ -50,6 +54,9 @@ const Navigation = () => (
     <Switch>
       <Route path="/about">
         <About />
+      </Route>
+      <Route path="/search">
+        <Search />
       </Route>
       <Route path="/cities">
         <Cities />
@@ -68,6 +75,9 @@ const Navigation = () => (
       </Route>
       <Route path="/event/:id">
         <Event />
+      </Route>
+      <Route path="/search">
+        <Search />
       </Route>
       <Route exact path="/">
         <Home />

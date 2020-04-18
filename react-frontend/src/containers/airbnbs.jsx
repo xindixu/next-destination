@@ -7,7 +7,7 @@ import Toast from "../components/toast";
 import TableActions from "./table-actions";
 import useDataStore from "../hooks/use-data-store";
 
-const Airbnbs = ({ city, coordinates, setShowAirbnbs }) => {
+const Airbnbs = ({ city, coordinates, setShowAirbnbs, setActiveTab }) => {
   const [isError, setIsError] = useState(false);
   const [sortOn, setSortOn] = useState({
     sort: "price",
@@ -46,6 +46,7 @@ const Airbnbs = ({ city, coordinates, setShowAirbnbs }) => {
     fetchPage(1).catch(() => {
       setIsError(true);
       setShowAirbnbs(false);
+      setActiveTab();
     });
     // only fetch once when mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
