@@ -1,6 +1,6 @@
 const domain = "https://city-hunt-267820.appspot.com";
 const local = "http://127.0.0.1:5000";
-const base = `${domain}/api`;
+const base = `${local}/api`;
 
 const apiFetch = (url, { method = "GET", useApi = true, json = true }) =>
   fetch(`${useApi ? base : ""}${url}`, {
