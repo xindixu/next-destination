@@ -11,6 +11,7 @@ function App() {
     setLocation(setCoordinates);
   }, []);
   return (
+
     <CityHuntContext.Provider value={{ coordinates }}>
       <div className="App">
         <Navigation />
