@@ -11,7 +11,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
-
 class Cities(db.Model):
     """
     The Cities class implements an sql table that holds data on the 100 most populous cities.
