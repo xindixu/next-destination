@@ -109,37 +109,37 @@ def about():
     member_contribs["nathan"]["issues"] = 18
     member_contribs["quinton"]["issues"] = 11
 
-    url = "https://gitlab.com/api/v4/projects/16729459"
-    commits = get_gitlab_data(f"{url}/repository/commits")
-    issues = get_gitlab_data(f"{url}/issues")
+    # url = "https://gitlab.com/api/v4/projects/16729459"
+    # commits = get_gitlab_data(f"{url}/repository/commits")
+    # issues = get_gitlab_data(f"{url}/issues")
 
 
     
-    for commit in commits:
-        if commit["author_email"] == "marshallmhayhurst@gmail.com":
-            member_contribs["marshall"]["commits"] += 1
-        elif commit["committer_email"] == "xindixu@utexas.edu":
-            member_contribs["xindi"]["commits"] += 0.5
-        elif commit["committer_email"] == "yulissa.montes@utexas.edu":
-            member_contribs["yulissa"]["commits"] += 1
-        elif commit["committer_email"] == "n.craig@gmail.com":
-            member_contribs["nathan"]["commits"] += 1
-        elif commit["committer_email"] == "quintonpham@gmail.com":
-            member_contribs["quinton"]["commits"] += 1
+    # for commit in commits:
+    #     if commit["author_email"] == "marshallmhayhurst@gmail.com":
+    #         member_contribs["marshall"]["commits"] += 1
+    #     elif commit["committer_email"] == "xindixu@utexas.edu":
+    #         member_contribs["xindi"]["commits"] += 0.5
+    #     elif commit["committer_email"] == "yulissa.montes@utexas.edu":
+    #         member_contribs["yulissa"]["commits"] += 1
+    #     elif commit["committer_email"] == "n.craig@gmail.com":
+    #         member_contribs["nathan"]["commits"] += 1
+    #     elif commit["committer_email"] == "quintonpham@gmail.com":
+    #         member_contribs["quinton"]["commits"] += 1
 
-    for issue in issues:
-        assignee_usernames = [assignee["username"] for assignee in issue["assignees"]]
+    # for issue in issues:
+    #     assignee_usernames = [assignee["username"] for assignee in issue["assignees"]]
         
-        if "mam23942" in assignee_usernames:
-            member_contribs["marshall"]["issues"] += 1
-        if "xindixu" in assignee_usernames:
-            member_contribs["xindi"]["issues"] += 0.5
-        if "yulissa.montes" in assignee_usernames:
-            member_contribs["yulissa"]["issues"] += 1
-        if "nmcraig" in assignee_usernames:
-            member_contribs["nathan"]["issues"] += 1
-        if "quintonpham" in assignee_usernames:
-            member_contribs["quinton"]["issues"] += 1
+    #     if "mam23942" in assignee_usernames:
+    #         member_contribs["marshall"]["issues"] += 1
+    #     if "xindixu" in assignee_usernames:
+    #         member_contribs["xindi"]["issues"] += 0.5
+    #     if "yulissa.montes" in assignee_usernames:
+    #         member_contribs["yulissa"]["issues"] += 1
+    #     if "nmcraig" in assignee_usernames:
+    #         member_contribs["nathan"]["issues"] += 1
+    #     if "quintonpham" in assignee_usernames:
+    #         member_contribs["quinton"]["issues"] += 1
     return jsonify(about=about_data)
 
 # Event helper functions
