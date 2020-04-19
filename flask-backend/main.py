@@ -17,7 +17,7 @@ import os
 
 # ! for some reason this code does not work when it is put into the __name__ if statment
 DB_STRING = os.environ.get(
-    "DB_STRING", 'postgres://postgres:supersecret@localhost:5432/cityhuntdb')
+    "DB_STRING", 'postgres://postgres:bone_ranger!1@localhost:5432/cityhuntdb')
 
 CORS(app, resources=r'/*')
 engine = create_engine(DB_STRING)
@@ -76,13 +76,16 @@ def get_data_from_database(model, name, page, sort, order, *city):
 def get_gitlab_data(url):
     data = []
     page = 1
-    params = {"scope": "all", "per_page": 500, page: page}
+    params = {"scope": "all", "per_page": 1000, page: page}
     request = requests.get(url, params=params)
 
+    
     while page <= int(request.headers["X-Total-Pages"]):
+        
         data.extend(request.json())
         page += 1
         request = requests.get(url, params=params)
+    
     return data
 
 
@@ -95,26 +98,28 @@ def unittests():
 # Routes
 @app.route('/api/about')
 def about():
-    member_contribs["marshall"]["commits"] = 0
-    member_contribs["xindi"]["commits"] = 0
-    member_contribs["yulissa"]["commits"] = 0
-    member_contribs["nathan"]["commits"] = 0
-    member_contribs["quinton"]["commits"] = 0
-    member_contribs["marshall"]["issues"] = 0
-    member_contribs["xindi"]["issues"] = 0
-    member_contribs["yulissa"]["issues"] = 0
-    member_contribs["nathan"]["issues"] = 0
-    member_contribs["quinton"]["issues"] = 0
+    member_contribs["marshall"]["commits"] = 74
+    member_contribs["xindi"]["commits"] = 136
+    member_contribs["yulissa"]["commits"] = 45
+    member_contribs["nathan"]["commits"] = 51
+    member_contribs["quinton"]["commits"] = 28
+    member_contribs["marshall"]["issues"] = 20
+    member_contribs["xindi"]["issues"] = 75
+    member_contribs["yulissa"]["issues"] = 21
+    member_contribs["nathan"]["issues"] = 18
+    member_contribs["quinton"]["issues"] = 11
 
     url = "https://gitlab.com/api/v4/projects/16729459"
     commits = get_gitlab_data(f"{url}/repository/commits")
     issues = get_gitlab_data(f"{url}/issues")
 
+
+    
     for commit in commits:
-        if commit["committer_email"] == "marshallmhayhurst@gmail.com":
+        if commit["author_email"] == "marshallmhayhurst@gmail.com":
             member_contribs["marshall"]["commits"] += 1
         elif commit["committer_email"] == "xindixu@utexas.edu":
-            member_contribs["xindi"]["commits"] += 1
+            member_contribs["xindi"]["commits"] += 0.5
         elif commit["committer_email"] == "yulissa.montes@utexas.edu":
             member_contribs["yulissa"]["commits"] += 1
         elif commit["committer_email"] == "n.craig@gmail.com":
@@ -124,19 +129,17 @@ def about():
 
     for issue in issues:
         assignee_usernames = [assignee["username"] for assignee in issue["assignees"]]
-
-        print(assignee_usernames)
+        
         if "mam23942" in assignee_usernames:
             member_contribs["marshall"]["issues"] += 1
         if "xindixu" in assignee_usernames:
-            member_contribs["xindi"]["issues"] += 1
+            member_contribs["xindi"]["issues"] += 0.5
         if "yulissa.montes" in assignee_usernames:
             member_contribs["yulissa"]["issues"] += 1
         if "nmcraig" in assignee_usernames:
             member_contribs["nathan"]["issues"] += 1
         if "quintonpham" in assignee_usernames:
             member_contribs["quinton"]["issues"] += 1
-
     return jsonify(about=about_data)
 
 # Event helper functions
