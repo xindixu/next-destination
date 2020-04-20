@@ -12,8 +12,8 @@ const EventsPage = () => {
       {coordinates ? (
         <Events coordinates={coordinates} tableSchema={EVENTS_PAGE_SCHEMA} />
       ) : (
-        <></>
-        // <Events city="austin" tableSchema={EVENTS_PAGE_SCHEMA} />
+        // <></>
+        <Events city="austin" tableSchema={EVENTS_PAGE_SCHEMA} />
       )}
     </>
   );
