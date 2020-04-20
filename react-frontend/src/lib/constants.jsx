@@ -310,14 +310,10 @@ export const TABS = {
   }
 };
 
-export const MODELS = {
+export const SEARCH_ON = {
   restaurants: {
     key: "restaurants",
     title: "Restaurants"
-  },
-  airbnbs: {
-    key: "airbnbs",
-    title: "Airbnbs"
   },
   events: {
     key: "events",

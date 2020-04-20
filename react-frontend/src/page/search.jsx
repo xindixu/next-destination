@@ -13,7 +13,7 @@ import SortableTable from "../components/sortable-table";
 import {
   EVENTS_PAGE_SCHEMA,
   RESTAURANTS_PAGE_SCHEMA,
-  MODELS,
+  SEARCH_ON,
   CITY_SCHEMA
 } from "../lib/constants";
 import { getUrl } from "../lib/util";
@@ -21,7 +21,7 @@ import apiFetch from "../lib/api-fetch";
 import "./search.css";
 
 const processResults = results => {
-  const { restaurants, events, cities, airbnbs } = results;
+  const { restaurants, events, cities } = results;
   const restaurantsResults = (restaurants && restaurants.businesses) || [];
   const eventsResults = (events && events.events) || [];
   const citiesResults = cities || [];
@@ -29,8 +29,7 @@ const processResults = results => {
   return {
     restaurantsResults,
     eventsResults,
-    citiesResults,
-    airbnbsResults: []
+    citiesResults
   };
 };
 
@@ -39,7 +38,7 @@ const Search = () => {
   const [lastUrl, setLastUrl] = useState("");
   const [fetching, setFetching] = useState(false);
   const [modelToSearch, setModelToSearch] = useState(() => {
-    return Object.keys(MODELS).reduce((memo, key) => {
+    return Object.keys(SEARCH_ON).reduce((memo, key) => {
       memo[key] = true;
       return memo;
     }, {});
@@ -53,8 +52,7 @@ const Search = () => {
       const {
         restaurantsResults,
         eventsResults,
-        citiesResults,
-        airbnbsResults
+        citiesResults
       } = processResults(results);
 
       if (restaurantsResults.length) {
@@ -94,13 +92,13 @@ const Search = () => {
 
   const getOffset = useCallback(
     searchOn => {
-      if (searchOn === MODELS.restaurants.key) {
+      if (searchOn === SEARCH_ON.restaurants.key) {
         return restaurants.length;
       }
-      if (searchOn === MODELS.events.key) {
+      if (searchOn === SEARCH_ON.events.key) {
         return events.length;
       }
-      if (searchOn === MODELS.cities.key) {
+      if (searchOn === SEARCH_ON.cities.key) {
         return cities.length;
       }
       return 0;
@@ -147,7 +145,7 @@ const Search = () => {
         <Dropdown>
           <Dropdown.Toggle variant="outline-primary">Search by</Dropdown.Toggle>
           <Dropdown.Menu>
-            {Object.values(MODELS).map(({ key, title }) => (
+            {Object.values(SEARCH_ON).map(({ key, title }) => (
               <Form.Check
                 custom
                 key={key}
@@ -181,8 +179,8 @@ const Search = () => {
         <Tabs>
           {restaurants.length ? (
             <Tab
-              eventKey={MODELS.restaurants.key}
-              title={MODELS.restaurants.title}
+              eventKey={SEARCH_ON.restaurants.key}
+              title={SEARCH_ON.restaurants.title}
             >
               <SortableTable
                 settings={RESTAURANTS_PAGE_SCHEMA}
@@ -192,7 +190,7 @@ const Search = () => {
                 variant="dark"
                 className="w-100 my-5"
                 onClick={() => {
-                  fetchMore(MODELS.restaurants.key);
+                  fetchMore(SEARCH_ON.restaurants.key);
                 }}
               >
                 Show more
@@ -200,13 +198,13 @@ const Search = () => {
             </Tab>
           ) : null}
           {events.length ? (
-            <Tab eventKey={MODELS.events.key} title={MODELS.events.title}>
+            <Tab eventKey={SEARCH_ON.events.key} title={SEARCH_ON.events.title}>
               <SortableTable settings={EVENTS_PAGE_SCHEMA} data={events} />
               <Button
                 variant="dark"
                 className="w-100 my-5"
                 onClick={() => {
-                  fetchMore(MODELS.events.key);
+                  fetchMore(SEARCH_ON.events.key);
                 }}
               >
                 Show more
@@ -214,13 +212,13 @@ const Search = () => {
             </Tab>
           ) : null}
           {cities.length ? (
-            <Tab eventKey={MODELS.cities.key} title={MODELS.cities.title}>
+            <Tab eventKey={SEARCH_ON.cities.key} title={SEARCH_ON.cities.title}>
               <SortableTable settings={CITY_SCHEMA} data={cities} />
               <Button
                 variant="dark"
                 className="w-100 my-5"
                 onClick={() => {
-                  fetchMore(MODELS.cities.key);
+                  fetchMore(SEARCH_ON.cities.key);
                 }}
               >
                 Show more

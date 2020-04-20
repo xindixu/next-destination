@@ -3,6 +3,14 @@
   margin-right: 1rem;
 }
 
+.custom-control .custom-control-label {
+  justify-content: start;
+}
+
 #search-bar {
   width: 50%;
+}
+
+.dropdown-menu.show {
+  padding: 1rem;
 }
