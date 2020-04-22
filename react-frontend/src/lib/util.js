@@ -36,8 +36,8 @@ export const setLocation = callback => {
 export const getCityIdByName = cityName =>
   cityName.toLowerCase().replace(" ", "-");
 
-export const getGoogleMapLinkByCoordinates = (latitude, longtitude) =>
-  `http://www.google.com/maps/place/${latitude},${longtitude}`;
+export const getGoogleMapLinkByCoordinates = (latitude, longitude) =>
+  `http://www.google.com/maps/place/${latitude},${longitude}`;
 
 export const getWeekDay = num => {
   const days = [
