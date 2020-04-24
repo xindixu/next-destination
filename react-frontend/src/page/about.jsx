@@ -240,6 +240,15 @@ const About = () => {
               </a>
             </li>
           </ul>
+          <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.planitpoker.com/ "
+              >
+                Agile Estimation Tool
+              </a>
+            </li>
         </div>
 
         <h2>The Team</h2>
