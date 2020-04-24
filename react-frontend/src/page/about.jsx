@@ -127,9 +127,27 @@ const About = () => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
+                href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Phase-3-Development"
+              >
+                Our report for phase 3 Development
+              </a>
+            </li>
+            <li> 
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href="https://gitlab.com/nmcraig/cs-331e/-/wikis/Technical-Report"
               >
                 The overall technical report
+              </a>
+            </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://gitlab.com/nmcraig/cs-331e/-/wikis/User-Stories"
+              >
+                User Stories
               </a>
             </li>
           </ul>
@@ -222,6 +240,15 @@ const About = () => {
               </a>
             </li>
           </ul>
+          <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.planitpoker.com/ "
+              >
+                Agile Estimation Tool
+              </a>
+            </li>
         </div>
 
         <h2>The Team</h2>
