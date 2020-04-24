@@ -1,6 +1,9 @@
-runtime: python37
+runtime: python
 env: flex
 entrypoint: gunicorn -b :$PORT main:app
+
+runtime_config:
+  python_version: 3
 
 env_variables:
     # postgresql+psycopg2://USER:PASSWORD@/DATABASE?host=/cloudsql/INSTANCE_CONNECTION_NAME
@@ -15,6 +18,9 @@ env_variables:
 beta_settings:
     cloud_sql_instances: city-hunt-267820:us-central1:database-city-hunt
 
-instance_class: F1
-automatic_scaling:
-  max_instances: 1
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
