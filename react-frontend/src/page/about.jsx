@@ -150,6 +150,15 @@ const About = () => {
                 User Stories
               </a>
             </li>
+            <li>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://speakerdeck.com/xindixu/city-hunt-presentation"
+              >
+                Speaker Deck
+              </a>
+            </li>
           </ul>
 
           <h3>Links about Data</h3>
@@ -239,8 +248,7 @@ const About = () => {
                 Deployment through Google Cloud Platform
               </a>
             </li>
-          </ul>
-          <li>
+            <li>
               <a
                 target="_blank"
                 rel="noopener noreferrer"
@@ -249,6 +257,13 @@ const About = () => {
                 Agile Estimation Tool
               </a>
             </li>
+          </ul>
+          <h3>Links about Data</h3>
+          <ul>
+            <li>Total Number of Issues: 121</li>
+            <li>Total Number of Commits: 345</li>
+            <li>Total Number of Unit Tests: 20</li>
+          </ul>
         </div>
 
         <h2>The Team</h2>
