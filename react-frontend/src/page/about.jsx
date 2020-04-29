@@ -258,7 +258,7 @@ const About = () => {
               </a>
             </li>
           </ul>
-          <h3>Links about Data</h3>
+          <h3>Links about Project Data</h3>
           <ul>
             <li>Total Number of Issues: 121</li>
             <li>Total Number of Commits: 345</li>
