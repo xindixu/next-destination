@@ -286,6 +286,7 @@ const About = () => {
                       <Card.Text>Description: {description}</Card.Text>
                       <Card.Text>Commits: {commits} </Card.Text>
                       <Card.Text>Issues: {issues} </Card.Text>
+                      <Card.Text>Tests: 5 </Card.Text>
                     </Card.Body>
                   </Card>
                 </Col>
