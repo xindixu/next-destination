@@ -12,4 +12,4 @@ pipenv==2018.11.26
 psycopg2==2.8.4
 psycopg2-binary==2.8.4
 requests==2.22.0
-wheel==0.34.2
+wheel==0.38.1
